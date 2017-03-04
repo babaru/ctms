@@ -1,0 +1,20 @@
+<%= simple_form_for(@scenario, html: { class: 'form-horizontal' } ) do |f| %>
+  <%= f.error_notification %>
+
+  <%= f.input :project_id, as: :hidden %>
+
+  <%= f.input :name, label: t('activerecord.attributes.general.name') %>
+  <div class="hr-line-dashed"></div>
+
+  <%= f.input :body%>
+  <div class="hr-line-dashed"></div>
+
+  <div class="form-group">
+      <div class="pull-right m-r-md">
+          <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
+      </div>
+      <div class="m-l-md">
+        <%= link_to t('activerecord.text.back_to_list', model: Scenario.model_name.human), scenarios_path, class: 'btn btn-white' %>
+      </div>
+  </div>
+<% end %>

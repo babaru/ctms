@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  TABS = [:tab1, :tab2].freeze
+  TABS = [:scenarios].freeze
 
   # GET /projects
   # GET /projects.json
@@ -67,6 +67,13 @@ class ProjectsController < ApplicationController
     @current_tab = params[:tab]
     @current_tab ||= TABS.first.to_s
     @current_tab = @current_tab.to_sym
+
+    case @current_tab
+    when :scenarios
+      @scenarios_grid = ScenarioGrid.new do |scope|
+        scope.page(params[:page]).where([]).per(20)
+      end
+    end
   end
 
   # GET /projects/new

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170304105022) do
+ActiveRecord::Schema.define(version: 20170304144114) do
 
   create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -19,4 +19,14 @@ ActiveRecord::Schema.define(version: 20170304105022) do
     t.index ["name"], name: "index_projects_on_name", unique: true, using: :btree
   end
 
+  create_table "scenarios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.text     "body",       limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "project_id"
+    t.index ["project_id"], name: "index_scenarios_on_project_id", using: :btree
+  end
+
+  add_foreign_key "scenarios", "projects"
 end

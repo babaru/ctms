@@ -28,11 +28,12 @@ SimpleNavigation::Configuration.run do |navigation|
 
   # Specify if the auto highlight feature is turned on (globally, for the whole navigation). Defaults to true
   navigation.auto_highlight = true
+  navigation.highlight_on_subpath = true
 
   # Specifies whether auto highlight should ignore query params and/or anchors when
   # comparing the navigation items with the current URL. Defaults to true
-  #navigation.ignore_query_params_on_auto_highlight = true
-  #navigation.ignore_anchors_on_auto_highlight = true
+  # navigation.ignore_query_params_on_auto_highlight = true
+  # navigation.ignore_anchors_on_auto_highlight = true
 
   # If this option is set to true, all item names will be considered as safe (passed through html_safe). Defaults to false.
   #navigation.consider_item_names_as_safe = false
@@ -58,6 +59,7 @@ SimpleNavigation::Configuration.run do |navigation|
     #
     primary.item :dashboard, fa_icon('dashboard', text: t('navigation.pages.dashboard')), dashboard_url
     primary.item :projects, fa_icon('folder', text: t('navigation.pages.projects')), projects_url
+    # primary.item :scenarios, fa_icon('folder', text: t('navigation.pages.scenarios')), scenarios_url
 
     # you can also specify html attributes to attach to this particular level
     # works for all levels of the menu

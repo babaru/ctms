@@ -1,19 +1,18 @@
 <div class="row page-heading">
     <div class="col-lg-10">
-        <h2><%= @project.name if @project.respond_to? :name %></h2>
+        <h2><%= @scenario.name if @scenario.respond_to? :name %></h2>
         <ol class="breadcrumb">
             <li>
                 <%= fa_icon('home') %>
             </li>
             <li class="active">
-                <strong><%= t('activerecord.text.show', model: Project.model_name.human) %></strong>
+                <strong><%= t('activerecord.text.show', model: Scenario.model_name.human) %></strong>
             </li>
         </ol>
     </div>
     <div class="col-lg-2 m-t-lg">
         <div class="btn-toolbar pull-right">
-            <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Scenario.model_name.human)), new_project_scenario_path(@project), class: 'btn-primary btn-w-m btn' %>
-            <%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_project_path(@project), class: 'btn-default btn' %>
+            <%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_scenario_path(@scenario), class: 'btn-default btn-w-m btn' %>
         </div>
     </div>
 </div>
@@ -26,7 +25,7 @@
         <% else %>
         <li class="">
         <% end %>
-            <%= link_to t("activerecord.attributes.project.tabs.#{tab}"), project_path(@project, tab: tab) %>
+            <%= link_to t("activerecord.attributes.scenario.tabs.#{tab}"), scenario_path(@scenario, tab: tab) %>
         </li>
         <% end %>
     </ul>

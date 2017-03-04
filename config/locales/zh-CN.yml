@@ -40,6 +40,12 @@ zh-CN:
           destroy: "删除%{model}成功！"
     models:
       project: 项目
+      scenario: 测试
     attributes:
       general:
         name: 名称
+      project:
+        tabs:
+          scenarios: 测试
+      scenario:
+        body: 测试内容

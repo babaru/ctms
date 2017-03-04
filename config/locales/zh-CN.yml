@@ -48,4 +48,5 @@ zh-CN:
         tabs:
           scenarios: 测试
       scenario:
+        id: '#'
         body: 测试内容

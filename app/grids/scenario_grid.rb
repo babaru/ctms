@@ -6,7 +6,7 @@ class ScenarioGrid
   end
 
   column(:name, header: I18n.t('activerecord.attributes.general.name')) do |asset|
-    format(asset.name) do |value|
+    format(asset.title) do |value|
       link_to value, scenario_path(asset)
     end
   end

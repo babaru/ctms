@@ -5,6 +5,9 @@
             <li>
                 <%= fa_icon('home') %>
             </li>
+            <li>
+                <%= link_to(t('activerecord.text.list', model: Project.model_name.human), projects_url) %>
+            </li>
             <li class="active">
                 <strong><%= t('activerecord.text.show', model: Project.model_name.human) %></strong>
             </li>

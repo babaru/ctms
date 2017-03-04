@@ -1,0 +1,1 @@
+SimpleNavigation.register_renderer inspinia_sidebar_renderer: InspiniaSidebarRenderer

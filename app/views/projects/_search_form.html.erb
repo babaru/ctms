@@ -1,0 +1,16 @@
+<%= simple_form_for(@query_project_params,
+  url: search_projects_path, as: :project,
+  method: :post, wrapper: :vertical_form) do |f| %>
+
+  <%= f.error_notification %>
+
+  <%= f.input :name, required: false, label: t('activerecord.attributes.general.name') %>
+  <!-- add more query parameter fields here -->
+
+  <div class="form-group">
+      <%= link_to t('buttons.reset'), projects_path,
+        class: 'btn btn-white btn-sm' %>
+      <%= f.submit t('buttons.search'),
+        class: 'btn btn-primary btn-sm pull-right' %>
+  </div>
+<% end %>

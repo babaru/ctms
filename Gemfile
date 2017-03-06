@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://ruby.taobao.org'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -80,3 +80,12 @@ gem 'settingslogic'
 
 # I18n
 gem 'rails-i18n'
+
+group :development do
+  gem 'capistrano', '~> 3.7.2'
+  gem 'capistrano-rails', '~> 1.2'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-puma'
+  gem 'capistrano3-nginx', '~> 2.0'
+  gem 'capistrano-upload-config'
+end

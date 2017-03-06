@@ -52,3 +52,4 @@ production:
   database: ctms_production
   username: ctms
   password: <%= ENV['CTMS_DATABASE_PASSWORD'] %>
+  sockets: /var/run/mysqld/mysqld.sock

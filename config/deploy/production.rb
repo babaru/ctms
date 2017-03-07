@@ -7,6 +7,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 server '10.86.9.61', user: 'deploy', port: 22, roles: %w{app db web}
+set :repo_url, "git@git.tpc.lan:tms/hq.git"
 set :rails_env, :production
 set :nginx_server_name, 'tms.tpc.lan'
 

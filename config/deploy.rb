@@ -2,7 +2,7 @@
 lock "3.7.2"
 
 set :application, "ctpt_test_management_system"
-set :repo_url, "git@github.com:babaru/ctms.git"
+# set :repo_url, "git@github.com:babaru/ctms.git"
 set :user, 'deploy'
 set :rbenv_type, :user # or :system, depends on your rbenv setup
 set :rbenv_ruby, '2.2.3'
@@ -25,7 +25,7 @@ set :rbenv_ruby, '2.2.3'
 
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml", "config/secrets.yml"
-set :linked_files, fetch(:linked_files, []).push('.rbenv-vars', 'config/database.yml', 'config/secrets.yml', 'config/puma.rb')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/puma.rb')
 
 # Default value for linked_dirs is []
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
@@ -37,8 +37,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-# Puma:
-# set :puma_conf, "#{shared_path}/config/puma.rb"
+
 set :pty,             true
 set :use_sudo,        false
 set :stage,           :production
@@ -49,6 +48,7 @@ set :deploy_via,      :remote_cache
 set :deploy_to,       "/home/#{fetch(:user)}/www/#{fetch(:application)}"
 set :deploy_user, 'deploy'
 
+set :puma_conf,       "#{shared_path}/config/puma.rb"
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
@@ -63,11 +63,11 @@ set :puma_init_active_record, false  # Change to true if using ActiveRecord
 set :nginx_roles, :web
 set :nginx_config_name, "#{fetch(:application)}"
 
-# namespace :deploy do
-#   before 'check:linked_files', 'puma:config'
-#   before 'check:linked_files', 'puma:nginx_config'
-#   after 'puma:smart_restart', 'nginx:restart'
-# end
+namespace :deploy do
+  before 'check:linked_files', 'puma:config'
+  before 'check:linked_files', 'puma:nginx_config'
+  after 'puma:smart_restart', 'nginx:restart'
+end
 
 # namespace :puma do
 #   desc 'Create Directories for Puma Pids and Socket'

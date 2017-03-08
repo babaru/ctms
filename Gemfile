@@ -81,6 +81,9 @@ gem 'settingslogic'
 # I18n
 gem 'rails-i18n'
 
+# Rest API Client
+gem 'httparty'
+
 group :development do
   gem 'capistrano', '~> 3.7.2'
   gem 'capistrano-rails', '~> 1.2'
@@ -88,4 +91,8 @@ group :development do
   gem 'capistrano3-puma'
   gem 'capistrano3-nginx', '~> 2.0'
   gem 'capistrano-upload-config'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.5'
 end

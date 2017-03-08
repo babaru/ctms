@@ -1,26 +1,18 @@
 <div class="row page-heading">
-    <div class="col-lg-8">
-        <h2><%= Project.model_name.human %></h2>
+    <div class="col-lg-10">
+        <h2><%= Milestone.model_name.human %></h2>
         <ol class="breadcrumb">
             <li>
                 <%= fa_icon('home') %>
             </li>
             <li class="active">
-                <strong><%= t('activerecord.text.list', model: Project.model_name.human) %></strong>
+                <strong><%= t('activerecord.text.list', model: Milestone.model_name.human) %></strong>
             </li>
         </ol>
     </div>
-    <div class="col-lg-4 m-t-lg">
-        <div class="btn-group pull-right">
-            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
-                <%= fa_icon('cog') %> <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><%= link_to fa_icon('refresh', text: t('activerecord.text.sync_from_gitlab', model: Project.model_name.human)), sync_projects_from_gitlab_path, method: :post%></li>
-                <li role="separator" class="divider"></li>
-                <li><%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Project.model_name.human)), new_project_path %></li>
-            </ul>
+    <div class="col-lg-2 m-t-lg">
+        <div class="btn-toolbar pull-right">
+            <%= link_to t('activerecord.text.new_instance', model: Milestone.model_name.human), new_milestone_path, class: 'btn-primary btn-w-m btn' %>
         </div>
     </div>
 </div>
@@ -32,7 +24,7 @@
                 <div class="ibox-content">
 
                     <div class="table-responsive">
-                        <%= render partial: 'projects_grid' %>
+                        <%= render partial: 'milestones_grid' %>
                     </div>
                 </div>
 

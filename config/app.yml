@@ -3,6 +3,10 @@ defaults: &defaults
     name: CTPT Test Management System
     owner: 群益志投科技 CTPT
     copyright: 群益志投科技 Capital True Partner China © 2014-2017
+  gitlab:
+    api:
+      base_uri: https://git.tpc.lan/api/v3
+      private_token: 'xLthSYseKYSq5DhpD-Cw'
 
 development:
   <<: *defaults

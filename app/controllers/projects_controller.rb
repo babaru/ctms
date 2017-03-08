@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  TABS = [:scenarios].freeze
+  TABS = [:issues, :scenarios].freeze
 
   # GET /projects
   # GET /projects.json
@@ -60,6 +60,23 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def sync_from_gitlab
+    if request.post?
+      Project.all.update(is_existing_on_gitlab: false)
+      GitLabAPI.instance.projects.each do |project_data|
+        project = Project.find_by_gitlab_id(project_data["id"]) || Project.create(name: project_data["name_with_namespace"], gitlab_id: project_data["id"])
+        project.update(name: project_data["name_with_namespace"],
+          gitlab_id: project_data["id"],
+          is_existing_on_gitlab: true)
+      end
+
+      respond_to do |format|
+        format.html { redirect_to projects_path }
+        format.js
+      end
+    end
+  end
+
   # GET /projects/1
   # GET /projects/1.json
   def show
@@ -72,6 +89,12 @@ class ProjectsController < ApplicationController
     when :scenarios
       @scenarios_grid = ScenarioGrid.new do |scope|
         scope.page(params[:page]).where([]).per(20)
+      end
+    when :issues
+      @issue = Issue.find(params[:issue_id]) if params[:issue_id]
+      @issue ||= @project.issues.first
+      @issues_grid = IssueGrid.new do |scope|
+        scope.page(params[:page]).where(project_id: @project.id).per(20)
       end
     end
   end

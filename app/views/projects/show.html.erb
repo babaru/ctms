@@ -14,9 +14,17 @@
         </ol>
     </div>
     <div class="col-lg-2 m-t-lg">
-        <div class="btn-toolbar pull-right">
-            <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Scenario.model_name.human)), new_project_scenario_path(@project), class: 'btn-primary btn-w-m btn' %>
-            <%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_project_path(@project), class: 'btn-default btn' %>
+        <div class="btn-group pull-right">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
+                <%= fa_icon('cog') %> <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><%= link_to fa_icon('refresh', text: t('activerecord.text.sync_from_gitlab', model: Issue.model_name.human)), sync_issues_from_gitlab_path(project_id: @project.id), method: :post%></li>
+                <li role="separator" class="divider"></li>
+                <li><%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Scenario.model_name.human)), new_project_scenario_path(@project) %></li>
+                <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_project_path(@project) %></li>
+            </ul>
         </div>
     </div>
 </div>

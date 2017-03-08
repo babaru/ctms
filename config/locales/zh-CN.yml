@@ -42,11 +42,13 @@ zh-CN:
     models:
       project: 项目
       scenario: 测试场景
-      issue: Issue
+      issue: 需求
     attributes:
       general:
         name: 名称
       project:
+        issues: 需求
+        scenarios: 测试场景
         tabs:
           scenarios: 测试
       scenario:

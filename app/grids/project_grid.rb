@@ -11,6 +11,18 @@ class ProjectGrid
     end
   end
 
+  column(:issue_count, header: I18n.t('activerecord.attributes.project.issues')) do |asset|
+    format(asset.issues.count) do |value|
+      fa_icon('file', text: value)
+    end
+  end
+
+  column(:scenario_count, header: I18n.t('activerecord.attributes.project.scenarios')) do |asset|
+    format(asset.scenarios.count) do |value|
+      fa_icon('video-camera', text: value)
+    end
+  end
+
   # column("project-actions", header: '', html: {class: 'project-actions'}) do |asset|
   #   format(asset.id) do |value|
   #     [

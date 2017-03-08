@@ -6,15 +6,14 @@ zh-CN:
       order:
         asc: "&uarr;"
         desc: "&darr;"
-      no_columns: "No columns selected"
+      no_columns: "没有列被选中"
     form:
-      search: "Search"
-      reset: "Reset"
+      search: "搜索"
+      reset: "重置"
     filters:
       xboolean:
-        "yes": "Yes"
-        "no": "No"
-
+        "yes": "是"
+        "no": "否"
       dynamic:
         operations:
           ">=": "&ge;"

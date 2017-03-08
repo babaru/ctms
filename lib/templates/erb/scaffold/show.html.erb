@@ -11,8 +11,15 @@
         </ol>
     </div>
     <div class="col-lg-2 m-t-lg">
-        <div class="btn-toolbar pull-right">
-            <%%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_<%= singular_name %>_path(@<%= singular_name %>), class: 'btn-default btn-w-m btn' %>
+        <div class="btn-group pull-right">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
+                <%%= fa_icon('cog') %> <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li><%%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_<%= singular_name %>_path(@<%= singular_name %>) %></li>
+            </ul>
         </div>
     </div>
 </div>

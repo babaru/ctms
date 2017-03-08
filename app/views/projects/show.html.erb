@@ -22,7 +22,6 @@
             <ul class="dropdown-menu">
                 <li><%= link_to fa_icon('refresh', text: t('activerecord.text.sync_from_gitlab', model: Issue.model_name.human)), sync_issues_from_gitlab_path(project_id: @project.id), method: :post%></li>
                 <li role="separator" class="divider"></li>
-                <li><%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Scenario.model_name.human)), new_project_scenario_path(@project) %></li>
                 <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_project_path(@project) %></li>
             </ul>
         </div>

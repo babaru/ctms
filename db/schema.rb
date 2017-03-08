@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307095728) do
+ActiveRecord::Schema.define(version: 20170308100211) do
 
   create_table "issues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "project_id"
@@ -53,9 +53,15 @@ ActiveRecord::Schema.define(version: 20170307095728) do
     t.text     "body",       limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.integer  "issue_id"
+    t.integer  "project_id"
+    t.index ["issue_id"], name: "index_scenarios_on_issue_id", using: :btree
+    t.index ["project_id"], name: "index_scenarios_on_project_id", using: :btree
   end
 
   add_foreign_key "issues", "milestones"
   add_foreign_key "issues", "projects"
   add_foreign_key "milestones", "projects"
+  add_foreign_key "scenarios", "issues"
+  add_foreign_key "scenarios", "projects"
 end

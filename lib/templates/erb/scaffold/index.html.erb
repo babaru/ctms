@@ -11,8 +11,15 @@
         </ol>
     </div>
     <div class="col-lg-2 m-t-lg">
-        <div class="btn-toolbar pull-right">
-            <%%= link_to t('activerecord.text.new_instance', model: <%= class_name.split('::').last %>.model_name.human), new_<%= singular_table_name %>_path, class: 'btn-primary btn-w-m btn' %>
+        <div class="btn-group pull-right">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
+                <%%= fa_icon('cog') %> <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li><%%= link_to t('activerecord.text.new_instance', model: <%= class_name.split('::').last %>.model_name.human), new_<%= singular_table_name %>_path %></li>
+            </ul>
         </div>
     </div>
 </div>

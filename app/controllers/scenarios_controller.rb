@@ -74,7 +74,9 @@ class ScenariosController < ApplicationController
   # GET /scenarios/new
   def new
     @scenario = Scenario.new
-    @scenario.project_id = params[:project_id]
+    issue = Issue.find(params[:issue_id])
+    @scenario.project_id = issue.project_id
+    @scenario.issue_id = params[:issue_id]
   end
 
   # GET /scenarios/1/edit
@@ -89,7 +91,7 @@ class ScenariosController < ApplicationController
     respond_to do |format|
       if @scenario.save
         # set_scenarios_grid
-        format.html { redirect_to project_path(@scenario.project_id), notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
+        format.html { redirect_to issue_path(@scenario.issue_id), notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -104,7 +106,7 @@ class ScenariosController < ApplicationController
     respond_to do |format|
       if @scenario.update(scenario_params)
         # set_scenarios_grid
-        format.html { redirect_to project_path(@scenario.project_id), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
+        format.html { redirect_to issue_path(@scenario.issue_id), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -116,12 +118,12 @@ class ScenariosController < ApplicationController
   # DELETE /scenarios/1
   # DELETE /scenarios/1.json
   def destroy
-    project_id = @scenario.project_id
+    issue_id = @scenario.issue_id
     @scenario.destroy
 
     respond_to do |format|
       set_scenarios_grid
-      format.html { redirect_to project_path(project_id), notice: t('activerecord.success.messages.destroyed', model: Scenario.model_name.human) }
+      format.html { redirect_to issue_path(issue_id), notice: t('activerecord.success.messages.destroyed', model: Scenario.model_name.human) }
       format.js
     end
   end
@@ -139,6 +141,7 @@ class ScenariosController < ApplicationController
       :name,
       :body,
       :project_id,
+      :issue_id
       )
   end
 

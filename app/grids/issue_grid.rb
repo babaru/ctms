@@ -7,7 +7,7 @@ class IssueGrid
 
   column(:name, header: I18n.t('activerecord.attributes.general.name')) do |asset|
     format(asset.title) do |value|
-      link_to value, issue_path(asset)
+      link_to value, project_issue_path(asset, project_id: asset.project_id)
     end
   end
 

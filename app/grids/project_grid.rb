@@ -5,7 +5,7 @@ class ProjectGrid
     Project.order('projects.updated_at desc')
   end
 
-  column(:name, header: I18n.t('activerecord.attributes.general.name')) do |asset|
+  column("name project-title", header: I18n.t('activerecord.attributes.general.name')) do |asset|
     format(asset.name) do |value|
       link_to value, project_path(asset)
     end

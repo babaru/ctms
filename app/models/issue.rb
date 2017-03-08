@@ -1,6 +1,9 @@
 class Issue < ApplicationRecord
   belongs_to :project, optional: true
   belongs_to :milestone, optional: true
+  has_many :scenarios
+
+  serialize :labels, Array
 
   def title
     "[#{gitlab_id.rjust(3, '0')}] - #{name}"

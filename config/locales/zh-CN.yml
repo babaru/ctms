@@ -41,7 +41,8 @@ zh-CN:
           destroy: "删除%{model}成功！"
     models:
       project: 项目
-      scenario: 测试
+      scenario: 测试场景
+      issue: Issue
     attributes:
       general:
         name: 名称
@@ -51,3 +52,8 @@ zh-CN:
       scenario:
         id: '#'
         body: 测试内容
+      issue:
+        state: 状态
+        scenarios: 测试场景
+        tabs:
+          scenarios: 测试场景

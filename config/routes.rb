@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  
-  
+
+
   post 'issues/search' => 'issues#search', as: :search_issues
   post 'milestones/search' => 'milestones#search', as: :search_milestones
   post 'search_scenarios' => 'scenarios#search', as: :search_scenarios
@@ -13,12 +13,12 @@ Rails.application.routes.draw do
   get 'dashboard/index', as: :dashboard
 
   resources :projects do
-    resources :issues
+    resources :issues, :milestones
   end
 
   resources :issues do
     resources :scenarios
   end
 
-  resources :scenarios
+  resources :scenarios, :milestones
 end

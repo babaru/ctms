@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  TABS = [:issues].freeze
+  TABS = [:issues, :scenarios].freeze
 
   # GET /projects
   # GET /projects.json

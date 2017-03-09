@@ -1,0 +1,13 @@
+defaults: &defaults
+  enums:
+    unfinished: 0
+    finished: 1
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

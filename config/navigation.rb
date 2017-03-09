@@ -59,6 +59,7 @@ SimpleNavigation::Configuration.run do |navigation|
     #
     primary.item :dashboard, fa_icon('dashboard', text: t('navigation.pages.dashboard')), dashboard_url
     primary.item :projects, fa_icon('folder', text: t('navigation.pages.projects')), projects_url
+    primary.item :plans, fa_icon('calendar-check-o', text: t('navigation.pages.plans')), plans_url
     # primary.item :scenarios, fa_icon('folder', text: t('navigation.pages.scenarios')), scenarios_url
 
     # you can also specify html attributes to attach to this particular level

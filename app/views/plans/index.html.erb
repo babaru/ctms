@@ -1,0 +1,45 @@
+<div class="row page-heading">
+    <div class="col-lg-10">
+        <h2><%= Plan.model_name.human %></h2>
+        <ol class="breadcrumb">
+            <li>
+                <%= fa_icon('home') %>
+            </li>
+            <li class="active">
+                <strong><%= t('activerecord.text.list', model: Plan.model_name.human) %></strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2 m-t-lg">
+        <div class="btn-toolbar pull-right">
+            <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Plan.model_name.human)), new_plan_path, class: 'btn-primary btn' %>
+            <div class="btn-group">
+                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
+                    <%= fa_icon('cog') %> <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li role="separator" class="divider"></li>
+                    <li><%= link_to t('activerecord.text.new_instance', model: Plan.model_name.human), new_plan_path %></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="wrapper wrapper-content p-w-xs">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    <div class="project-list">
+                        <%= render partial: 'plans_grid' %>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

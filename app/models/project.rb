@@ -2,8 +2,12 @@ class Project < ApplicationRecord
   has_many :issues
   has_many :milestones
   has_many :scenarios
+  has_many :plan_projects
+  has_many :plans, through: :plan_projects
 
   validates :name, presence: true, uniqueness: true
+
+  scope :watched, ->{ where(is_watched: true) }
 
   def title
     name

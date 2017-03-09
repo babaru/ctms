@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309091120) do
+ActiveRecord::Schema.define(version: 20170309101243) do
+
+  create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "scenario_id"
+    t.integer  "plan_id"
+    t.integer  "result",                    default: 0
+    t.text     "remarks",     limit: 65535
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.index ["plan_id"], name: "index_executions_on_plan_id", using: :btree
+    t.index ["scenario_id"], name: "index_executions_on_scenario_id", using: :btree
+  end
 
   create_table "issues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "project_id"
@@ -40,6 +51,25 @@ ActiveRecord::Schema.define(version: 20170309091120) do
     t.index ["project_id"], name: "index_milestones_on_project_id", using: :btree
   end
 
+  create_table "plan_projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "plan_id"
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_plan_projects_on_plan_id", using: :btree
+    t.index ["project_id"], name: "index_plan_projects_on_project_id", using: :btree
+  end
+
+  create_table "plans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "state",                    default: 0
+    t.text     "remarks",    limit: 65535
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
   create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at",                            null: false
@@ -61,9 +91,13 @@ ActiveRecord::Schema.define(version: 20170309091120) do
     t.index ["project_id"], name: "index_scenarios_on_project_id", using: :btree
   end
 
+  add_foreign_key "executions", "plans"
+  add_foreign_key "executions", "scenarios"
   add_foreign_key "issues", "milestones"
   add_foreign_key "issues", "projects"
   add_foreign_key "milestones", "projects"
+  add_foreign_key "plan_projects", "plans"
+  add_foreign_key "plan_projects", "projects"
   add_foreign_key "scenarios", "issues"
   add_foreign_key "scenarios", "projects"
 end

@@ -45,6 +45,8 @@ zh-CN:
       project: 项目
       scenario: 测试场景
       issue: 需求
+      plan: 测试计划
+      execution: 测试执行
     attributes:
       general:
         name: 名称
@@ -69,3 +71,8 @@ zh-CN:
         scenarios: 测试场景
         tabs:
           scenarios: 测试场景
+      plan:
+        started_at: 开始于
+        ended_at: 结束于
+        state: 状态
+        remarks: 备注

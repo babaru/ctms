@@ -30,7 +30,7 @@ class Issue < ApplicationRecord
           milestone = Milestone.find_by_gitlab_id(milestone_data["id"]) || Milestone.create
           milestone.update(
             name: milestone_data["title"],
-            # description: milestone_data["description"],
+            description: milestone_data["description"],
             gitlab_id: milestone_data["id"],
             gitlab_iid: milestone_data["iid"],
             project: project,

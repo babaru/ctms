@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308131353) do
+ActiveRecord::Schema.define(version: 20170309015722) do
 
   create_table "issues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "project_id"
@@ -30,12 +30,12 @@ ActiveRecord::Schema.define(version: 20170308131353) do
 
   create_table "milestones", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.string   "description"
+    t.text     "description",           limit: 65535
     t.integer  "project_id"
     t.string   "gitlab_id"
-    t.boolean  "is_existing_on_gitlab", default: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.boolean  "is_existing_on_gitlab",               default: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
     t.string   "gitlab_iid"
     t.index ["project_id"], name: "index_milestones_on_project_id", using: :btree
   end

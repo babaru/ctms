@@ -51,6 +51,7 @@ zh-CN:
         scenarios: 测试场景
         tabs:
           scenarios: 测试
+          issues: 需求
       scenario:
         id: '#'
         body: 测试内容

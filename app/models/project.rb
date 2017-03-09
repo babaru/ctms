@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
   has_many :issues
-  has_many :milestone
+  has_many :milestones
   has_many :scenarios
 
   validates :name, presence: true, uniqueness: true

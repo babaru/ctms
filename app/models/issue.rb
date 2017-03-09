@@ -42,6 +42,8 @@ class Issue < ApplicationRecord
           gitlab_id: issue_data["id"],
           gitlab_iid: issue_data["iid"],
           body: issue_data["description"],
+          labels: issue_data["labels"],
+          state: issue_data["state"],
           is_existing_on_gitlab: true,
           project: project,
           milestone: milestone)

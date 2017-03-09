@@ -10,7 +10,18 @@
    $('.datetime-picker').datetimepicker();
    $('.date-picker').datetimepicker();
 
-   $('#issues-jstree').jstree({
+   $('#issues-jstree')
+     .on('changed.jstree', function(e, data) {
+       if (data.selected.length > 0) {
+         var node = data.instance.get_node(data.selected[0]);
+         var url = node.data.redirect;
+         console.log(url);
+         if(url != undefined) {
+           window.location = url;
+         }
+       }
+     })
+     .jstree({
         'core' : {
             'check_callback' : true
         },

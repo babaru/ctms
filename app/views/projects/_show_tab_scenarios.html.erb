@@ -3,7 +3,7 @@
         <div id="issues-jstree">
             <ul>
                 <% @project.issues.each do |issue| %>
-                <%= content_tag :li, [issue.title, scenarios_tree(issue)].join.html_safe, data: { jstree: 'issue'} %>
+                <%= content_tag :li, [issue.title, scenarios_tree(issue)].join.html_safe, data: { jstree: 'issue', redirect: project_issue_path(issue, project_id: issue.project_id)} %>
                 <% end %>
             </ul>
         </div>

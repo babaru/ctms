@@ -5,7 +5,7 @@
 *= require bootstrap-tagsinput/bootstrap-tagsinput
 *= require animate/animate
 *= require steps/jquery.steps
-*= require jsTree/style.min
+*= require jsTree/style
 *= require datagrid
 *= require style
 */

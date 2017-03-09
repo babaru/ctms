@@ -7,7 +7,7 @@ class ScenariosController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  TABS = [:tab1, :tab2].freeze
+  TABS = [:summary].freeze
 
   # GET /scenarios
   # GET /scenarios.json
@@ -91,7 +91,7 @@ class ScenariosController < ApplicationController
     respond_to do |format|
       if @scenario.save
         # set_scenarios_grid
-        format.html { redirect_to issue_path(@scenario.issue_id), notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
+        format.html { redirect_to scenario_path(@scenario), notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -106,7 +106,7 @@ class ScenariosController < ApplicationController
     respond_to do |format|
       if @scenario.update(scenario_params)
         # set_scenarios_grid
-        format.html { redirect_to issue_path(@scenario.issue_id), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
+        format.html { redirect_to scenario_path(@scenario), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -119,11 +119,12 @@ class ScenariosController < ApplicationController
   # DELETE /scenarios/1.json
   def destroy
     issue_id = @scenario.issue_id
+    project_id = @scenario.project_id
     @scenario.destroy
 
     respond_to do |format|
       set_scenarios_grid
-      format.html { redirect_to issue_path(issue_id), notice: t('activerecord.success.messages.destroyed', model: Scenario.model_name.human) }
+      format.html { redirect_to project_issue_path(issue_id, project_id: project_id), notice: t('activerecord.success.messages.destroyed', model: Scenario.model_name.human) }
       format.js
     end
   end

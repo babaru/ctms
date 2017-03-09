@@ -73,10 +73,8 @@ class ScenariosController < ApplicationController
 
   # GET /scenarios/new
   def new
-    @scenario = Scenario.new
     issue = Issue.find(params[:issue_id])
-    @scenario.project_id = issue.project_id
-    @scenario.issue_id = params[:issue_id]
+    @scenario = Scenario.new(issue_id: params[:issue_id], project_id: issue.project_id)
   end
 
   # GET /scenarios/1/edit

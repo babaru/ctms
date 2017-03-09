@@ -62,13 +62,7 @@ class ProjectsController < ApplicationController
 
   def sync_from_gitlab
     if request.post?
-      Project.all.update(is_existing_on_gitlab: false)
-      GitLabAPI.instance.projects.each do |project_data|
-        project = Project.find_by_gitlab_id(project_data["id"]) || Project.create(name: project_data["name_with_namespace"], gitlab_id: project_data["id"])
-        project.update(name: project_data["name_with_namespace"],
-          gitlab_id: project_data["id"],
-          is_existing_on_gitlab: true)
-      end
+      Prject.sync_from_gitlab
 
       respond_to do |format|
         format.html { redirect_to projects_path }

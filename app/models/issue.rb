@@ -13,10 +13,13 @@ class Issue < ApplicationRecord
 
   def sync_from_gitlab(gitlab_project_id, api)
     api ||= GitLabAPI.instance
-    issues_data = api.issues(gitlab_project_id)
-    total_pages = api.total_pages(issues_data).to_i
 
     project = Project.find_by_gitlab_id(gitlab_project_id)
+    project.issues.update(is_existing_on_gitlab: false)
+    project.milestones.update(is_existing_on_gitlab: false)
+
+    issues_data = api.issues(gitlab_project_id)
+    total_pages = api.total_pages(issues_data).to_i
 
     1.upto(total_pages) do |page|
       issues_data.each do |issue_data|
@@ -30,7 +33,8 @@ class Issue < ApplicationRecord
             # description: milestone_data["description"],
             gitlab_id: milestone_data["id"],
             gitlab_iid: milestone_data["iid"],
-            project: project
+            project: project,
+            is_existing_on_gitlab: true
           )
         end
         issue = Issue.find_by_gitlab_id(issue_data["id"]) || Issue.create

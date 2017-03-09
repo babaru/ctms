@@ -63,11 +63,16 @@
   }
 }
 
-.folder-list {
-  .active {
-    background: #ddd;
-    a {
-      font-weight: bold;
+#issues-nav {
+  .folder-list {
+    li {
+      padding-left: 5px;
+      &.active {
+        background: #eee;
+        a {
+          font-weight: bold;
+        }
+      }
     }
   }
 }

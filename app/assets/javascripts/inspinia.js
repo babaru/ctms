@@ -5,7 +5,7 @@
  *
  */
 
- $(document).ready(function() {
+ $(document).on('turbolinks:load', function() {
 
    $('.datetime-picker').datetimepicker();
    $('.date-picker').datetimepicker();
@@ -27,7 +27,7 @@
  });
 
 
-$(document).ready(function() {
+$(document).on('turbolinks:load', function() {
 
 
     // Add body-small class if window less than 768px

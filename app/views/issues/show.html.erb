@@ -29,6 +29,22 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+            <div class="ibox-title">
+                <h5>需求</h5>
+                
+            </div>
+            <div class="ibox-content">
+                <div class="scroll_content">
+                    <%= @issue.body %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="tabs-container">
     <ul class="nav nav-tabs">
         <% @tabs.each do |tab| %>

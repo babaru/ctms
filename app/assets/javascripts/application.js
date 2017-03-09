@@ -9,5 +9,6 @@
 //= require bootstrap-datetimepicker.min
 //= require bootstrap3-typeahead/bootstrap3-typeahead
 //= require bootstrap-tagsinput/bootstrap-tagsinput
+//= require jsTree/jstree.min
 //= require_tree .
 //= require turbolinks

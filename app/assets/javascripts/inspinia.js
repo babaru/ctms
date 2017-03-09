@@ -10,6 +10,20 @@
    $('.datetime-picker').datetimepicker();
    $('.date-picker').datetimepicker();
 
+   $('#issues-jstree').jstree({
+        'core' : {
+            'check_callback' : true
+        },
+        'plugins' : [ 'types', 'dnd' ],
+        'types' : {
+            'default' : {
+                'icon' : 'fa fa-folder'
+            },
+            'issue' : {
+                'icon' : 'fa fa-file-code-o'
+            }
+        }
+    });
  });
 
 

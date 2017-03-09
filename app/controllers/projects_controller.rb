@@ -62,7 +62,7 @@ class ProjectsController < ApplicationController
 
   def sync_from_gitlab
     if request.post?
-      Project.sync_from_gitlab
+      Project.sync_from_gitlab(GitLabAPI.instance)
 
       respond_to do |format|
         format.html { redirect_to projects_path }

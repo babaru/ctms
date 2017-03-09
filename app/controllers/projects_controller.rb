@@ -5,29 +5,42 @@ class ProjectsController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  TABS = [:scenarios, :issues].freeze
+  SHOW_TABS = [:scenarios, :issues].freeze
+  LIST_TABS = [:watched, :all].freeze
 
   # GET /projects
   # GET /projects.json
   def index
-    @query_params = {}
-    build_query_params(params)
-    build_query_project_params
+    @list_tabs = LIST_TABS
+    @current_tab = params[:tab]
+    @current_tab ||= LIST_TABS.first.to_s
+    @current_tab = @current_tab.to_sym
 
-    @conditions = []
-    @conditions << Project.arel_table[:name].matches("%#{@query_params[:name]}%") if @query_params[:name]
+    case @current_tab
+    when :all
+      @query_params = {}
+      build_query_params(params)
+      build_query_project_params
 
-    if @conditions.length > 0
-      conditions = @conditions[0]
-      @conditions.each_with_index do |item, index|
-        conditions = conditions.or(item) if index > 0
+      @conditions = []
+      @conditions << Project.arel_table[:name].matches("%#{@query_params[:name]}%") if @query_params[:name]
+
+      if @conditions.length > 0
+        conditions = @conditions[0]
+        @conditions.each_with_index do |item, index|
+          conditions = conditions.or(item) if index > 0
+        end
+        @conditions = conditions
       end
-      @conditions = conditions
-    end
 
-    respond_to do |format|
-      format.html { set_projects_grid(@conditions) }
-      format.json { render json: Project.where(@conditions) }
+      respond_to do |format|
+        format.html { set_projects_grid(@conditions) }
+        format.json { render json: Project.where(@conditions) }
+      end
+    when :watched
+      respond_to do |format|
+        format.html { set_projects_grid(is_watched: true) }
+      end
     end
   end
 
@@ -74,9 +87,9 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @tabs = TABS
+    @tabs = SHOW_TABS
     @current_tab = params[:tab]
-    @current_tab ||= TABS.first.to_s
+    @current_tab ||= SHOW_TABS.first.to_s
     @current_tab = @current_tab.to_sym
 
     case @current_tab
@@ -92,6 +105,18 @@ class ProjectsController < ApplicationController
         @scenarios_grid = ScenarioGrid.new do |scope|
           scope.page(params[:page]).where(issue_id: @issue.id).per(20)
         end
+      end
+    end
+  end
+
+  def watch
+    if request.post?
+      @current_tab = params[:tab]
+      @project = Project.find params[:id]
+      @project.update(is_watched: !@project.watched?)
+
+      respond_to do |format|
+        format.html { redirect_to projects_path(tab: @current_tab, page: params[:page]), notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
       end
     end
   end

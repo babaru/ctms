@@ -9,6 +9,14 @@ class Project < ApplicationRecord
     name
   end
 
+  def unwatched?
+    !watched?
+  end
+
+  def watched?
+    is_watched
+  end
+
   class << self
 
   def sync_from_gitlab(api)

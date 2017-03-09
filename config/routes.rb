@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   get 'dashboard/index', as: :dashboard
 
-  get 'projects/:id/list_scenarios'=> 'projects#list_scenarios', as: :project_list_scenarios
+  post 'projects/:id/watch'=> 'projects#watch', as: :watch_project
 
   resources :projects do
     resources :issues, :milestones

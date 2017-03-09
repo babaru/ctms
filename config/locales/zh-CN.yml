@@ -8,6 +8,8 @@ zh-CN:
     save: 保存
     edit: 编辑
     delete: 删除
+    watch: 关注
+    unwatch: 取消关注
   labels:
     last_modified_at: 最后编辑于
     clearing: 结算信息
@@ -46,6 +48,10 @@ zh-CN:
     attributes:
       general:
         name: 名称
+      projects:
+        tabs:
+          watched: 关注
+          all: 全部
       project:
         issues: 需求
         scenarios: 测试场景

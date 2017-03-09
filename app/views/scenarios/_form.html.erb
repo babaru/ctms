@@ -15,7 +15,7 @@
           <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
       </div>
       <div class="m-l-md">
-        <%= link_to t('activerecord.text.back_to_list', model: Scenario.model_name.human), project_issue_path(@scenario.issue_id, project_id: @scenario.project_id), class: 'btn btn-white' %>
+        <%= link_to t('activerecord.text.back_to_list', model: Scenario.model_name.human), project_path(@scenario.project_id, issue_id: @scenario.issue_id), class: 'btn btn-white' %>
       </div>
   </div>
 <% end %>

@@ -58,6 +58,7 @@ zh-CN:
         tabs:
           summary: 概况
       issue:
+        title: 需求标题
         state: 状态
         scenarios: 测试场景
         tabs:

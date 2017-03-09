@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   post 'issues/search' => 'issues#search', as: :search_issues
   post 'milestones/search' => 'milestones#search', as: :search_milestones
   post 'search_scenarios' => 'scenarios#search', as: :search_scenarios
@@ -11,6 +10,8 @@ Rails.application.routes.draw do
   post 'sync_issues_from_gitlab' => 'issues#sync_from_gitlab', as: :sync_issues_from_gitlab
 
   get 'dashboard/index', as: :dashboard
+
+  get 'projects/:id/list_scenarios'=> 'projects#list_scenarios', as: :project_list_scenarios
 
   resources :projects do
     resources :issues, :milestones

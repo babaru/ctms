@@ -6,7 +6,13 @@ class Issue < ApplicationRecord
   serialize :labels, Array
 
   def title
-    "[#{gitlab_id.rjust(3, '0')}] - #{name}"
+    # "[#{gitlab_id.rjust(3, '0')}] - #{name}"
+    name
+  end
+
+  def nav_title
+    scenarios_count = scenarios.count > 0 ? " [#{scenarios.count}]" : ''
+    "#{name}#{scenarios_count}"
   end
 
   class << self

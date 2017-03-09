@@ -1,0 +1,11 @@
+
+
+<ul class="folder-list">
+    <% @project.issues.each do |issue| %>
+    <% if @issue && @issue.id == issue.id %>
+    <%= content_tag(:li, link_to(fa_icon('folder-open', text: issue.nav_title), project_path(@project, issue_id: issue.id)), class: 'active' ) %>
+    <% else %>
+    <%= content_tag(:li, link_to(fa_icon('folder', text: issue.nav_title), project_path(@project, issue_id: issue.id)) ) %>
+    <% end %>
+    <% end %>
+</ul>

@@ -1,14 +1,12 @@
+
 <div class="row">
-    <div class="col-lg-4">
-        <div id="issues-jstree">
-            <ul>
-                <% @project.issues.each do |issue| %>
-                <%= content_tag :li, [issue.title, scenarios_tree(issue)].join.html_safe, data: { jstree: 'issue', redirect: project_issue_path(issue, project_id: issue.project_id)} %>
-                <% end %>
-            </ul>
+    <div class="col-lg-8">
+        <div id="scenarios-list">
+            <%= render partial: 'scenarios_list' %>
         </div>
     </div>
-    <div class="col-lg-8">
-
+    <div class="col-lg-4">
+        <%= render partial: 'issues_nav' %>
     </div>
+
 </div>

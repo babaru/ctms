@@ -1,27 +1,14 @@
 <div class="row">
-    <div class="col-lg-8">
-        <div id="scenarios-list">
-            <% if @issue %>
-            <div class="row m-b-sm m-t-sm">
-                <div class="col-lg-8">
-                    <h3><%= @issue.title %></h3>
-                </div>
-                <div class="col-lg-4">
-                    <div class="toolbar m-b-xs pull-right">
-                        <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Scenario.model_name.human)), new_issue_scenario_path(@issue), class: 'btn-primary btn btn-sm' %>
-                    </div>
-                </div>
-            </div>
-
-            <%= datagrid_table(@scenarios_grid, html: { class: 'table table-hover datagrid' }) %>
-            <%= paginate @scenarios_grid.assets %>
-            
-            <% end %>
-        </div>
+    <div class="col-lg-3">
+        <p><%= @scenario.body if @scenario %></p>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-6">
+        <%= render partial: 'executions_list' %>
+    </div>
+    <div class="col-lg-3">
         <div id="issues-nav">
             <ul class="folder-list">
+                <li class="<%= @issue.nil? ? 'active' : ''%>"><%= link_to(fa_icon(@issue.nil? ? 'folder-open' : 'folder', text: t('activerecord.text.all', model: Scenario.model_name.human)), plan_path(@plan)) %></li>
                 <% @plan.projects.each do |project| %>
                   <% project.issues.each do |issue| %>
                     <% if @issue && @issue.id == issue.id %>

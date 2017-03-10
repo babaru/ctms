@@ -2,7 +2,18 @@ class ExecutionGrid
   include Datagrid
 
   scope do
-    Execution.order('executions.updated_at desc')
+    Scenario.order('scenarios.updated_at desc')
+  end
+
+  column(:title, header: I18n.t('activerecord.attributes.general.title')) do |asset|
+    format(asset.title) do |value|
+      extra_params = {}
+      extra_params[:scenario_id] = asset.id
+      extra_params[:tab] = params[:tab] if params[:tab]
+      extra_params[:page] = params[:page] if params[:page]
+      extra_params[:issue_id] = params[:issue_id] if params[:issue_id]
+      link_to(value, plan_path(params[:id], extra_params))
+    end
   end
 
   # column("name project-title", header: I18n.t('activerecord.attributes.general.name')) do |asset|
@@ -29,6 +40,15 @@ class ExecutionGrid
   #     fa_icon('video-camera', text: value)
   #   end
   # end
+
+  column("project-actions", header: '') do |asset|
+    format(asset.id) do |value|
+      [
+        # link_to(fa_icon('comment-o', ))
+        execution_button(params[:id], asset.id, params)
+      ].join(' ').html_safe
+    end
+  end
 
   # column("project-actions", header: '') do |asset|
   #   format(asset.id) do |value|

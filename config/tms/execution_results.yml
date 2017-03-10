@@ -1,0 +1,15 @@
+defaults: &defaults
+  enums:
+    undone: 0
+    passed: 1
+    failed: 2
+    na: 3
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

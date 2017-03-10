@@ -50,6 +50,8 @@ zh-CN:
     attributes:
       general:
         name: 名称
+        title: 标题
+        body: 内容
       projects:
         tabs:
           watched: 关注

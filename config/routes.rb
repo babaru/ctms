@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   post 'projects/:id/watch' => 'projects#watch', as: :watch_project
   post 'plans/:id/finish' => 'plans#finish', as: :finish_plan
+  post 'execute_scenario/:id' => 'scenarios#execute', as: :execute_scenario
 
   resources :projects do
     resources :issues, :milestones

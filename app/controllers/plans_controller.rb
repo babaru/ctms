@@ -67,6 +67,19 @@ class PlansController < ApplicationController
     @current_tab = params[:tab]
     @current_tab ||= TABS.first.to_s
     @current_tab = @current_tab.to_sym
+
+    @issue = Issue.find params[:issue_id] if params[:issue_id]
+    conditions = {}
+    conditions[:issue_id] = params[:issue_id] if params[:issue_id]
+
+    @scenario = Scenario.find params[:scenario_id] if params[:scenario_id]
+
+    case @current_tab
+    when :scenarios
+      @executions_grid = ExecutionGrid.new do |scope|
+        scope.page(params[:page]).where(conditions).per(20)
+      end
+    end
   end
 
   # GET /plans/new

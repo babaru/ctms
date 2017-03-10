@@ -2,3 +2,8 @@ zh-CN:
   plan_states:
     unfinished: 未完成
     finished: 已完成
+  execution_results:
+    passed: 通过
+    failed: 失败
+    na: N/A
+    undone: 未执行

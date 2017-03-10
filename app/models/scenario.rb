@@ -6,4 +6,8 @@ class Scenario < ApplicationRecord
   def title
     "#{id.to_s.rjust(3, '0')} - #{name}"
   end
+
+  def execution(plan_id)
+    executions.where(plan_id: plan_id).first
+  end
 end

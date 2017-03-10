@@ -81,6 +81,28 @@ class ScenariosController < ApplicationController
   def edit
   end
 
+  def execute
+    if request.post?
+      logger.debug params.keys
+      scenario_id = params[:id]
+      plan_id = params[:plan_id]
+      result = params[:result]
+
+      response_params = {}
+      response_params[:issue_id] = params[:issue_id] if params[:issue_id]
+      response_params[:tab] = params[:tab] if params[:tab]
+      response_params[:page] = params[:page] if params[:page]
+
+      @scenario = Scenario.find(scenario_id)
+      execution = @scenario.execution(plan_id) || Execution.create(scenario_id: scenario_id, plan_id: plan_id)
+      execution.update(result: result)
+
+      respond_to do |format|
+        format.html { redirect_to plan_path(params[:plan_id], response_params), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
+      end
+    end
+  end
+
   # POST /scenarios
   # POST /scenarios.json
   def create

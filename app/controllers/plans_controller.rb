@@ -1,5 +1,5 @@
 class PlansController < ApplicationController
-  before_action :set_plan, only: [:show, :edit, :update, :destroy]
+  before_action :set_plan, only: [:show, :edit, :update, :destroy, :finish]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -119,6 +119,16 @@ class PlansController < ApplicationController
       else
         format.html { render :edit }
         format.js { render :edit }
+      end
+    end
+  end
+
+  def finish
+    if request.post?
+      respond_to do |format|
+        state = @plan.state == PlanState.enums.finished ? PlanState.enums.unfinished : PlanState.enums.finished
+        @plan.update(state: state)
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
       end
     end
   end

@@ -7,6 +7,14 @@ class Plan < ApplicationRecord
     name
   end
 
+  def finished?
+    state == PlanState.enums.finished
+  end
+
+  def unfinished?
+    !finished?
+  end
+
   class << self
 
   def states

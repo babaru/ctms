@@ -13,7 +13,17 @@ module PlansHelper
     end
   end
 
+  def finish_plan_button(plan, style = '')
+    if plan.unfinished?
+      link_to fa_icon('check', text: t('activerecord.text.finish', model: Plan.model_name.human)), finish_plan_path(plan, redirect_url: request.original_fullpath), method: :post, class: style
+    else
+      link_to fa_icon('car', text: t('activerecord.text.start', model: Plan.model_name.human)), finish_plan_path(plan, redirect_url: request.original_fullpath), method: :post, class: style
+    end
+  end
+
   def execution_button(plan_id, scenario_id, params)
+    plan = Plan.find plan_id
+    return if plan.finished?
     execution = Scenario.find(scenario_id).execution(plan_id)
     current_result = execution.result if execution
     current_result ||= ExecutionResult.enums.undone

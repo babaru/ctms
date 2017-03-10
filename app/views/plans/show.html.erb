@@ -1,6 +1,6 @@
 <div class="row page-heading">
     <div class="col-lg-10">
-        <h2><%= @plan.name if @plan.respond_to? :name %></h2>
+        <h2><%= @plan.name if @plan.respond_to? :name %> <%= plan_state_label(@plan) %></h2>
         <ol class="breadcrumb">
             <li>
                 <%= fa_icon('home') %>
@@ -17,6 +17,7 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu">
+                <li><%= finish_plan_button(@plan) %></li>
                 <li role="separator" class="divider"></li>
                 <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_plan_path(@plan) %></li>
             </ul>

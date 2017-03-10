@@ -36,6 +36,8 @@ zh-CN:
       query: "查询%{model}"
       back_to_list: "返回%{model}列表"
       sync_from_gitlab: "从 GitLab 同步%{model}数据"
+      finish: "完成%{model}"
+      start: "开始%{model}"
       notification:
         success:
           creation: "%{model}创建成功！"
@@ -78,3 +80,5 @@ zh-CN:
         ended_at: 结束于
         state: 状态
         remarks: 备注
+        tabs:
+          scenarios: 测试场景

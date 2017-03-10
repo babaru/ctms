@@ -2,7 +2,7 @@ class PlanGrid
   include Datagrid
 
   scope do
-    Plan.order('plans.updated_at desc')
+    Plan.order('plans.id desc')
   end
 
   column("project-status", header: '') do |asset|

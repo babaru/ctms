@@ -76,9 +76,11 @@ zh-CN:
         tabs:
           scenarios: 测试场景
       plan:
+        name: 测试计划名称
         started_at: 开始于
         ended_at: 结束于
         state: 状态
         remarks: 备注
+        projects: 包含项目
         tabs:
           scenarios: 测试场景

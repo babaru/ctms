@@ -2,7 +2,7 @@ class ScenarioGrid
   include Datagrid
 
   scope do
-    Scenario.order('scenarios.updated_at desc')
+    Scenario.order('scenarios.id desc')
   end
 
   column(:name, header: I18n.t('activerecord.attributes.general.name')) do |asset|

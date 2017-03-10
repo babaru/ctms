@@ -2,7 +2,7 @@ class IssueGrid
   include Datagrid
 
   scope do
-    Issue.order('issues.updated_at desc')
+    Issue.order('issues.id desc')
   end
 
   column("name project-title", header: I18n.t('activerecord.attributes.general.name')) do |asset|

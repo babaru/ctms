@@ -6,12 +6,12 @@ class Project < ApplicationRecord
   has_many :plans, through: :plan_projects
   has_many :labels
 
-  validates :name, presence: true, uniqueness: true
+  validates :gitlab_id, presence: true, uniqueness: true
 
   scope :watched, ->{ where(is_watched: true) }
 
   def title
-    name
+    "#{namespace} / #{name}"
   end
 
   def unwatched?
@@ -34,8 +34,12 @@ class Project < ApplicationRecord
     1.upto(total_pages).each do |page|
 
       api.projects.each do |project_data|
-        project = Project.find_by_gitlab_id(project_data["id"]) || Project.create(name: project_data["name_with_namespace"], gitlab_id: project_data["id"])
-        project.update(name: project_data["name_with_namespace"],
+        logger.debug project_data["path_with_namespace"]
+        project = Project.find_by_gitlab_id(project_data["id"]) || Project.create(gitlab_id: project_data["id"])
+        project.update(
+          name: project_data["name"],
+          namespace: project_data["namespace"]["name"],
+          path: project_data["path_with_namespace"],
           gitlab_id: project_data["id"],
           is_existing_on_gitlab: true)
       end

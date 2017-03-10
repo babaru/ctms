@@ -10,7 +10,7 @@
   <%= f.input :ended_at, as: :date_picker %>
   <div class="hr-line-dashed"></div>
 
-  <%= f.association :projects, collection: Project.watched, label_method: :name, as: :check_boxes %>
+  <%= f.association :projects, collection: Project.watched, label_method: :title, as: :check_boxes %>
   <div class="hr-line-dashed"></div>
 
   <div class="form-group">

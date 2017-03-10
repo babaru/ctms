@@ -10,7 +10,7 @@
             <ul class="folder-list">
                 <li class="<%= @issue.nil? ? 'active' : ''%>"><%= link_to(fa_icon(@issue.nil? ? 'folder-open' : 'folder', text: t('activerecord.text.all', model: Scenario.model_name.human)), plan_path(@plan)) %></li>
                 <% @plan.projects.each do |project| %>
-                  <% project.issues.each do |issue| %>
+                  <% project.requirements.each do |issue| %>
                     <% if @issue && @issue.id == issue.id %>
                       <%= content_tag(:li, link_to(fa_icon('folder-open', text: issue.nav_title), plan_path(@plan, issue_id: issue.id)), class: 'active' ) %>
                     <% else %>

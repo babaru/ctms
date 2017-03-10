@@ -10,6 +10,10 @@ class Project < ApplicationRecord
 
   scope :watched, ->{ where(is_watched: true) }
 
+  def requirements
+    issues.joins(:labels).where(labels: { is_requirement: true })
+  end
+
   def title
     "#{namespace} / #{name}"
   end

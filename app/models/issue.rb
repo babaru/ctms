@@ -2,6 +2,8 @@ class Issue < ApplicationRecord
   belongs_to :project, optional: true
   belongs_to :milestone, optional: true
   has_many :scenarios
+  has_many :issue_labels
+  has_many :labels, through: :issue_labels
 
   serialize :labels, Array
 
@@ -30,6 +32,7 @@ class Issue < ApplicationRecord
     1.upto(total_pages) do |page|
       issues_data.each do |issue_data|
         next if issue_data.nil?
+
         milestone = nil
         milestone_data = issue_data["milestone"]
         unless milestone_data.nil?
@@ -43,12 +46,18 @@ class Issue < ApplicationRecord
             is_existing_on_gitlab: true
           )
         end
+
         issue = Issue.find_by_gitlab_id(issue_data["id"]) || Issue.create
+        label_ids = issue_data["labels"].inject([]) do |list, label_text|
+          label = Label.find_by_project_id_and_name(project.id, label_text) || Label.create(project_id: project.id, name: label_text)
+          list << label.id
+        end
+
         issue.update(name: issue_data["title"],
           gitlab_id: issue_data["id"],
           gitlab_iid: issue_data["iid"],
           body: issue_data["description"],
-          labels: issue_data["labels"],
+          label_ids: label_ids,
           state: issue_data["state"],
           is_existing_on_gitlab: true,
           project: project,

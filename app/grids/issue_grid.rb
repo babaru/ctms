@@ -12,7 +12,7 @@ class IssueGrid
         [
           content_tag(:small, "##{asset.gitlab_id}"),
           asset.milestone ? content_tag(:small, link_to(fa_icon('bookmark', text: asset.milestone.title), milestone_path(asset.milestone))) : '',
-          asset.labels.inject([]) { |list, item| list << content_tag(:span, item, class: 'badge badge-default') }.join(' ').html_safe
+          asset.labels.inject([]) { |list, item| list << content_tag(:span, item.name, class: 'badge badge-default') }.join(' ').html_safe
         ].join(' ').html_safe
       ].join('<br />').html_safe
     end

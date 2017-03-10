@@ -4,6 +4,7 @@ class Project < ApplicationRecord
   has_many :scenarios
   has_many :plan_projects
   has_many :plans, through: :plan_projects
+  has_many :labels
 
   validates :name, presence: true, uniqueness: true
 

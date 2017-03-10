@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  SHOW_TABS = [:scenarios, :issues].freeze
+  SHOW_TABS = [:scenarios, :issues, :labels].freeze
   LIST_TABS = [:watched, :all].freeze
 
   # GET /projects
@@ -105,6 +105,10 @@ class ProjectsController < ApplicationController
         @scenarios_grid = ScenarioGrid.new do |scope|
           scope.page(params[:page]).where(issue_id: @issue.id).per(20)
         end
+      end
+    when :labels
+      @labels_grid = LabelGrid.new do |scope|
+        scope.page(params[:page]).where(project_id: @project.id).per(20)
       end
     end
   end

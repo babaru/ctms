@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  post 'labels/search' => 'labels#search', as: :search_labels
   root 'dashboard#index'
 
   post 'sync_projects_from_gitlab' => 'projects#sync_from_gitlab', as: :sync_projects_from_gitlab
@@ -10,16 +11,17 @@ Rails.application.routes.draw do
   post 'projects/:id/watch' => 'projects#watch', as: :watch_project
   post 'plans/:id/finish' => 'plans#finish', as: :finish_plan
   post 'execute_scenario/:id' => 'scenarios#execute', as: :execute_scenario
+  post 'mark_requirement_label/:id' => 'labels#mark_requirement', as: :mark_requirement_label
 
   resources :projects do
-    resources :issues, :milestones
+    resources :issues, :milestones, :labels
   end
 
   resources :issues do
     resources :scenarios
   end
 
-  resources :scenarios, :milestones
+  resources :scenarios, :milestones, :labels
 
   resources :plans do
     resources :executions

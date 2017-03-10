@@ -38,6 +38,8 @@ zh-CN:
       sync_from_gitlab: "从 GitLab 同步%{model}数据"
       finish: "完成%{model}"
       start: "开始%{model}"
+      mark_requirement: 标注为需求
+      unmark_requirement: 排除出需求
       notification:
         success:
           creation: "%{model}创建成功！"

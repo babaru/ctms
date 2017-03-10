@@ -1,1 +1,6 @@
+<div class="btn-group">
+    <% @project.labels.each do |label| %>
+        <%= link_to label.name, '#', class: 'btn-sm btn btn-white' %>
+    <% end %>
+</div>
 <%= render partial: 'issues/issues_grid' %>

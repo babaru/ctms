@@ -1,2 +1,26 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<div class="row page-heading">
+    <div class="col-lg-8">
+        <h2><%= t('navigation.pages.dashboard') %></h2>
+        <ol class="breadcrumb">
+            <li>
+                <%= fa_icon('home') %>
+            </li>
+            <li class="active">
+                <strong><%= t('navigation.pages.dashboard') %></strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-4 m-t-lg">
+        <div class="btn-group pull-right">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
+                <%= fa_icon('cog') %> <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+
+                <li role="separator" class="divider"></li>
+
+            </ul>
+        </div>
+    </div>
+</div>

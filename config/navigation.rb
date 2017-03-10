@@ -58,8 +58,8 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>.
     #
     primary.item :dashboard, fa_icon('dashboard', text: t('navigation.pages.dashboard')), dashboard_url
-    primary.item :projects, fa_icon('folder', text: t('navigation.pages.projects')), projects_url
-    primary.item :plans, fa_icon('calendar-check-o', text: t('navigation.pages.plans')), plans_url
+    primary.item :projects, fa_icon('folder', text: t('navigation.pages.projects')), projects_path, highlights_on: :subpath
+    primary.item :plans, fa_icon('calendar-check-o', text: t('navigation.pages.plans')), plans_path, highlights_on: :subpath
     # primary.item :scenarios, fa_icon('folder', text: t('navigation.pages.scenarios')), scenarios_url
 
     # you can also specify html attributes to attach to this particular level

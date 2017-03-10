@@ -1,7 +1,14 @@
+<div class="row m-b-xs">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <%= render partial: 'labels_chooser' %>
+        </div>
+    </div>
+</div>
 
 
 <ul class="folder-list">
-    <% @project.issues.each do |issue| %>
+    <% @issues.each do |issue| %>
     <% if @issue && @issue.id == issue.id %>
     <%= content_tag(:li, link_to(fa_icon('folder-open', text: issue.nav_title), project_path(@project, issue_id: issue.id)), class: 'active' ) %>
     <% else %>

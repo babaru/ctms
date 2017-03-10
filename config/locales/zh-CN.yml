@@ -51,6 +51,7 @@ zh-CN:
       issue: 需求
       plan: 测试计划
       execution: 测试执行
+      label: 标签
     attributes:
       general:
         name: 名称
@@ -66,6 +67,7 @@ zh-CN:
         tabs:
           scenarios: 测试
           issues: 需求
+          labels: 标签
       scenario:
         id: '#'
         body: 测试内容

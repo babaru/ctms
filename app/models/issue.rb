@@ -7,6 +7,8 @@ class Issue < ApplicationRecord
 
   serialize :labels, Array
 
+  # scope :labels, -> { |labels| where(label_ids.include?}
+
   def title
     # "[#{gitlab_id.rjust(3, '0')}] - #{name}"
     name

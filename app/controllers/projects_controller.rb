@@ -92,14 +92,20 @@ class ProjectsController < ApplicationController
     @current_tab ||= SHOW_TABS.first.to_s
     @current_tab = @current_tab.to_sym
 
+    @current_label = Label.find params[:label_id] if params[:label_id]
+    label_conditions = {}
+    label_conditions[:is_requirement] = true
+    label_conditions[:id] = @current_label.id if @current_label
+
     case @current_tab
     when :issues
       @issue = Issue.find(params[:issue_id]) if params[:issue_id]
       @issue ||= @project.issues.first
       @issues_grid = IssueGrid.new do |scope|
-        scope.page(params[:page]).where(project_id: @project.id).per(20)
+        scope.page(params[:page]).joins(:labels).where(project_id: @project.id, labels: label_conditions).per(20)
       end
     when :scenarios
+      @issues = Issue.joins(:labels).where(project_id: @project.id, labels: label_conditions)
       if params[:issue_id]
         @issue = Issue.find params[:issue_id]
         @scenarios_grid = ScenarioGrid.new do |scope|

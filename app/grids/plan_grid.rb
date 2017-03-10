@@ -20,6 +20,12 @@ class PlanGrid
     end
   end
 
+  column("project-completion", header: '') do |asset|
+    format(asset.title) do |value|
+      plan_completion(asset)
+    end
+  end
+
   column("project-actions", header: '') do |asset|
     format(asset.id) do |value|
       [

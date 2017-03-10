@@ -19,6 +19,14 @@ class Plan < ApplicationRecord
     !finished?
   end
 
+  def total_scenarios_count
+    projects.inject(0) {|sum, project| sum += project.scenarios.count }
+  end
+
+  def progress
+    executions.count * 100 / total_scenarios_count
+  end
+
   class << self
 
   def states

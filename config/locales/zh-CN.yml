@@ -18,6 +18,7 @@ zh-CN:
     operation: 操作
     search: 搜索
     all_required: 加上星标 * 的项目为必填项
+    completion_with: 已完成
   activerecord:
     text:
       list: "%{model}列表"

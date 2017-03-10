@@ -48,4 +48,8 @@ module PlansHelper
       current_result: current_result, button_style: button_style,
       params: extra_params}
   end
+
+  def plan_completion(plan)
+    render partial: 'plans/plan_completion', locals: { plan: plan }
+  end
 end

@@ -91,3 +91,5 @@ zh-CN:
         title: 标题
         tabs:
           scenarios: 测试场景
+          watched: 关注
+          all: 全部

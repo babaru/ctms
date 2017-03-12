@@ -5,7 +5,7 @@
     <%= f.input :password, required: false, label: false, placeholder: t('placeholders.password') %>
     <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
 
-    <%= f.submit t('buttons.log_in'), class: 'btn btn-primary full-width m-b' %>
+    <%= f.submit t('buttons.log_in'), class: 'btn btn-primary btn-block m-b' %>
 
 <% end %>
 

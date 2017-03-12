@@ -11,6 +11,7 @@ zh-CN:
     watch: 关注
     unwatch: 取消关注
     log_in: 登录
+    sign_in_with_gitlab: 通过 GitLab 登录
   placeholders:
     email: 邮箱
     password: 密码

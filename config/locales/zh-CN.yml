@@ -10,6 +10,10 @@ zh-CN:
     delete: 删除
     watch: 关注
     unwatch: 取消关注
+    log_in: 登录
+  placeholders:
+    email: 邮箱
+    password: 密码
   labels:
     last_modified_at: 最后编辑于
     clearing: 结算信息
@@ -19,6 +23,7 @@ zh-CN:
     search: 搜索
     all_required: 加上星标 * 的项目为必填项
     completion_with: 已完成
+    log_in: 登录
   activerecord:
     text:
       list: "%{model}列表"

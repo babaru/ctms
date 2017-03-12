@@ -24,3 +24,39 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+
+  <div class="col-lg-6">
+      <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5><%= t('dashboard.box.watched_plans') %></h5>
+              <div class="ibox-tools">
+
+              </div>
+          </div>
+          <div class="ibox-content">
+              <div class="project-list">
+                  <%= datagrid_table(@dashboard_plans_grid, html: { class: 'table table-hover datagrid' }) %>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-lg-6">
+      <div class="ibox float-e-margins">
+          <div class="ibox-title">
+              <h5><%= t('dashboard.box.watched_projects') %></h5>
+              <div class="ibox-tools">
+
+              </div>
+          </div>
+          <div class="ibox-content">
+              <div class="project-list">
+                  <%= datagrid_table(@dashboard_projects_grid, html: { class: 'table table-hover datagrid' }) %>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</div>

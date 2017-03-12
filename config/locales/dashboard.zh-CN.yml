@@ -1,0 +1,5 @@
+zh-CN:
+  dashboard:
+    box:
+      watched_plans: 关注的测试计划
+      watched_projects: 关注的项目

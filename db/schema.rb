@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310073326) do
+ActiveRecord::Schema.define(version: 20170312115853) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 20170310073326) do
     t.datetime "updated_at",                            null: false
     t.string   "gitlab_id"
     t.boolean  "is_existing_on_gitlab", default: false
-    t.boolean  "is_watched",            default: false
     t.string   "namespace"
     t.string   "path"
   end
@@ -110,6 +109,43 @@ ActiveRecord::Schema.define(version: 20170310073326) do
     t.index ["project_id"], name: "index_scenarios_on_project_id", using: :btree
   end
 
+  create_table "user_watching_plans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "plan_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["plan_id"], name: "index_user_watching_plans_on_plan_id", using: :btree
+    t.index ["user_id"], name: "index_user_watching_plans_on_user_id", using: :btree
+  end
+
+  create_table "user_watching_projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_user_watching_projects_on_project_id", using: :btree
+    t.index ["user_id"], name: "index_user_watching_projects_on_user_id", using: :btree
+  end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "provider"
+    t.string   "uid"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
   add_foreign_key "executions", "plans"
   add_foreign_key "executions", "scenarios"
   add_foreign_key "issue_labels", "issues"
@@ -122,4 +158,8 @@ ActiveRecord::Schema.define(version: 20170310073326) do
   add_foreign_key "plan_projects", "projects"
   add_foreign_key "scenarios", "issues"
   add_foreign_key "scenarios", "projects"
+  add_foreign_key "user_watching_plans", "plans"
+  add_foreign_key "user_watching_plans", "users"
+  add_foreign_key "user_watching_projects", "projects"
+  add_foreign_key "user_watching_projects", "users"
 end

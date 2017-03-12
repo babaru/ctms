@@ -69,8 +69,11 @@ gem 'datagrid'
 gem 'kaminari'
 
 # User authentication
-# gem 'devise'
-# gem 'devise-i18n'
+gem 'devise'
+gem 'devise-i18n'
+
+# OAuth for gitlab
+gem 'omniauth-gitlab'
 
 # Form helper
 gem 'simple_form'

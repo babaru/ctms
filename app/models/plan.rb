@@ -1,7 +1,12 @@
 class Plan < ApplicationRecord
+  include Watchable
+  
   has_many :plan_projects
   has_many :projects, through: :plan_projects
   has_many :executions
+
+  has_many :user_watching_plans
+  has_many :users, through: :user_watching_plans
 
   validates :name, presence: true
   validates :started_at, presence: true
@@ -25,6 +30,11 @@ class Plan < ApplicationRecord
 
   def progress
     executions.count * 100 / total_scenarios_count
+  end
+
+  def finish
+    state = self.state == PlanState.enums.finished ? PlanState.enums.unfinished : PlanState.enums.finished
+    self.update(state: state)
   end
 
   class << self

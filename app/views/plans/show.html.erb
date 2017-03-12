@@ -17,7 +17,7 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu">
-                <li><%= finish_plan_button(@plan) %></li>
+                <li><%= finish_plan_button(@plan, { styles: {} }) %></li>
                 <li role="separator" class="divider"></li>
                 <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_plan_path(@plan) %></li>
             </ul>

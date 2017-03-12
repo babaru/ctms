@@ -28,18 +28,30 @@
     </div>
 </div>
 
-<div class="wrapper wrapper-content p-w-xs">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-content">
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        <% @list_tabs.each do |tab| %>
+        <% if @current_tab == tab %>
+        <li class="active">
+        <% else %>
+        <li class="">
+        <% end %>
+            <%= link_to t("activerecord.attributes.plan.tabs.#{tab}"), plans_path(tab: tab) %>
+        </li>
+        <% end %>
+    </ul>
 
-                    <div class="project-list">
-                        <%= render partial: 'plans_grid' %>
-                    </div>
-                </div>
-
+    <div class="tab-content">
+        <% @list_tabs.each do |tab| %>
+        <% if @current_tab == tab %>
+        <div class="tab-pane active">
+        <% else %>
+        <div class="tab-pane">
+        <% end %>
+            <div class="panel-body">
+                <%= render "list_tab_#{tab}" if tab == @current_tab %>
             </div>
         </div>
+        <% end %>
     </div>
 </div>

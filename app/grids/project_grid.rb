@@ -5,6 +5,14 @@ class ProjectGrid
     Project.order('projects.name')
   end
 
+  column("project-actions", header: '', html: {class: 'project-actions'}) do |asset|
+    format(asset.id) do |value|
+      [
+        watch_project_button(asset)
+      ].join(' ').html_safe
+    end
+  end
+
   column("title project-title", header: I18n.t('activerecord.attributes.general.name')) do |asset|
     format(asset.title) do |value|
       link_to value, project_path(asset)
@@ -30,10 +38,10 @@ class ProjectGrid
     #     link_to(fa_icon('trash'), project_path(asset), method: :delete, data: { confirm: t('messages.delete_confirmation'), toggle: 'tooltip', title: t('buttons.delete') }, class: 'btn btn-danger btn-sm')
     #   ].join(' ').html_safe
     # end
-    format(asset.id) do |value|
-      [
-        project_watch_button(asset, params)
-      ].join(' ').html_safe
-    end
+    # format(asset.id) do |value|
+    #   [
+    #     watch_project_button(asset)
+    #   ].join(' ').html_safe
+    # end
   end
 end

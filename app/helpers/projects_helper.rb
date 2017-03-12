@@ -1,7 +1,14 @@
 module ProjectsHelper
-  def project_watch_button(project, params)
-    return link_to(fa_icon('eye', text: t('buttons.watch')), watch_project_path(project, page: params[:page], tab: params[:tab]), method: :post, class: 'btn btn-sm btn-white', data: {tab: params[:tab]}) if project.unwatched?
-    return link_to(fa_icon('eye-slash', text: t('buttons.unwatch')), watch_project_path(project, page: params[:page], tab: params[:tab]), method: :post, class: 'btn btn-sm btn-success', data: {tab: params[:tab]}) if project.watched?
+  def watch_project_button(project, options = {})
+    default_options = {
+      styles: {
+        unwatched_style: 'btn btn-sm btn-white',
+        watched_style: 'btn btn-sm btn-white'
+      }
+    }
+    options = default_options.merge(options)
+    return link_to(fa_icon('eye', text: t('buttons.watch')), watch_project_path(project, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:unwatched_style]) if project.unwatched?(current_user)
+    return link_to(fa_icon('eye-slash', text: t('buttons.unwatch')), watch_project_path(project, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:watched_style]) if project.watched?(current_user)
   end
 
   def mark_requirement_label_button(label)

@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :watch]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -38,8 +38,11 @@ class ProjectsController < ApplicationController
         format.json { render json: Project.where(@conditions) }
       end
     when :watched
+      @projects_grid = ProjectGrid.new do |scope|
+        scope.page(params[:page]).joins(:users).where(users: {:id => current_user.id }).per(20)
+      end
       respond_to do |format|
-        format.html { set_projects_grid(is_watched: true) }
+        format.html
       end
     end
   end
@@ -121,12 +124,9 @@ class ProjectsController < ApplicationController
 
   def watch
     if request.post?
-      @current_tab = params[:tab]
-      @project = Project.find params[:id]
-      @project.update(is_watched: !@project.watched?)
-
       respond_to do |format|
-        format.html { redirect_to projects_path(tab: @current_tab, page: params[:page]), notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
+        @project.watch(current_user)
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
       end
     end
   end

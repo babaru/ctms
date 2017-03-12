@@ -87,5 +87,7 @@ zh-CN:
         state: 状态
         remarks: 备注
         projects: 包含项目
+        completion: 完成度
+        title: 标题
         tabs:
           scenarios: 测试场景

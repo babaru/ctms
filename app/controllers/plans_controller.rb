@@ -1,33 +1,49 @@
 class PlansController < ApplicationController
-  before_action :set_plan, only: [:show, :edit, :update, :destroy, :finish]
+  before_action :set_plan, only: [:show, :edit, :update, :destroy, :finish, :watch]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  TABS = [:scenarios].freeze
+  SHOW_TABS = [:scenarios].freeze
+  LIST_TABS = [:watched, :all].freeze
 
   # GET /plans
   # GET /plans.json
   def index
-    @query_params = {}
-    build_query_params(params)
-    build_query_plan_params
+    @list_tabs = LIST_TABS
+    @current_tab = params[:tab]
+    @current_tab ||= LIST_TABS.first.to_s
+    @current_tab = @current_tab.to_sym
 
-    @conditions = []
-    @conditions << Plan.arel_table[:name].matches("%#{@query_params[:name]}%") if @query_params[:name]
+    case @current_tab
+    when :all
+      @query_params = {}
+      build_query_params(params)
+      build_query_plan_params
 
-    if @conditions.length > 0
-      conditions = @conditions[0]
-      @conditions.each_with_index do |item, index|
-        conditions = conditions.or(item) if index > 0
+      @conditions = []
+      @conditions << Plan.arel_table[:name].matches("%#{@query_params[:name]}%") if @query_params[:name]
+
+      if @conditions.length > 0
+        conditions = @conditions[0]
+        @conditions.each_with_index do |item, index|
+          conditions = conditions.or(item) if index > 0
+        end
+        @conditions = conditions
       end
-      @conditions = conditions
-    end
 
-    respond_to do |format|
-      format.html { set_plans_grid(@conditions) }
-      format.json { render json: Plan.where(@conditions) }
+      respond_to do |format|
+        format.html { set_plans_grid(@conditions) }
+        format.json { render json: Plan.where(@conditions) }
+      end
+    when :watched
+      @plans_grid = PlanGrid.new do |scope|
+        scope.page(params[:page]).joins(:users).where(users: {:id => current_user.id }).per(20)
+      end
+      respond_to do |format|
+        format.html
+      end
     end
   end
 
@@ -63,9 +79,9 @@ class PlansController < ApplicationController
   # GET /plans/1
   # GET /plans/1.json
   def show
-    @tabs = TABS
+    @tabs = SHOW_TABS
     @current_tab = params[:tab]
-    @current_tab ||= TABS.first.to_s
+    @current_tab ||= SHOW_TABS.first.to_s
     @current_tab = @current_tab.to_sym
 
     @issue = Issue.find params[:issue_id] if params[:issue_id]
@@ -126,8 +142,16 @@ class PlansController < ApplicationController
   def finish
     if request.post?
       respond_to do |format|
-        state = @plan.state == PlanState.enums.finished ? PlanState.enums.unfinished : PlanState.enums.finished
-        @plan.update(state: state)
+        @plan.finish
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
+      end
+    end
+  end
+
+  def watch
+    if request.post?
+      respond_to do |format|
+        @plan.watch(current_user)
         format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
       end
     end

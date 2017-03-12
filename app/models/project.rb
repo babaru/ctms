@@ -1,4 +1,6 @@
 class Project < ApplicationRecord
+  include Watchable
+
   has_many :issues
   has_many :milestones
   has_many :scenarios
@@ -6,9 +8,12 @@ class Project < ApplicationRecord
   has_many :plans, through: :plan_projects
   has_many :labels
 
+  has_many :user_watching_projects
+  has_many :users, through: :user_watching_projects
+
   validates :gitlab_id, presence: true, uniqueness: true
 
-  scope :watched, ->{ where(is_watched: true) }
+  scope :watched, ->(user) { joins(:users).where(users: { id: user }) }
 
   def requirements
     issues.joins(:labels).where(labels: { is_requirement: true })
@@ -16,14 +21,6 @@ class Project < ApplicationRecord
 
   def title
     "#{namespace} / #{name}"
-  end
-
-  def unwatched?
-    !watched?
-  end
-
-  def watched?
-    is_watched
   end
 
   class << self

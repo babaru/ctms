@@ -33,11 +33,24 @@ class InspiniaSidebarRenderer < SimpleNavigation::Renderer::Base
   protected
 
   def tag_for(item)
+    icon_name = icon_for(item)
     if item.url.nil?
-      link_to([content_tag(:span, item.name, class: 'nav-label'), content_tag(:span, nil, class: 'fa arrow')].join.html_safe, '#', link_options_for(item))
+      link_to([
+        content_tag(:i, nil, class: "fa fa-#{icon_name}"),
+        content_tag(:span, item.name, class: 'nav-label'),
+        content_tag(:span, nil, class: 'fa arrow')
+      ].join.html_safe, '#', link_options_for(item))
     else
-      link_to(content_tag(:span, item.name, class: 'nav-label'), item.url, link_options_for(item))
+      link_to([
+        content_tag(:i, nil, class: "fa fa-#{icon_name}"),
+        content_tag(:span, item.name, class: 'nav-label')
+      ].join.html_safe, item.url, link_options_for(item))
     end
+  end
+
+  def icon_for(item)
+    Rails.logger.debug item.html_options
+    item.html_options[:icon]
   end
 
   # Extracts the options relevant for the generated link

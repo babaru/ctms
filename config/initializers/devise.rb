@@ -256,7 +256,7 @@ Devise.setup do |config|
          authorize_url: '/oauth/authorize',
          token_url: '/oauth/token',
          ssl: {
-           verify: !Rails.env.development?
+           verify: false
          }
      }
 

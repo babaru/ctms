@@ -57,7 +57,7 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            when the item should be highlighted, you can set a regexp which is matched
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>.
     #
-    primary.item :dashboard, fa_icon('dashboard', text: t('navigation.pages.dashboard')), dashboard_url
+    primary.item :dashboard, "#{fa_icon('dashboard')} #{t('navigation.pages.dashboard')}", dashboard_url
     primary.item :projects, fa_icon('folder', text: t('navigation.pages.projects')), projects_path, highlights_on: :subpath
     primary.item :plans, fa_icon('calendar-check-o', text: t('navigation.pages.plans')), plans_path, highlights_on: :subpath
     # primary.item :scenarios, fa_icon('folder', text: t('navigation.pages.scenarios')), scenarios_url

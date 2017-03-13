@@ -1,5 +1,6 @@
 //= require jquery
 //= require turbolinks
+//= require turbo
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require metisMenu/jquery.metisMenu.js

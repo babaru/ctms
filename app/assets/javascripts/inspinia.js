@@ -37,10 +37,11 @@
     });
  });
 
+// $(document).on('turbolinks:unload', function() {
+//    $('.navbar-minimalize').off('click');
+// });
 
 $(document).on('turbolinks:load', function() {
-
-
     // Add body-small class if window less than 768px
     if ($(this).width() < 769) {
         $('body').addClass('body-small')
@@ -59,7 +60,7 @@ $(document).on('turbolinks:load', function() {
         content.slideToggle(200);
         button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
         ibox.toggleClass('').toggleClass('border-bottom');
-        setTimeout(function () {
+        window.setTimeout(function () {
             ibox.resize();
             ibox.find('[id^=map-]').resize();
         }, 50);
@@ -78,7 +79,7 @@ $(document).on('turbolinks:load', function() {
         $('body').toggleClass('fullscreen-ibox-mode');
         button.toggleClass('fa-expand').toggleClass('fa-compress');
         ibox.toggleClass('fullscreen');
-        setTimeout(function () {
+        window.setTimeout(function () {
             $(window).trigger('resize');
         }, 100);
     });
@@ -132,7 +133,6 @@ $(document).on('turbolinks:load', function() {
     $('.navbar-minimalize').click(function () {
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
-
     });
 
     // Tooltips demo
@@ -288,13 +288,13 @@ function SmoothlyMenu() {
         // Hide menu in order to smoothly turn on when maximize menu
         $('#side-menu').hide();
         // For smoothly turn on menu
-        setTimeout(
+        window.setTimeout(
             function () {
                 $('#side-menu').fadeIn(400);
             }, 200);
     } else if ($('body').hasClass('fixed-sidebar')) {
         $('#side-menu').hide();
-        setTimeout(
+        window.setTimeout(
             function () {
                 $('#side-menu').fadeIn(400);
             }, 100);

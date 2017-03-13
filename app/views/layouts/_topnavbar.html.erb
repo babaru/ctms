@@ -10,7 +10,10 @@
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="padding-top: 15px; padding-bottom: 15px;">
+                    <span style="width: 40px;display:inline-block;">
+                        <img alt="image" style="width:30px;height:30px;" class="img-circle" src="<%= current_user.image.nil? ? image_url('default_avatar.png') : current_user.image %>">
+                    </span>
                     <%= current_user.name.nil? ? current_user.email : current_user.name %> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">

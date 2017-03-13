@@ -254,7 +254,10 @@ Devise.setup do |config|
     client_options: {
          site: 'https://git.tpc.lan',
          authorize_url: '/oauth/authorize',
-         token_url: '/oauth/token'
+         token_url: '/oauth/token',
+         ssl: {
+           verify: !Rails.env.development?
+         }
      }
 
   # ==> Warden configuration

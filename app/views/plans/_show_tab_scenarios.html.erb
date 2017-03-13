@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-5">
+        <%= render partial: 'executions_list' %>
+    </div>
+    <div class="col-lg-4">
         <% if @scenario %>
         <h3><%= @scenario.title %></h3>
         <pre><%= @scenario.body %></pre>
         <% end %>
-    </div>
-    <div class="col-lg-6">
-        <%= render partial: 'executions_list' %>
     </div>
     <div class="col-lg-3">
         <div id="issues-nav">

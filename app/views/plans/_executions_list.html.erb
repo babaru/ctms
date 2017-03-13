@@ -1,10 +1,10 @@
 <div id="scenarios-list">
-    <div class="row m-b-sm m-t-sm">
+    <div class="row">
         <div class="col-lg-8">
             <h3><%= @issue.nil? ? t('activerecord.text.all', model: Scenario.model_name.human) : "#{@issue.title} #{Scenario.model_name.human}"%></h3>
         </div>
         <div class="col-lg-4">
-            <div class="toolbar m-b-xs pull-right">
+            <div class="toolbar pull-right">
 
             </div>
         </div>

@@ -5,12 +5,12 @@ Rails.application.routes.draw do
   #   delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   # end
 
-  root 'dashboard#index'
+  root to: redirect('dashboard')
 
   post 'sync_projects_from_gitlab' => 'projects#sync_from_gitlab', as: :sync_projects_from_gitlab
   post 'sync_issues_from_gitlab' => 'issues#sync_from_gitlab', as: :sync_issues_from_gitlab
 
-  get 'dashboard/index', as: :dashboard
+  get 'dashboard', to: 'dashboard#index', as: :dashboard
 
   post 'projects/:id/watch' => 'projects#watch', as: :watch_project
   post 'plans/:id/finish' => 'plans#finish', as: :finish_plan

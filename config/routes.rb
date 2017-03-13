@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   post 'execute_scenario/:id' => 'scenarios#execute', as: :execute_scenario
   post 'mark_requirement_label/:id' => 'labels#mark_requirement', as: :mark_requirement_label
 
+  get 'executions/:id/new_remark' => 'executions#new_remark', as: :new_execution_remark
+  post 'executions/:id/save_remark' => 'executions#save_remark', as: :save_execution_remark
+
   resources :projects do
     resources :issues, :milestones, :labels
   end

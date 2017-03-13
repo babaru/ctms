@@ -1,7 +1,7 @@
 
 
 class ExecutionsController < ApplicationController
-  before_action :set_execution, only: [:show, :edit, :update, :destroy]
+  before_action :set_execution, only: [:show, :edit, :update, :destroy, :new_remark, :save_remark]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -112,6 +112,24 @@ class ExecutionsController < ApplicationController
     end
   end
 
+  def new_remark
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def save_remark
+    if request.post?
+      respond_to do |format|
+        if @execution.update(execution_params)
+          format.js
+        else
+          format.js { render :new_remark }
+        end
+      end
+    end
+  end
+
   # DELETE /executions/1
   # DELETE /executions/1.json
   def destroy
@@ -147,5 +165,3 @@ class ExecutionsController < ApplicationController
     end
   end
 end
-
-

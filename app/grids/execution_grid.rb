@@ -45,7 +45,8 @@ class ExecutionGrid
     format(asset.id) do |value|
       [
         # link_to(fa_icon('comment-o', ))
-        execution_button(params[:id], asset.id, params)
+        execution_button(params[:id], asset.id, params),
+        execution_remark_button(params[:id], asset.id)
       ].join(' ').html_safe
     end
   end

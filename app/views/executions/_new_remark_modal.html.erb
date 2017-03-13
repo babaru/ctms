@@ -1,0 +1,20 @@
+<div class="modal inmodal" id="remarkModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInBottom">
+            <%= simple_form_for(@execution, url: save_execution_remark_path(@execution), remote: true, method: :post, html: { class: 'form-horizontal' } ) do |f| %>
+            <div class="modal-header">
+                <i class="fa fa-comment-o modal-icon"></i>
+                <h4 class="modal-title"><%= t('buttons.remarks') %></h4>
+            </div>
+            <div class="modal-body">
+                  <%= f.error_notification %>
+                  <%= f.input :remarks %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal"><%= t('buttons.close') %></button>
+                <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
+            </div>
+            <% end %>
+        </div>
+    </div>
+</div>

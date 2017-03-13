@@ -12,6 +12,8 @@ zh-CN:
     unwatch: 取消关注
     log_in: 登录
     sign_in_with_gitlab: 通过 GitLab 登录
+    remarks: 备注
+    close: 关闭
   placeholders:
     email: 邮箱
     password: 密码
@@ -99,3 +101,5 @@ zh-CN:
           scenarios: 测试场景
           watched: 关注
           all: 全部
+      execution:
+        remarks: 备注

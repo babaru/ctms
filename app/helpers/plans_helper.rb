@@ -68,6 +68,13 @@ module PlansHelper
       params: extra_params}
   end
 
+  def execution_remark_button(plan, scenario)
+    execution = Execution.find_by_plan_id_and_scenario_id(plan, scenario)
+    return nil if execution.nil?
+
+    return link_to(fa_icon('comment-o', text: t('buttons.remarks')), new_execution_remark_path(execution), remote: true, class: 'btn btn-white btn-xs')
+  end
+
   def plan_completion(plan)
     render partial: 'plans/plan_completion', locals: { plan: plan }
   end

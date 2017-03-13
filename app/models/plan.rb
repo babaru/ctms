@@ -1,11 +1,11 @@
 class Plan < ApplicationRecord
   include Watchable
-  
-  has_many :plan_projects
-  has_many :projects, through: :plan_projects
-  has_many :executions
 
-  has_many :user_watching_plans
+  has_many :plan_projects, dependent: :destroy
+  has_many :projects, through: :plan_projects
+  has_many :executions, dependent: :destroy
+
+  has_many :user_watching_plans, dependent: :destroy
   has_many :users, through: :user_watching_plans
 
   validates :name, presence: true

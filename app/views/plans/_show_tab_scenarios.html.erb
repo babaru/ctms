@@ -1,6 +1,9 @@
 <div class="row">
     <div class="col-lg-3">
-        <pre><%= @scenario.body if @scenario %></pre>
+        <% if @scenario %>
+        <h3><%= @scenario.title %></h3>
+        <pre><%= @scenario.body %></pre>
+        <% end %>
     </div>
     <div class="col-lg-6">
         <%= render partial: 'executions_list' %>

@@ -4,7 +4,7 @@ class Scenario < ApplicationRecord
   has_many :executions
 
   def title
-    "#{id.to_s.rjust(3, '0')} - #{name}"
+    name
   end
 
   def execution(plan_id)

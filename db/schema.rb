@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314085347) do
+ActiveRecord::Schema.define(version: 20170314153842) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20170314085347) do
     t.string   "namespace"
     t.string   "path_with_namespace"
     t.text     "description",           limit: 65535
+    t.boolean  "under_time_tracking",                 default: false
   end
 
   create_table "scenarios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

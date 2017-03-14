@@ -59,7 +59,9 @@ SimpleNavigation::Configuration.run do |navigation|
     #
     primary.item :dashboard, t('navigation.pages.dashboard'), dashboard_url, html: { icon: 'dashboard' }
     primary.item :projects, t('navigation.pages.projects'), projects_path, highlights_on: :subpath, html: { icon: 'folder' }
-    primary.item :plans, t('navigation.pages.plans'), plans_path, highlights_on: :subpath, html: { icon: 'calendar-check-o' }
+    primary.item :plans, t('navigation.pages.plans'), plans_path, highlights_on: :subpath, html: { icon: 'file-movie-o' }
+    primary.item :users, t('navigation.pages.users'), users_path, highlights_on: :subpath, html: { icon: 'users' }
+    primary.item :time_sheets, t('navigation.pages.time_sheets'), time_sheets_path, highlights_on: :subpath, html: { icon: 'calendar' }
     # primary.item :scenarios, fa_icon('folder', text: t('navigation.pages.scenarios')), scenarios_url
 
     # you can also specify html attributes to attach to this particular level

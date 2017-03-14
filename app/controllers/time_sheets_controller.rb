@@ -3,7 +3,7 @@
 class TimeSheetsController < ApplicationController
   before_action :set_time_sheet, only: [:show, :edit, :update, :destroy]
 
-  QUERY_KEYS = [:name].freeze
+  QUERY_KEYS = [].freeze
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
@@ -17,7 +17,7 @@ class TimeSheetsController < ApplicationController
     build_query_time_sheet_params
 
     @conditions = []
-    @conditions << TimeSheet.arel_table[:name].matches("%#{@query_params[:name]}%") if @query_params[:name]
+    # @conditions << TimeSheet.arel_table[:name].matches("%#{@query_params[:name]}%") if @query_params[:name]
 
     if @conditions.length > 0
       conditions = @conditions[0]
@@ -28,7 +28,7 @@ class TimeSheetsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { set_time_sheets_grid(@conditions) }
+      format.html
       format.json { render json: TimeSheet.where(@conditions) }
     end
   end
@@ -69,6 +69,15 @@ class TimeSheetsController < ApplicationController
     @current_tab = params[:tab]
     @current_tab ||= TABS.first.to_s
     @current_tab = @current_tab.to_sym
+  end
+
+  def sync_from_gitlab
+    if request.post?
+      respond_to do |format|
+        TimeSheet.sync_from_gitlab
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: TimeSheet.model_name.human) }
+      end
+    end
   end
 
   # GET /time_sheets/new
@@ -148,5 +157,3 @@ class TimeSheetsController < ApplicationController
     end
   end
 end
-
-

@@ -1,14 +1,12 @@
 Rails.application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-  # devise_scope :user do
-  #   delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
-  # end
 
   root to: redirect('dashboard')
 
   post 'sync_projects_from_gitlab' => 'projects#sync_from_gitlab', as: :sync_projects_from_gitlab
   post 'sync_issues_from_gitlab' => 'issues#sync_from_gitlab', as: :sync_issues_from_gitlab
+  post 'sync_time_sheets_from_gitlab' => 'time_sheets#sync_from_gitlab', as: :sync_time_sheets_from_gitlab
 
   get 'dashboard', to: 'dashboard#index', as: :dashboard
 
@@ -23,6 +21,8 @@ Rails.application.routes.draw do
 
   post 'trigger(.:format)' => 'trigger#index', as: :webhook_trigger
 
+  post 'users/:id/time_tracking' => 'users#time_tracking', as: :user_time_tracking
+
   resources :projects do
     resources :issues, :milestones, :labels
   end
@@ -36,4 +36,7 @@ Rails.application.routes.draw do
   resources :plans do
     resources :executions
   end
+
+  resources :users
+  resources :time_sheets
 end

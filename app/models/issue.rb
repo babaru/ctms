@@ -4,6 +4,7 @@ class Issue < ApplicationRecord
   has_many :scenarios
   has_many :issue_labels
   has_many :labels, through: :issue_labels
+  has_many :time_sheets
 
   # scope :labels, -> { |labels| where(label_ids.include?}
 
@@ -29,6 +30,7 @@ class Issue < ApplicationRecord
   end
 
   def self.from_gitlab_data(project, milestone, labels, data)
+    return nil unless data
     issue = where(gitlab_id: data["id"]).first_or_create
     data_attrs = {}
     %w(title description state).each do |str|

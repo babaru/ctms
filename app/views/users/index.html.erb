@@ -1,0 +1,53 @@
+<div class="row page-heading">
+    <div class="col-lg-10">
+        <h2><%= User.model_name.human %></h2>
+        <ol class="breadcrumb">
+            <li>
+                <%= fa_icon('home') %>
+            </li>
+            <li class="active">
+                <strong><%= t('activerecord.text.list', model: User.model_name.human) %></strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2 m-t-lg">
+        <div class="btn-group pull-right">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
+                <%= fa_icon('cog') %> <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li><%= link_to t('activerecord.text.new_instance', model: User.model_name.human), new_user_path %></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="tabs-container">
+    <ul class="nav nav-tabs">
+        <% @list_tabs.each do |tab| %>
+        <% if @current_tab == tab %>
+        <li class="active">
+        <% else %>
+        <li class="">
+        <% end %>
+            <%= link_to t("activerecord.attributes.plan.tabs.#{tab}"), plans_path(tab: tab) %>
+        </li>
+        <% end %>
+    </ul>
+
+    <div class="tab-content">
+        <% @list_tabs.each do |tab| %>
+        <% if @current_tab == tab %>
+        <div class="tab-pane active">
+        <% else %>
+        <div class="tab-pane">
+        <% end %>
+            <div class="panel-body">
+                <%= render "list_tab_#{tab}" if tab == @current_tab %>
+            </div>
+        </div>
+        <% end %>
+    </div>
+</div>

@@ -12,6 +12,14 @@ class User < ApplicationRecord
   has_many :user_watching_plans
   has_many :plans, through: :user_watching_plans
 
+  has_many :time_sheets
+
+  scope :time_tracking, -> { where(under_time_tracking: true) }
+
+  def time_tracking?
+    !!under_time_tracking
+  end
+
   def self.from_omniauth(auth)
     user = where(provider: auth.provider, uid: auth.uid).first_or_create
     user.update({
@@ -20,8 +28,7 @@ class User < ApplicationRecord
       password: Devise.friendly_token[0,20],
       name: auth.info.name,
       image: auth.info.image,
-      access_token: auth.credentials.token,
-      under_time_tracking: true
+      access_token: auth.credentials.token
     })
     user
   end
@@ -35,13 +42,15 @@ class User < ApplicationRecord
   end
 
   def self.from_gitlab_data(data)
+    return nil unless data
     user = where(name: data["name"]).first_or_create
-    user.update(
-      username: data["name"],
-      password: Devise.friendly_token[0,20],
-      image: data["avatar_url"],
-      under_time_tracking: true
-    )
+    data_attrs = {}
+    %w(username).each do |str|
+      data_attrs[str.to_sym] = data[str] if data[str]
+    end
+    data_attrs[:image] = data["avatar_url"] if data["avatar_url"]
+    data_attrs[:password] = Devise.friendly_token[0,20]
+    user.update(data_attrs)
     user
   end
 

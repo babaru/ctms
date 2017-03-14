@@ -1,2 +1,40 @@
-<%= datagrid_table(@time_sheets_grid, html: { class: 'table table-hover datagrid' }) %>
-<%= paginate @time_sheets_grid.assets %>
+<table class="table table-hover table-bordered time_sheet">
+    <thead>
+        <tr>
+            <td></td>
+            <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
+            <td style="text-align:center;"><strong><%= day %></strong></td>
+            <% end %>
+            <td style="text-align:right;"><strong>Total</strong></td>
+        </tr>
+    </thead>
+    <tbody>
+        <% User.time_tracking.each do |user| %>
+        <tr>
+            <td><%= user_avatar(user, {w: '25px', h: '20px'}) %> <strong><%= user.name %></strong></td>
+            <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
+            <td style="text-align:center;"><strong><%= TimeSheet.user_hours(user, day) %></strong></td>
+            <% end %>
+            <td style="text-align:right;"><strong><%= TimeSheet.user_hours(user) %></strong></td>
+        </tr>
+        <% Project.joins(:time_sheets).where(time_sheets: { user: user }).select(:id, :name, :namespace).distinct.each do |project| %>
+        <tr>
+            <td style="text-align:right;"><strong><%= project.title %></strong></td>
+            <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
+            <td style="text-align:center;"><%= TimeSheet.project_hours(user, project, day) %></td>
+            <% end %>
+            <td style="text-align:right;"><%= TimeSheet.project_hours(user, project) %></td>
+        </tr>
+        <% Issue.joins(:time_sheets).where(time_sheets: { user: user, project: project }).select(:id, :title).distinct.each do |issue| %>
+        <tr>
+            <td style="text-align:right;"><%= issue.title %></td>
+            <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
+            <td style="text-align:center;"><%= TimeSheet.issue_hours(user, issue, day) %></td>
+            <% end %>
+            <td style="text-align:right;"><%= TimeSheet.issue_hours(user, issue) %></td>
+        </tr>
+        <% end %>
+        <% end %>
+        <% end %>
+    </tbody>
+</table>

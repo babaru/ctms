@@ -14,6 +14,8 @@ zh-CN:
     sign_in_with_gitlab: 通过 GitLab 登录
     remarks: 备注
     close: 关闭
+    add_to_time_tracking: 加入工时表
+    remove_from_time_tracking: 排除工时表
   placeholders:
     email: 邮箱
     password: 密码
@@ -61,6 +63,7 @@ zh-CN:
       plan: 测试计划
       execution: 测试执行
       label: 标签
+      user: 成员
     attributes:
       general:
         name: 名称
@@ -103,3 +106,5 @@ zh-CN:
           all: 全部
       execution:
         remarks: 备注
+      user:
+        username: 登录帐号

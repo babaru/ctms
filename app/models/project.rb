@@ -7,13 +7,18 @@ class Project < ApplicationRecord
   has_many :plan_projects
   has_many :plans, through: :plan_projects
   has_many :labels
-
   has_many :user_watching_projects
   has_many :users, through: :user_watching_projects
+  has_many :time_sheets
 
   validates :gitlab_id, presence: true, uniqueness: true
 
   scope :watched, ->(user) { joins(:users).where(users: { id: user }) }
+  scope :time_tracking, -> { where(under_time_tracking: true) }
+
+  def time_tracking?
+    !!under_time_tracking
+  end
 
   def requirements
     issues.joins(:labels).where(labels: { is_requirement: true })
@@ -39,6 +44,7 @@ class Project < ApplicationRecord
   end
 
   def from_gitlab_data(data)
+    return nil unless data
     project = where(gitlab_id: data["id"]).first_or_create
     data_attrs = {}
     data_attrs[:name] = data["name"]

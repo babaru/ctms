@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'trigger(.:format)' => 'trigger#index', as: :webhook_trigger
+  post 'trigger(.:format)' => 'trigger#index', as: :webhook_trigger
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   # devise_scope :user do

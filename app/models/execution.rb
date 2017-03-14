@@ -16,23 +16,20 @@ class Execution < ApplicationRecord
     issue_note_content = issue_note.join("\r\n\r\n")
 
     update(remarks: content)
-    unless posted_to_gitlab?
-      data = GitLabAPI.instance.create_note(
-        scenario.project.gitlab_id,
-        scenario.issue.gitlab_id,
-        issue_note_content,
-        access_token
-      )
-      update(note_gitlab_id: data["id"])
-    else
-      GitLabAPI.instance.modify_note(
-        scenario.project.gitlab_id,
-        scenario.issue.gitlab_id,
-        note_gitlab_id,
-        issue_note_content,
-        access_token
-      )
-    end
+    GitLabAPI.instance.delete_note(
+      scenario.project.gitlab_id,
+      scenario.issue.gitlab_id,
+      note_gitlab_id,
+      access_token
+    ) if posted_to_gitlab?
+
+    data = GitLabAPI.instance.create_note(
+      scenario.project.gitlab_id,
+      scenario.issue.gitlab_id,
+      issue_note_content,
+      access_token
+    )
+    update(note_gitlab_id: data["id"])
   end
 
   class << self

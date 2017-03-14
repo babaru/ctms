@@ -1,16 +1,7 @@
 <div class="row">
-    <div class="col-lg-5">
-        <%= render partial: 'executions_list' %>
-    </div>
     <div class="col-lg-4">
-        <% if @scenario %>
-        <h3><%= @scenario.title %></h3>
-        <pre><%= @scenario.body %></pre>
-        <% end %>
-    </div>
-    <div class="col-lg-3">
         <div id="issues-nav">
-            <ul class="folder-list">
+            <ul class="folder-list" style="padding-left: 0px;">
                 <li class="<%= @issue.nil? ? 'active' : ''%>"><%= link_to(fa_icon(@issue.nil? ? 'folder-open' : 'folder', text: t('activerecord.text.all', model: Scenario.model_name.human)), plan_path(@plan)) %></li>
                 <% @plan.projects.each do |project| %>
                   <% project.requirements.each do |issue| %>
@@ -23,6 +14,19 @@
                 <% end %>
             </ul>
         </div>
+    </div>
+    <div class="col-lg-4">
+        <%= render partial: 'executions_list' %>
+    </div>
+    <div class="col-lg-4">
+        <% if @scenario %>
+        <h3><%= @scenario.title %></h3>
+        <pre><%= @scenario.body %></pre>
+        <div class="btn-toolbar pull-right">
+          <%= execution_button(params[:id], @scenario.id, params) %>
+          <%= execution_remark_button(params[:id], @scenario.id) %>
+        </div>
+        <% end %>
     </div>
 
 </div>

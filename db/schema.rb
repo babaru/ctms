@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313030807) do
+ActiveRecord::Schema.define(version: 20170314051641) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
     t.integer  "plan_id"
-    t.integer  "result",                    default: 0
-    t.text     "remarks",     limit: 65535
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.integer  "result",                       default: 0
+    t.text     "remarks",        limit: 65535
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "note_gitlab_id"
     t.index ["plan_id"], name: "index_executions_on_plan_id", using: :btree
     t.index ["scenario_id"], name: "index_executions_on_scenario_id", using: :btree
   end
@@ -144,6 +145,7 @@ ActiveRecord::Schema.define(version: 20170313030807) do
     t.string   "uid"
     t.string   "name"
     t.string   "image"
+    t.string   "access_token"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["name"], name: "index_users_on_name", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

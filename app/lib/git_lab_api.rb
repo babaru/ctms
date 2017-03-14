@@ -33,4 +33,14 @@ class GitLabAPI
     rest_client.get("/projects/#{project_id}/issues?per_page=#{per_page}&page=#{page}", default_options)
   end
 
+  # Create a note for an issue
+  def create_note(project_id, issue_id, content, access_token)
+    rest_client.post("/projects/#{project_id}/issues/#{issue_id}/notes", { verify: false, body: { body: content, access_token: access_token} })
+  end
+
+  # Modify a note for an issue
+  def modify_note(project_id, issue_id, note_id, content, access_token)
+    rest_client.put("/projects/#{project_id}/issues/#{issue_id}/notes/#{note_id}", { verify: false, body: { body: content, access_token: access_token} })
+  end
+
 end

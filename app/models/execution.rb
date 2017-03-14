@@ -2,6 +2,39 @@ class Execution < ApplicationRecord
   belongs_to :scenario
   belongs_to :plan
 
+  def posted_to_gitlab?
+    !!note_gitlab_id
+  end
+
+  def add_remarks(content, access_token)
+    issue_note = []
+    issue_note << content
+    issue_note << ">>>"
+    issue_note << scenario.title
+    issue_note << scenario.body
+    issue_note << ">>>"
+    issue_note_content = issue_note.join("\r\n\r\n")
+
+    update(remarks: content)
+    unless posted_to_gitlab?
+      data = GitLabAPI.instance.create_note(
+        scenario.project.gitlab_id,
+        scenario.issue.gitlab_id,
+        issue_note_content,
+        access_token
+      )
+      update(note_gitlab_id: data["id"])
+    else
+      GitLabAPI.instance.modify_note(
+        scenario.project.gitlab_id,
+        scenario.issue.gitlab_id,
+        note_gitlab_id,
+        issue_note_content,
+        access_token
+      )
+    end
+  end
+
   class << self
 
   def results

@@ -121,7 +121,7 @@ class ExecutionsController < ApplicationController
   def save_remark
     if request.post?
       respond_to do |format|
-        if @execution.update(execution_params)
+        if @execution.add_remarks(execution_params[:remarks], current_user.access_token)
           format.js
         else
           format.js { render :new_remark }

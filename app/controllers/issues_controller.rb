@@ -65,7 +65,7 @@ class IssuesController < ApplicationController
   def sync_from_gitlab
     if request.post?
       project = Project.find(params[:project_id])
-      Issue.sync_from_gitlab(project.gitlab_id, GitLabAPI.instance)
+      Issue.sync_from_gitlab(project, GitLabAPI.instance)
 
       respond_to do |format|
         format.html { redirect_to project_path(project) }

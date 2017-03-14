@@ -248,17 +248,32 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :gitlab,
-    '7806399a3e0672e6cf5f470a12e7bd5df29d6b440067b88ec7aaa7a3d253c08a',
-    '0c67dfcdf045346abf86db09da2f93c45d15f01f8a015e65ac033ac5fb61f901',
-    client_options: {
-         site: 'https://git.tpc.lan',
-         authorize_url: '/oauth/authorize',
-         token_url: '/oauth/token',
-         ssl: {
-           verify: false
-         }
-     }
+  if Rails.env.development?
+    config.omniauth :gitlab,
+      '2b5036553837e5d9bbba93894fcba0312e5d117a57b664783d2b563c4e740c5e',
+      '36f50ab0f081c6c6c9c777f3b5b9d56b0a5352df1dde2f6891a6a6a4531e7fc5',
+      client_options: {
+           site: 'https://git.tpc.lan',
+           authorize_url: '/oauth/authorize',
+           token_url: '/oauth/token',
+           ssl: {
+             verify: false
+           }
+       }
+   else
+     config.omniauth :gitlab,
+       '7806399a3e0672e6cf5f470a12e7bd5df29d6b440067b88ec7aaa7a3d253c08a',
+       '0c67dfcdf045346abf86db09da2f93c45d15f01f8a015e65ac033ac5fb61f901',
+       client_options: {
+            site: 'https://git.tpc.lan',
+            authorize_url: '/oauth/authorize',
+            token_url: '/oauth/token',
+            ssl: {
+              verify: false
+            }
+        }
+  end
+
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

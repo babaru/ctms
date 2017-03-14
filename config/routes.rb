@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  post 'trigger(.:format)' => 'trigger#index', as: :webhook_trigger
-
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   # devise_scope :user do
   #   delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
@@ -22,6 +20,8 @@ Rails.application.routes.draw do
 
   get 'executions/:id/new_remark' => 'executions#new_remark', as: :new_execution_remark
   post 'executions/:id/save_remark' => 'executions#save_remark', as: :save_execution_remark
+
+  post 'trigger(.:format)' => 'trigger#index', as: :webhook_trigger
 
   resources :projects do
     resources :issues, :milestones, :labels

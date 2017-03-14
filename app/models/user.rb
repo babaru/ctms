@@ -13,13 +13,15 @@ class User < ApplicationRecord
   has_many :plans, through: :user_watching_plans
 
   def self.from_omniauth(auth)
-    user = User.where(provider: auth.provider, uid: auth.uid).first_or_create
+    user = where(provider: auth.provider, uid: auth.uid).first_or_create
     user.update({
       email: auth.info.email,
+      username: auth.info.username,
       password: Devise.friendly_token[0,20],
       name: auth.info.name,
       image: auth.info.image,
-      access_token: auth.credentials.token
+      access_token: auth.credentials.token,
+      under_time_tracking: true
     })
     user
   end
@@ -30,6 +32,17 @@ class User < ApplicationRecord
         user.email = data["email"] if user.email.blank?
       end
     end
+  end
+
+  def self.from_gitlab_data(data)
+    user = where(name: data["name"]).first_or_create
+    user.update(
+      username: data["name"],
+      password: Devise.friendly_token[0,20],
+      image: data["avatar_url"],
+      under_time_tracking: true
+    )
+    user
   end
 
 end

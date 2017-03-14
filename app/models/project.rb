@@ -29,25 +29,26 @@ class Project < ApplicationRecord
     api ||= GitLabAPI.instance
 
     Project.all.update(is_existing_on_gitlab: false)
-    projects_data = api.projects
-    total_pages = api.total_pages(projects_data).to_i
+    collection_data = api.projects
+    total_pages = api.total_pages(collection_data).to_i
 
     1.upto(total_pages).each do |page|
-
-      api.projects.each do |project_data|
-        logger.debug project_data["path_with_namespace"]
-        project = Project.find_by_gitlab_id(project_data["id"]) || Project.create(gitlab_id: project_data["id"])
-        project.update(
-          name: project_data["name"],
-          namespace: project_data["namespace"]["name"],
-          path: project_data["path_with_namespace"],
-          gitlab_id: project_data["id"],
-          is_existing_on_gitlab: true)
-      end
-
-      projects_data = api.projects(page + 1) if page < total_pages
-
+      api.projects.each {|data| from_gitlab_data(data) }
+      collection_data = api.projects(page + 1) if page < total_pages
     end
+  end
+
+  def from_gitlab_data(data)
+    project = where(gitlab_id: data["id"]).first_or_create
+    data_attrs = {}
+    data_attrs[:name] = data["name"]
+    %w(description path_with_namespace).each do |str|
+      data_attrs[str.to_sym] = data[str] if data[str]
+    end
+    data_attrs[:namespace] = data["namespace"]["name"]
+    data_attrs[:is_existing_on_gitlab] = true
+    project.update(data_attrs)
+    project
   end
 
   end

@@ -64,6 +64,7 @@ zh-CN:
       execution: 测试执行
       label: 标签
       user: 成员
+      time_sheet: 工时表
     attributes:
       general:
         name: 名称
@@ -108,3 +109,7 @@ zh-CN:
         remarks: 备注
       user:
         username: 登录帐号
+      time_sheet:
+        spent: 用时
+        spent_at: 花费于
+        total: 总计

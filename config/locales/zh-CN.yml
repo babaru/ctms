@@ -125,3 +125,5 @@ zh-CN:
         spent: 用时
         spent_at: 花费于
         total: 总计
+      label:
+        is_requirement: 是否需求

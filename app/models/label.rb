@@ -1,8 +1,8 @@
 class Label < ApplicationRecord
   belongs_to :project
-  has_many :issue_labels
+  has_many :issue_labels, dependent: :destroy
   has_many :issues, through: :issue_labels
-  has_many :scenario_labels
+  has_many :scenario_labels, dependent: :destroy
   has_many :scenarios, through: :scenario_labels
 
   scope :requirements, -> { where(is_requirement: true) }
@@ -12,9 +12,15 @@ class Label < ApplicationRecord
     !!is_requirement
   end
 
+  def is_existing_on_gitlab?
+    !!is_existing_on_gitlab
+  end
+
   def self.from_gitlab_data(project, data)
     data.inject([]) do |list, label_name|
-      list << where(project: project, name: label_name).first_or_create
+      list << where(project: project, name: label_name).first_or_create do |label|
+        label.is_existing_on_gitlab = true
+      end
     end
   end
 end

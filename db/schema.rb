@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315103337) do
+ActiveRecord::Schema.define(version: 20170315151530) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -56,9 +56,10 @@ ActiveRecord::Schema.define(version: 20170315103337) do
     t.string   "name"
     t.string   "color"
     t.integer  "project_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.boolean  "is_requirement", default: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.boolean  "is_requirement",        default: false
+    t.boolean  "is_existing_on_gitlab", default: false
     t.index ["project_id"], name: "index_labels_on_project_id", using: :btree
   end
 

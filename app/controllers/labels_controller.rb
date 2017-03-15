@@ -127,7 +127,7 @@ class LabelsController < ApplicationController
 
     respond_to do |format|
       set_labels_grid
-      format.html { redirect_to labels_url, notice: t('activerecord.success.messages.destroyed', model: Label.model_name.human) }
+      format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.destroyed', model: Label.model_name.human) }
       format.js
     end
   end

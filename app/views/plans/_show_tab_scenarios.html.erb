@@ -1,9 +1,9 @@
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div id="issues-nav">
+          <% @plan.projects.each do |project| %>
+            <h3><%= project.title %></h3>
             <ul class="folder-list" style="padding-left: 0px;">
-                <li class="<%= @issue.nil? ? 'active' : ''%>"><%= link_to(fa_icon(@issue.nil? ? 'folder-open' : 'folder', text: t('activerecord.text.all', model: Scenario.model_name.human)), plan_path(@plan)) %></li>
-                <% @plan.projects.each do |project| %>
                   <% project.requirements.each do |issue| %>
                     <% if @issue && @issue.id == issue.id %>
                       <%= content_tag(:li, link_to(fa_icon('folder-open', text: issue.nav_title), plan_path(@plan, issue_id: issue.id)), class: 'active' ) %>
@@ -11,26 +11,29 @@
                       <%= content_tag(:li, link_to(fa_icon('folder', text: issue.nav_title), plan_path(@plan, issue_id: issue.id)) ) %>
                     <% end %>
                   <% end %>
-                <% end %>
             </ul>
+            <% end %>
         </div>
     </div>
-    <div class="col-lg-4">
-        <%= render partial: 'executions_list' %>
+    <div class="col-lg-5">
+        <%= render partial: 'executions_list' if @issue %>
     </div>
     <div class="col-lg-4">
         <% if @scenario %>
         <h3><%= @scenario.title %></h3>
-        <pre><%= @scenario.body %></pre>
+        <pre class="description"><%= @scenario.body %></pre>
         <div class="btn-toolbar pull-right">
           <%= execution_button(params[:id], @scenario.id, params) %>
           <%= execution_remark_button(params[:id], @scenario.id) %>
         </div>
+        <br/><br/>
+        <hr class="hr-line-solid"/>
+        <pre class="description"><%= @scenario.execution(@plan).remarks if @scenario.execution(@plan) %></pre>
         <% end %>
     </div>
 
 </div>
 
-<div id="modal_area">
+<div id="modal-area">
 
 </div>

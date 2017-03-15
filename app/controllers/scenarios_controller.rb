@@ -1,6 +1,6 @@
 class ScenariosController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_scenario, only: [:show, :edit, :update, :destroy]
+  before_action :set_scenario, only: [:show, :edit, :update, :destroy, :execute]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -72,22 +72,14 @@ class ScenariosController < ApplicationController
 
   def execute
     if request.post?
-      logger.debug params.keys
-      scenario_id = params[:id]
       plan_id = params[:plan_id]
       result = params[:result]
 
-      response_params = {}
-      response_params[:issue_id] = params[:issue_id] if params[:issue_id]
-      response_params[:tab] = params[:tab] if params[:tab]
-      response_params[:page] = params[:page] if params[:page]
-
-      @scenario = Scenario.find(scenario_id)
-      execution = @scenario.execution(plan_id) || Execution.create(scenario_id: scenario_id, plan_id: plan_id)
+      execution = Execution.where(scenario: @scenario, plan_id: plan_id).first_or_create
       execution.update(result: result)
 
       respond_to do |format|
-        format.html { redirect_to plan_path(params[:plan_id], response_params), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
       end
     end
   end

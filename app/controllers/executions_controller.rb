@@ -1,6 +1,6 @@
 class ExecutionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_execution, only: [:show, :edit, :update, :destroy, :new_remark, :save_remark]
+  before_action :set_execution, only: [:show, :edit, :update, :destroy, :remarks, :delete_remarks]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -70,6 +70,33 @@ class ExecutionsController < ApplicationController
     @current_tab = @current_tab.to_sym
   end
 
+  def remarks
+    if request.post?
+      respond_to do |format|
+        if @execution.add_remarks(execution_params[:remarks], current_user.access_token)
+          @redirect_url = params[:redirect_url].html_safe
+          format.js
+        else
+          format.js { render :remarks }
+        end
+      end
+    else
+      respond_to do |format|
+        @redirect_url = params[:redirect_url].html_safe
+        format.js
+      end
+    end
+  end
+
+  def delete_remarks
+    if request.post?
+      respond_to do |format|
+        @execution.delete_remarks(current_user.access_token)
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Execution.model_name.human) }
+      end
+    end
+  end
+
   # GET /executions/new
   def new
     @execution = Execution.new
@@ -107,24 +134,6 @@ class ExecutionsController < ApplicationController
       else
         format.html { render :edit }
         format.js { render :edit }
-      end
-    end
-  end
-
-  def new_remark
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  def save_remark
-    if request.post?
-      respond_to do |format|
-        if @execution.add_remarks(execution_params[:remarks], current_user.access_token)
-          format.js
-        else
-          format.js { render :new_remark }
-        end
       end
     end
   end

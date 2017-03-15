@@ -4,7 +4,7 @@
     </button>
     <ul class="dropdown-menu">
         <% ExecutionResult.enums.each do |k, v| %>
-        <li><%= link_to Execution.result_names[v], execute_scenario_path(params[:scenario_id], params.except(:scenario_id).merge(result: v)), method: :post %></li>
+        <li><%= link_to Execution.result_names[v], execute_scenario_path(scenario_id, plan_id: plan_id, result: v, redirect_url: request.original_fullpath), method: :post %></li>
         <% end %>
     </ul>
 </div>

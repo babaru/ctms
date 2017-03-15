@@ -5,14 +5,14 @@ class ExecutionGrid
     Scenario.order('scenarios.id desc')
   end
 
-  column(:title, header: I18n.t('activerecord.attributes.general.title')) do |asset|
+  column("title", header: I18n.t('activerecord.attributes.general.title')) do |asset|
     format(asset.title) do |value|
       extra_params = {}
       extra_params[:scenario_id] = asset.id
       extra_params[:tab] = params[:tab] if params[:tab]
       extra_params[:page] = params[:page] if params[:page]
       extra_params[:issue_id] = params[:issue_id] if params[:issue_id]
-      link_to(value, plan_path(params[:id], extra_params))
+      link_to(value, plan_path(params[:id], extra_params), class: (@scenario && @scenario.id == asset.id) ? 'active' : '')
     end
   end
 
@@ -45,8 +45,8 @@ class ExecutionGrid
     format(asset.id) do |value|
       [
         # link_to(fa_icon('comment-o', ))
-        execution_button(params[:id], asset.id, params),
-        execution_remark_button(params[:id], asset.id)
+        execution_button(params[:id], asset.id, params, { button_size: 'xs'}),
+        execution_remark_button(params[:id], asset.id, { button_size: 'xs' })
       ].join(' ').html_safe
     end
   end

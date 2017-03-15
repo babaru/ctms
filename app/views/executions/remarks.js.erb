@@ -1,0 +1,8 @@
+if($('#remarks-modal-window').length > 0) {
+    $('#remarks-modal-window').modal('hide');
+    $('#modal-area').html("");
+    window.location = "<%= escape_javascript(@redirect_url) %>";
+} else {
+    $('#modal-area').html("<%= escape_javascript( render(partial: 'remarks_modal') ) %>");
+    $('#remarks-modal-window').modal('show');
+}

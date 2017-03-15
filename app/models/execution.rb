@@ -6,6 +6,10 @@ class Execution < ApplicationRecord
     !!note_gitlab_id
   end
 
+  def remarks?
+    !!remarks
+  end
+
   def add_remarks(content, access_token)
     issue_note = []
     issue_note << content
@@ -30,6 +34,16 @@ class Execution < ApplicationRecord
       access_token
     )
     update(note_gitlab_id: data["id"])
+  end
+
+  def delete_remarks(access_token)
+    GitLabAPI.instance.delete_note(
+      scenario.project.gitlab_id,
+      scenario.issue.gitlab_id,
+      note_gitlab_id,
+      access_token
+    )
+    update(remarks: nil, note_gitlab_id: nil)
   end
 
   class << self

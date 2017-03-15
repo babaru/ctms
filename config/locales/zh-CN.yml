@@ -12,7 +12,9 @@ zh-CN:
     unwatch: 取消关注
     log_in: 登录
     sign_in_with_gitlab: 通过 GitLab 登录
-    remarks: 备注
+    add_remarks: 添加备注
+    edit_remarks: 编辑备注
+    delete_remarks: 删除备注
     close: 关闭
     add_to_time_tracking: 加入工时表
     remove_from_time_tracking: 排除工时表

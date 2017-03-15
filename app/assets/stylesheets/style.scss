@@ -83,4 +83,10 @@ pre.description {
   background: none;
   border-left: 6px solid #eee;
   border-radius: 0;
+  color: $text-color;
+}
+
+#scenarios-list .title .active {
+  font-weight: bold;
+  color: $text-color;
 }

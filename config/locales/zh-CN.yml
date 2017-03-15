@@ -83,6 +83,7 @@ zh-CN:
           labels: 标签
       scenario:
         id: '#'
+        name: 名称
         body: 测试内容
         tabs:
           summary: 概况

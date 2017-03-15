@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  SHOW_TABS = [:scenarios, :issues, :labels].freeze
+  SHOW_TABS = [:issues, :scenarios, :labels].freeze
   LIST_TABS = [:watched, :all].freeze
 
   # GET /projects

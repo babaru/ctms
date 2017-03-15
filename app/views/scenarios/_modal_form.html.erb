@@ -1,0 +1,23 @@
+<div class="modal inmodal" id="scenario-modal-window" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInBottom">
+            <%= simple_form_for(@scenario, remote: true, wrapper: :vertical_form ) do |f| %>
+            <div class="modal-header">
+                <i class="fa fa-file-movie-o modal-icon"></i>
+                <h4 class="modal-title"><%= Scenario.model_name.human %></h4>
+            </div>
+            <div class="modal-body">
+                <%= f.error_notification %>
+                <%= f.input :name %>
+                <%= f.input :body, input_html: { rows: 12 } %>
+                <%= f.input :project_id, as: :hidden%>
+                <%= f.input :issue_id, as: :hidden%>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal"><%= t('buttons.close') %></button>
+                <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
+            </div>
+            <% end %>
+        </div>
+    </div>
+</div>

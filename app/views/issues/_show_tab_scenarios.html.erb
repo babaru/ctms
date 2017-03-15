@@ -1,1 +1,10 @@
-<%= render partial: 'scenarios/scenarios_grid' %>
+<div class="row">
+    <div class="col-lg-5">
+        <pre style="margin-bottom:25px;" class="description"><%= @issue.description.html_safe %></pre>
+    </div>
+    <div class="col-lg-7">
+        <div id="scenarios-table">
+            <%= render partial: 'scenarios/scenarios_grid' %>
+        </div>
+    </div>
+</div>

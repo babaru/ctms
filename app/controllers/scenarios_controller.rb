@@ -1,5 +1,3 @@
-
-
 class ScenariosController < ApplicationController
   before_action :set_scenario, only: [:show, :edit, :update, :destroy]
 
@@ -71,16 +69,6 @@ class ScenariosController < ApplicationController
     @current_tab = @current_tab.to_sym
   end
 
-  # GET /scenarios/new
-  def new
-    issue = Issue.find(params[:issue_id])
-    @scenario = Scenario.new(issue_id: params[:issue_id], project_id: issue.project_id)
-  end
-
-  # GET /scenarios/1/edit
-  def edit
-  end
-
   def execute
     if request.post?
       logger.debug params.keys
@@ -103,6 +91,16 @@ class ScenariosController < ApplicationController
     end
   end
 
+  # GET /scenarios/new
+  def new
+    issue = Issue.find(params[:issue_id])
+    @scenario = Scenario.new(issue_id: params[:issue_id], project_id: issue.project_id)
+  end
+
+  # GET /scenarios/1/edit
+  def edit
+  end
+
   # POST /scenarios
   # POST /scenarios.json
   def create
@@ -110,8 +108,8 @@ class ScenariosController < ApplicationController
 
     respond_to do |format|
       if @scenario.save
-        # set_scenarios_grid
-        format.html { redirect_to project_path(@scenario.project_id, issue_id: @scenario.issue_id), notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
+        set_scenarios_grid(issue_id: @scenario.issue_id)
+        format.html { redirect_to issue_path(@scenario.issue), notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -125,8 +123,8 @@ class ScenariosController < ApplicationController
   def update
     respond_to do |format|
       if @scenario.update(scenario_params)
-        # set_scenarios_grid
-        format.html { redirect_to project_path(@scenario.project_id, issue_id: @scenario.issue_id), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
+        set_scenarios_grid(issue_id: @scenario.issue_id)
+        format.html { redirect_to issue_path(@scenario.issue), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -139,12 +137,11 @@ class ScenariosController < ApplicationController
   # DELETE /scenarios/1.json
   def destroy
     issue_id = @scenario.issue_id
-    project_id = @scenario.project_id
     @scenario.destroy
 
     respond_to do |format|
-      set_scenarios_grid
-      format.html { redirect_to project_path(project_id, issue_id: issue_id), notice: t('activerecord.success.messages.destroyed', model: Scenario.model_name.human) }
+      set_scenarios_grid(issue_id: issue_id)
+      format.html { redirect_to issue_path(issue_id), notice: t('activerecord.success.messages.destroyed', model: Scenario.model_name.human) }
       format.js
     end
   end

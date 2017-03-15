@@ -1,9 +1,18 @@
-
 <div class="row">
     <div class="col-lg-12">
-        <%= render partial: 'scenarios_grid' %>
+        <div class="btn-toolbar m-b">
+            <%= link_to t('buttons.all_labels'), project_path(@project, tab: @current_tab, page: params[:page]), class: "btn btn-white btn-sm" %>
+            <div class="btn-group">
+                <% Label.used_by_scenarios(@project).each do |label| %>
+                <%= link_to label.name, project_path(@project, tab: @current_tab, label_id: label.id), class: "btn btn-white btn-sm #{(@current_label && label.id == @current_label.id) ? 'active' : ''}" %>
+                <% end %>
+            </div>
+        </div>
+
+        <%= render partial: 'scenarios/scenarios_grid' %>
     </div>
 </div>
+
 <div id="modal-area">
 
 </div>

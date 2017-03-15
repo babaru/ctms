@@ -10,8 +10,9 @@
                 <%= f.error_notification %>
                 <%= f.input :name %>
                 <%= f.input :body, input_html: { rows: 12 } %>
-                <%= f.input :project_id, as: :hidden%>
-                <%= f.input :issue_id, as: :hidden%>
+                <%= f.input :labels_text %>
+                <%= f.input :project_id, as: :hidden %>
+                <%= f.input :issue_id, as: :hidden %>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal"><%= t('buttons.close') %></button>

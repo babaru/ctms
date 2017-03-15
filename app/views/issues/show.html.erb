@@ -15,7 +15,7 @@
     </div>
     <div class="col-lg-2 m-t-lg">
         <div class="btn-toolbar pull-right">
-            <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Scenario.model_name.human)), new_issue_scenario_path(@issue), remote: true, class: 'btn-primary btn' %>
+            <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Scenario.model_name.human)), new_issue_scenario_path(@issue, redirect_url: request.original_fullpath), remote: true, class: 'btn-primary btn' %>
             <div class="btn-group pull-right">
                 <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
                     <%= fa_icon('cog') %> <span class="caret"></span>

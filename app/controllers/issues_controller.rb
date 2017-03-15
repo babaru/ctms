@@ -94,8 +94,13 @@ class IssuesController < ApplicationController
 
     case @current_tab
     when :scenarios
+      @current_label = Label.find(params[:label_id]) if params[:label_id]
       @scenarios_grid = ScenarioGrid.new do |scope|
-        scope.page(params[:page]).where(issue_id: @issue.id).per(20)
+        if @current_label
+          scope.page(params[:page]).joins(:labels).where(issue_id: @issue.id, labels: { id: @current_label.id }).per(20)
+        else
+          scope.page(params[:page]).where(issue_id: @issue.id).per(20)
+        end
       end
     end
   end
@@ -103,16 +108,19 @@ class IssuesController < ApplicationController
   # GET /issues/new
   def new
     @issue = Issue.new
+    @redirect_url = params[:redirect_url].html_safe
   end
 
   # GET /issues/1/edit
   def edit
+    @redirect_url = params[:redirect_url].html_safe
   end
 
   # POST /issues
   # POST /issues.json
   def create
     @issue = Issue.new(issue_params)
+    @redirect_url = params[:redirect_url].html_safe
 
     respond_to do |format|
       if @issue.save
@@ -129,6 +137,7 @@ class IssuesController < ApplicationController
   # PATCH/PUT /issues/1
   # PATCH/PUT /issues/1.json
   def update
+    @redirect_url = params[:redirect_url].html_safe
     respond_to do |format|
       if @issue.update(issue_params)
         set_issues_grid
@@ -144,6 +153,7 @@ class IssuesController < ApplicationController
   # DELETE /issues/1
   # DELETE /issues/1.json
   def destroy
+    @redirect_url = params[:redirect_url].html_safe
     @issue.destroy
 
     respond_to do |format|

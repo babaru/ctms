@@ -91,6 +91,7 @@ zh-CN:
         body: 测试内容
         issue: 需求
         labels: 标签
+        labels_text: 标签
         tabs:
           summary: 概况
       issue:

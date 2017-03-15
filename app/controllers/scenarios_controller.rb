@@ -84,41 +84,29 @@ class ScenariosController < ApplicationController
     end
   end
 
-  def labels
-    if request.get?
-      respond_to do |format|
-        @scenario.labels_text = @scenario.labels.inject([]) {|list, item| list << item.name }.join(',')
-        @redirect_url = params[:redirect_url].html_safe
-        format.js
-      end
-    end
-
-    if request.post?
-      respond_to do |format|
-        @redirect_url = params[:redirect_url].html_safe
-        if @scenario.save_labels(scenario_params[:labels_text])
-          format.js
-        else
-          format.js { render :labels }
-        end
-      end
-    end
-  end
-
   # GET /scenarios/new
   def new
     issue = Issue.find(params[:issue_id])
     @scenario = Scenario.new(issue_id: params[:issue_id], project_id: issue.project_id)
+
+    session[:redirect_url] = params[:redirect_url].html_safe
   end
 
   # GET /scenarios/1/edit
   def edit
+    @scenario.labels_text = @scenario.labels.inject([]) {|list, item| list << item.name }.join(',')
+
+    session[:redirect_url] = params[:redirect_url].html_safe
   end
 
   # POST /scenarios
   # POST /scenarios.json
   def create
     @scenario = Scenario.new(scenario_params)
+    @scenario.labels = Scenario.parse_labels(scenario_params[:labels_text], @scenario.project_id)
+
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
 
     respond_to do |format|
       if @scenario.save
@@ -135,8 +123,11 @@ class ScenariosController < ApplicationController
   # PATCH/PUT /scenarios/1
   # PATCH/PUT /scenarios/1.json
   def update
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
+
     respond_to do |format|
-      if @scenario.update(scenario_params)
+      if @scenario.update(scenario_params.merge(labels: Scenario.parse_labels(scenario_params[:labels_text], @scenario.project_id)))
         set_scenarios_grid(issue_id: @scenario.issue_id)
         format.html { redirect_to issue_path(@scenario.issue), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
         format.js
@@ -152,6 +143,8 @@ class ScenariosController < ApplicationController
   def destroy
     issue_id = @scenario.issue_id
     @scenario.destroy
+
+    @redirect_url = params[:redirect_url].html_safe
 
     respond_to do |format|
       set_scenarios_grid(issue_id: issue_id)
@@ -174,8 +167,9 @@ class ScenariosController < ApplicationController
       :body,
       :project_id,
       :issue_id,
-      :labels_text
-      )
+      :labels_text,
+      :redirect_url
+    )
   end
 
   def set_scenarios_grid(conditions = [])

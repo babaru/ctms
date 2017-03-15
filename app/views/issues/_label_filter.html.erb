@@ -1,0 +1,8 @@
+<div class="btn-toolbar m-b">
+    <%= link_to t('buttons.all_labels'), project_issue_path(@issue, project_id: @issue.project_id, page: params[:page]), class: "btn btn-white btn-sm" %>
+    <div class="btn-group">
+        <% Label.used_by_scenarios(@issue.project_id).each do |label| %>
+        <%= link_to label.name, project_issue_path(@issue, project_id: @issue.project_id, page: params[:page], label_id: label.id), class: "btn btn-white btn-sm #{(@current_label && label.id == @current_label.id) ? 'active' : ''}" %>
+        <% end %>
+    </div>
+</div>

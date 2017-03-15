@@ -3,6 +3,9 @@
         <pre style="margin-bottom:25px;" class="description"><%= @issue.description.html_safe %></pre>
     </div>
     <div class="col-lg-7">
+        <div id="scenarios-label-filter">
+            <%= render partial: 'label_filter' %>
+        </div>
         <div id="scenarios-table">
             <%= render partial: 'scenarios/scenarios_grid' %>
         </div>

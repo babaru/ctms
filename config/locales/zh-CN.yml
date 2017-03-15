@@ -70,6 +70,8 @@ zh-CN:
         name: 名称
         title: 标题
         body: 内容
+        updated_at: 更新于
+        created_at: 创建于
       projects:
         tabs:
           watched: 关注
@@ -91,6 +93,8 @@ zh-CN:
         title: 需求标题
         state: 状态
         scenarios: 测试场景
+        assignee: 分配给
+        user: 创建人
         tabs:
           scenarios: 测试场景
       plan:

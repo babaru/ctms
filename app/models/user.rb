@@ -50,6 +50,7 @@ class User < ApplicationRecord
     end
     data_attrs[:image] = data["avatar_url"] if data["avatar_url"]
     data_attrs[:password] = Devise.friendly_token[0,20]
+    data_attrs[:email] = "#{data_attrs[:password]}@capitaltruepartner.cn"
     user.update(data_attrs)
     user
   end

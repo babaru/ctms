@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314153842) do
+ActiveRecord::Schema.define(version: 20170315042700) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -44,8 +44,12 @@ ActiveRecord::Schema.define(version: 20170314153842) do
     t.string   "gitlab_iid"
     t.string   "state"
     t.string   "title"
+    t.integer  "user_id"
+    t.integer  "assignee_id"
+    t.index ["assignee_id"], name: "index_issues_on_assignee_id", using: :btree
     t.index ["milestone_id"], name: "index_issues_on_milestone_id", using: :btree
     t.index ["project_id"], name: "index_issues_on_project_id", using: :btree
+    t.index ["user_id"], name: "index_issues_on_user_id", using: :btree
   end
 
   create_table "labels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -175,6 +179,8 @@ ActiveRecord::Schema.define(version: 20170314153842) do
   add_foreign_key "issue_labels", "labels"
   add_foreign_key "issues", "milestones"
   add_foreign_key "issues", "projects"
+  add_foreign_key "issues", "users"
+  add_foreign_key "issues", "users", column: "assignee_id"
   add_foreign_key "labels", "projects"
   add_foreign_key "milestones", "projects"
   add_foreign_key "plan_projects", "plans"

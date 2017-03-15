@@ -1,6 +1,8 @@
 class Issue < ApplicationRecord
   belongs_to :project, optional: true
   belongs_to :milestone, optional: true
+  belongs_to :user, optional: true
+  belongs_to :assignee, class_name: 'User', foreign_key: :assignee_id, optional: true
   has_many :scenarios
   has_many :issue_labels
   has_many :labels, through: :issue_labels
@@ -13,6 +15,10 @@ class Issue < ApplicationRecord
     "#{title}#{scenarios_count}"
   end
 
+  def opened?
+    state == 'opened'
+  end
+
   def self.sync_from_gitlab(project, api)
     api ||= GitLabAPI.instance
     project.issues.update(is_existing_on_gitlab: false)
@@ -23,17 +29,19 @@ class Issue < ApplicationRecord
       collection_data.each do |data|
         milestone = Milestone.from_gitlab_data(project, data["milestone"])
         labels = Label.from_gitlab_data(project, data["labels"])
-        from_gitlab_data(project, milestone, labels, data)
+        user = User.from_gitlab_data(data["author"])
+        assignee = User.from_gitlab_data(data["assignee"])
+        from_gitlab_data(project, milestone, labels, user, assignee, data)
       end
       collection_data = api.issues(project.gitlab_id, page + 1) if page < total_pages
     end
   end
 
-  def self.from_gitlab_data(project, milestone, labels, data)
+  def self.from_gitlab_data(project, milestone, labels, user, assignee, data)
     return nil unless data
     issue = where(gitlab_id: data["id"]).first_or_create
     data_attrs = {}
-    %w(title description state).each do |str|
+    %w(title description state created_at updated_at).each do |str|
       data_attrs[str.to_sym] = data[str] if data[str]
     end
     data_attrs[:gitlab_iid] = data["iid"]
@@ -41,6 +49,8 @@ class Issue < ApplicationRecord
     data_attrs[:project] = project
     data_attrs[:milestone] = milestone
     data_attrs[:labels] = labels
+    data_attrs[:user] = user
+    data_attrs[:assignee] = assignee
     issue.update(data_attrs)
     issue
   end

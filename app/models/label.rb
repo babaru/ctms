@@ -7,6 +7,7 @@ class Label < ApplicationRecord
 
   scope :requirements, -> { where(is_requirement: true) }
   scope :used_by_scenarios, ->(project) { joins(:scenarios).where(scenarios: { project_id: project }).distinct }
+  scope :used_by_issues, ->(project) { joins(:issues).where(issues: { project_id: project }).distinct }
 
   def is_requirement?
     !!is_requirement

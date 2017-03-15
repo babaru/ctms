@@ -108,20 +108,23 @@ class ProjectsController < ApplicationController
     @current_tab = @current_tab.to_sym
 
     @current_label = Label.find params[:label_id] if params[:label_id]
-    label_conditions = {}
-    label_conditions[:is_requirement] = true
-    label_conditions[:id] = @current_label.id if @current_label
+    @no_label = params[:no_label]
 
     case @current_tab
     when :issues
       @issue = Issue.find(params[:issue_id]) if params[:issue_id]
       @issue ||= @project.issues.first
       @issues_grid = IssueGrid.new do |scope|
-        scope.page(params[:page]).joins(:labels).where(project_id: @project.id, labels: label_conditions).per(20)
+        if @current_label
+          scope.page(params[:page]).joins(:labels).where(project: @project, labels: { id: @current_label, is_requirement: true }).per(20)
+        elsif @no_label
+          issue_with_labels_ids = Issue.joins(:labels).where(project: @project, labels: { id: Label.used_by_issues(@project).select(:id).distinct }).select(:id).distinct
+          scope.page(params[:page]).joins(:labels).where(project: @project, labels: { is_requirement: true }).where.not(id: issue_with_labels_ids).per(20)
+        else
+          scope.page(params[:page]).joins(:labels).where(project: @project, labels: { is_requirement: true }).per(20)
+        end
       end
     when :scenarios
-      @current_label = Label.find(params[:label_id]) if params[:label_id]
-      @no_label = params[:no_label]
       @scenarios_grid = ScenarioGrid.new do |scope|
         if @current_label
           scope.page(params[:page]).joins(:labels).where(project: @project, labels: { id: @current_label.id }).per(20)

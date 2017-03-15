@@ -1,4 +1,6 @@
-<div class="m-b-xs">
-    <%= render partial: 'labels_chooser', locals: { project: @project } %>
-</div>
+<%= render partial: 'label_filter', locals: { labels: Label.used_by_issues(@project).requirements } %>
 <%= render partial: 'issues/issues_grid' %>
+
+<div id="modal-area">
+
+</div>

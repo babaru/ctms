@@ -1,0 +1,8 @@
+if($('#scenario-labels-modal-window').length > 0) {
+  $('#scenario-labels-modal-window').modal('hide');
+  $('#modal-area').html('');
+  window.location = "<%= escape_javascript(@redirect_url) %>";
+} else {
+  $('#modal-area').html('<%= escape_javascript(render(partial: "labels_modal")) %>');
+  $('#scenario-labels-modal-window').modal('show');
+}

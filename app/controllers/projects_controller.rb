@@ -120,12 +120,8 @@ class ProjectsController < ApplicationController
         scope.page(params[:page]).joins(:labels).where(project_id: @project.id, labels: label_conditions).per(20)
       end
     when :scenarios
-      @issues = Issue.joins(:labels).where(project_id: @project.id, labels: label_conditions)
-      if params[:issue_id]
-        @issue = Issue.find params[:issue_id]
-        @scenarios_grid = ScenarioGrid.new do |scope|
-          scope.page(params[:page]).where(issue_id: @issue.id).per(20)
-        end
+      @scenarios_grid = ScenarioGrid.new do |scope|
+        scope.page(params[:page]).where(project: @project).per(20)
       end
     when :labels
       @labels_grid = LabelGrid.new do |scope|

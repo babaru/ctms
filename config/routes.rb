@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   post 'users/:id/time_tracking' => 'users#time_tracking', as: :user_time_tracking
   post 'projects/:id/time_tracking' => 'projects#time_tracking', as: :project_time_tracking
 
+  match 'scenarios/:id/labels' => 'scenarios#labels', via: [:post, :get], as: :scenario_labels
+
   resources :projects do
     resources :issues, :milestones, :labels
   end

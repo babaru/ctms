@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315042700) do
+ActiveRecord::Schema.define(version: 20170315103337) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -105,6 +105,15 @@ ActiveRecord::Schema.define(version: 20170315042700) do
     t.boolean  "under_time_tracking",                 default: false
   end
 
+  create_table "scenario_labels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "scenario_id"
+    t.integer  "label_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["label_id"], name: "index_scenario_labels_on_label_id", using: :btree
+    t.index ["scenario_id"], name: "index_scenario_labels_on_scenario_id", using: :btree
+  end
+
   create_table "scenarios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "body",       limit: 65535
@@ -185,6 +194,8 @@ ActiveRecord::Schema.define(version: 20170315042700) do
   add_foreign_key "milestones", "projects"
   add_foreign_key "plan_projects", "plans"
   add_foreign_key "plan_projects", "projects"
+  add_foreign_key "scenario_labels", "labels"
+  add_foreign_key "scenario_labels", "scenarios"
   add_foreign_key "scenarios", "issues"
   add_foreign_key "scenarios", "projects"
   add_foreign_key "time_sheets", "issues"

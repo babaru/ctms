@@ -1,6 +1,6 @@
 class ScenariosController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_scenario, only: [:show, :edit, :update, :destroy, :execute]
+  before_action :set_scenario, only: [:show, :edit, :update, :destroy, :execute, :labels]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -84,6 +84,27 @@ class ScenariosController < ApplicationController
     end
   end
 
+  def labels
+    if request.get?
+      respond_to do |format|
+        @scenario.labels_text = @scenario.labels.inject([]) {|list, item| list << item.name }.join(',')
+        @redirect_url = params[:redirect_url].html_safe
+        format.js
+      end
+    end
+
+    if request.post?
+      respond_to do |format|
+        @redirect_url = params[:redirect_url].html_safe
+        if @scenario.save_labels(scenario_params[:labels_text])
+          format.js
+        else
+          format.js { render :labels }
+        end
+      end
+    end
+  end
+
   # GET /scenarios/new
   def new
     issue = Issue.find(params[:issue_id])
@@ -152,7 +173,8 @@ class ScenariosController < ApplicationController
       :name,
       :body,
       :project_id,
-      :issue_id
+      :issue_id,
+      :labels_text
       )
   end
 

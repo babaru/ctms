@@ -33,6 +33,22 @@ module ProjectsHelper
     end
   end
 
+  def refresh_project_gitlab_data_button(project, options = {})
+    default_options = {
+      style: ''
+    }
+    options = default_options.merge(options)
+    link_to fa_icon('refresh', text: t('activerecord.text.sync_from_gitlab', model: Issue.model_name.human)), sync_issues_from_gitlab_path(project_id: project, redirect_url: request.original_fullpath), method: :post, class: options[:style]
+  end
+
+  def refresh_project_gitlab_time_sheet_data_button(project, options = {})
+    default_options = {
+      style: ''
+    }
+    options = default_options.merge(options)
+    link_to fa_icon('refresh', text: t('activerecord.text.sync_from_gitlab', model: TimeSheet.model_name.human)), sync_project_time_sheets_from_gitlab_path(project, redirect_url: request.original_fullpath), method: :post, class: options[:style]
+  end
+
   def label_button_group(project)
     extra_params = {}
     extra_params[:tab] = params[:tab] if params[:tab]

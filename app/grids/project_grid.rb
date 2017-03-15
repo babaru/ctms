@@ -27,7 +27,9 @@ class ProjectGrid
     format(asset.id) do |value|
       [
         watch_project_button(asset),
-        project_add_to_time_tracking_button(asset)
+        project_add_to_time_tracking_button(asset),
+        refresh_project_gitlab_data_button(asset, style: 'btn btn-white btn-sm'),
+        refresh_project_gitlab_time_sheet_data_button(asset, style: 'btn btn-white btn-sm')
       ].join(' ').html_safe
     end
     # format(asset.id) do |value|

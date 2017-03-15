@@ -10,7 +10,7 @@ class Issue < ApplicationRecord
 
   def nav_title
     scenarios_count = scenarios.count > 0 ? " [#{scenarios.count}]" : ''
-    "#{name}#{scenarios_count}"
+    "#{title}#{scenarios_count}"
   end
 
   def self.sync_from_gitlab(project, api)

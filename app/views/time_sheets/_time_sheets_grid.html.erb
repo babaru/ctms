@@ -27,7 +27,7 @@
         </tr>
         <% Issue.joins(:time_sheets).where(time_sheets: { user: user, project: project }).select(:id, :title).distinct.each do |issue| %>
         <tr>
-            <td style="text-align:right;"><%= issue.title %></td>
+            <td style="text-align:right;"><%= issue.list_title %></td>
             <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
             <td style="text-align:center;"><%= TimeSheet.issue_hours(user, issue, day) %></td>
             <% end %>

@@ -12,7 +12,11 @@ class Issue < ApplicationRecord
 
   def nav_title
     scenarios_count = scenarios.count > 0 ? " [#{scenarios.count}]" : ''
-    "#{title}#{scenarios_count}"
+    "#{list_title}#{scenarios_count}"
+  end
+
+  def list_title
+    "##{gitlab_id} - #{title}"
   end
 
   def opened?

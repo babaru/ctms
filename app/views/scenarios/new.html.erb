@@ -9,7 +9,7 @@
                 <%= link_to @scenario.project.title, project_path(@scenario.project) %>
             </li>
             <li>
-                <%= link_to @scenario.issue.title, project_issue_path(@scenario.issue, project_id: @scenario.project_id) %>
+                <%= link_to @scenario.issue.list_title, project_issue_path(@scenario.issue, project_id: @scenario.project_id) %>
             </li>
             <li class="active">
                 <strong><%= t('activerecord.text.create', model: Scenario.model_name.human) %></strong>

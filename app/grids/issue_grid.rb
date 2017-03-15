@@ -12,9 +12,9 @@ class IssueGrid
   end
 
   column("issue-info", header: I18n.t('activerecord.attributes.issue.title')) do |asset|
-    format(asset.title) do |value|
+    format(asset.list_title) do |value|
       [
-        link_to("ISSUE-#{asset.gitlab_id} #{value}", project_issue_path(asset, project_id: asset.project_id)),
+        link_to(value, project_issue_path(asset, project_id: asset.project_id)),
         content_tag(:small, "#{asset.description.truncate(150)}")
       ].join('<br />').html_safe
     end

@@ -18,6 +18,8 @@ zh-CN:
     close: 关闭
     add_to_time_tracking: 加入工时表
     remove_from_time_tracking: 排除工时表
+    all_labels: 所有标签
+    no_label: 无标签
   placeholders:
     email: 邮箱
     password: 密码

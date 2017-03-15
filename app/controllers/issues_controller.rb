@@ -95,11 +95,15 @@ class IssuesController < ApplicationController
     case @current_tab
     when :scenarios
       @current_label = Label.find(params[:label_id]) if params[:label_id]
+      @no_label = params[:no_label]
       @scenarios_grid = ScenarioGrid.new do |scope|
         if @current_label
-          scope.page(params[:page]).joins(:labels).where(issue_id: @issue.id, labels: { id: @current_label.id }).per(20)
+          scope.page(params[:page]).joins(:labels).where(issue: @issue, labels: { id: @current_label.id }).per(20)
+        elsif @no_label
+          scenario_with_labels_ids = Scenario.joins(:labels).where(issue: @issue, labels: { id: Label.used_by_scenarios(@issue.project_id).select(:id).distinct }).select(:id).distinct
+          scope.page(params[:page]).where(issue: @issue).where.not(id: scenario_with_labels_ids).per(20)
         else
-          scope.page(params[:page]).where(issue_id: @issue.id).per(20)
+          scope.page(params[:page]).where(issue: @issue).per(20)
         end
       end
     end

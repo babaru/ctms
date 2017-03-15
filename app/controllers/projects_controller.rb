@@ -121,9 +121,13 @@ class ProjectsController < ApplicationController
       end
     when :scenarios
       @current_label = Label.find(params[:label_id]) if params[:label_id]
+      @no_label = params[:no_label]
       @scenarios_grid = ScenarioGrid.new do |scope|
         if @current_label
           scope.page(params[:page]).joins(:labels).where(project: @project, labels: { id: @current_label.id }).per(20)
+        elsif @no_label
+          scenario_with_labels_ids = Scenario.joins(:labels).where(project: @project, labels: { id: Label.used_by_scenarios(@project).select(:id).distinct }).select(:id).distinct
+          scope.page(params[:page]).where(project: @project).where.not(id: scenario_with_labels_ids).per(20)
         else
           scope.page(params[:page]).where(project: @project).per(20)
         end

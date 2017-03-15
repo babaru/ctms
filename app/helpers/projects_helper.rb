@@ -11,6 +11,20 @@ module ProjectsHelper
     return link_to(fa_icon('eye-slash', text: t('buttons.unwatch')), watch_project_path(project, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:watched_style]) if project.watched?(current_user)
   end
 
+  def project_add_to_time_tracking_button(project, options = {})
+    default_options = {
+      style: 'btn btn-white btn-sm'
+    }
+    options = options.merge(default_options)
+
+    if project.time_tracking?
+      button_text = fa_icon('calendar-minus-o', text: t('buttons.remove_from_time_tracking'))
+    else
+      button_text = fa_icon('calendar-plus-o', text: t('buttons.add_to_time_tracking'))
+    end
+    link_to(button_text, project_time_tracking_path(project, redirect_url: request.original_fullpath), method: :post, class: options[:style])
+  end
+
   def mark_requirement_label_button(label)
     if label.is_requirement?
       link_to fa_icon('flag-o', text: t('activerecord.text.unmark_requirement', model: Label.model_name.human)), mark_requirement_label_path(label, redirect_url: request.original_fullpath), method: :post, class: 'btn btn-sm btn-white'

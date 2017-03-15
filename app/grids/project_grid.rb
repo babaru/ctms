@@ -5,14 +5,6 @@ class ProjectGrid
     Project.order('projects.name')
   end
 
-  column("project-actions", header: '', html: {class: 'project-actions'}) do |asset|
-    format(asset.id) do |value|
-      [
-        watch_project_button(asset)
-      ].join(' ').html_safe
-    end
-  end
-
   column("title project-title", header: I18n.t('activerecord.attributes.general.name')) do |asset|
     format(asset.title) do |value|
       link_to value, project_path(asset)
@@ -31,7 +23,13 @@ class ProjectGrid
     end
   end
 
-  column("project-actions", header: '', html: {class: 'project-actions'}) do |asset|
+  column("project-actions", header: '') do |asset|
+    format(asset.id) do |value|
+      [
+        watch_project_button(asset),
+        project_add_to_time_tracking_button(asset)
+      ].join(' ').html_safe
+    end
     # format(asset.id) do |value|
     #   [
     #     link_to(fa_icon("pencil"), edit_project_path(asset), class: 'btn btn-white btn-sm', data: { toggle: 'tooltip', title: t('buttons.edit') }),

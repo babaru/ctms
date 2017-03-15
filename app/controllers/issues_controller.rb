@@ -1,7 +1,7 @@
 
 
 class IssuesController < ApplicationController
-  before_action :set_issue, only: [:show, :edit, :update, :destroy]
+  before_action :set_issue, only: [:show, :edit, :update, :destroy, :sync_time_sheets_from_gitlab]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -69,6 +69,17 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to project_path(project) }
+        format.js
+      end
+    end
+  end
+
+  def sync_time_sheets_from_gitlab
+    if request.post?
+      TimeSheet.sync_from_gitlab_by_issue(@issue)
+
+      respond_to do |format|
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: TimeSheet.model_name.human) }
         format.js
       end
     end

@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :watch]
+
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :watch, :time_tracking, :sync_time_sheets_from_gitlab]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -83,7 +83,18 @@ class ProjectsController < ApplicationController
       Project.sync_from_gitlab(GitLabAPI.instance)
 
       respond_to do |format|
-        format.html { redirect_to projects_path }
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
+        format.js
+      end
+    end
+  end
+
+  def sync_time_sheets_from_gitlab
+    if request.post?
+      TimeSheet.sync_from_gitlab_by_project(@project)
+
+      respond_to do |format|
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: TimeSheet.model_name.human) }
         format.js
       end
     end
@@ -120,6 +131,15 @@ class ProjectsController < ApplicationController
     when :labels
       @labels_grid = LabelGrid.new do |scope|
         scope.page(params[:page]).where(project_id: @project.id).per(20)
+      end
+    end
+  end
+
+  def time_tracking
+    if request.post?
+      respond_to do |format|
+        @project.update(under_time_tracking: !@project.time_tracking?)
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
       end
     end
   end

@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   root to: redirect('dashboard')
 
   post 'sync_projects_from_gitlab' => 'projects#sync_from_gitlab', as: :sync_projects_from_gitlab
+  post 'projects/:id/sync_time_sheets_from_gitlab' => 'projects#sync_time_sheets_from_gitlab', as: :sync_project_time_sheets_from_gitlab
   post 'sync_issues_from_gitlab' => 'issues#sync_from_gitlab', as: :sync_issues_from_gitlab
+  post 'issues/:id/sync_time_sheets_from_gitlab' => 'issues#sync_time_sheets_from_gitlab', as: :sync_issue_time_sheets_from_gitlab
   post 'sync_time_sheets_from_gitlab' => 'time_sheets#sync_from_gitlab', as: :sync_time_sheets_from_gitlab
 
   get 'dashboard', to: 'dashboard#index', as: :dashboard
@@ -22,6 +24,7 @@ Rails.application.routes.draw do
   post 'trigger(.:format)' => 'trigger#index', as: :webhook_trigger
 
   post 'users/:id/time_tracking' => 'users#time_tracking', as: :user_time_tracking
+  post 'projects/:id/time_tracking' => 'projects#time_tracking', as: :project_time_tracking
 
   resources :projects do
     resources :issues, :milestones, :labels

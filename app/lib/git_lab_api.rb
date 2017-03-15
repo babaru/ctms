@@ -47,4 +47,8 @@ class GitLabAPI
     rest_client.delete("/projects/#{project_id}/issues/#{issue_id}/notes/#{note_id}", { verify: false, body: { access_token: access_token } })
   end
 
+  def notes(project_id, issue_id, page = 1, per_page = 100)
+    rest_client.get("/projects/#{project_id}/issues/#{issue_id}/notes?per_page=#{per_page}&page=#{page}", default_options)
+  end
+
 end

@@ -1,4 +1,5 @@
 class ScenariosController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_scenario, only: [:show, :edit, :update, :destroy]
 
   QUERY_KEYS = [:name].freeze

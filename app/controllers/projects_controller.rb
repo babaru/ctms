@@ -1,6 +1,5 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-
   before_action :set_project, only: [:show, :edit, :update, :destroy, :watch, :time_tracking, :sync_time_sheets_from_gitlab]
 
   QUERY_KEYS = [:name].freeze

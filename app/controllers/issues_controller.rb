@@ -1,6 +1,5 @@
-
-
 class IssuesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_issue, only: [:show, :edit, :update, :destroy, :sync_time_sheets_from_gitlab]
 
   QUERY_KEYS = [:name].freeze

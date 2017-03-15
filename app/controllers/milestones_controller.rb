@@ -1,6 +1,5 @@
-
-
 class MilestonesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
 
   QUERY_KEYS = [:name].freeze
@@ -148,5 +147,3 @@ class MilestonesController < ApplicationController
     end
   end
 end
-
-

@@ -1,6 +1,5 @@
-
-
 class ExecutionsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_execution, only: [:show, :edit, :update, :destroy, :new_remark, :save_remark]
 
   QUERY_KEYS = [:name].freeze

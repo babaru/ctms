@@ -1,14 +1,15 @@
-<div class="modal inmodal" id="scenario-labels-modal-window" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="label-modal-window" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated bounceInBottom">
-            <%= simple_form_for(@scenario, url: scenario_labels_path(@scenario, redirect_url: @redirect_url), method: :post, remote: true, wrapper: :vertical_form ) do |f| %>
+            <%= simple_form_for(@label, remote: true, wrapper: :vertical_form ) do |f| %>
             <div class="modal-header">
                 <i class="fa fa-tags modal-icon"></i>
-                <h4 class="modal-title"><%= Scenario.model_name.human %></h4>
+                <h4 class="modal-title"><%= Label.model_name.human %></h4>
             </div>
             <div class="modal-body">
                 <%= f.error_notification %>
-                <%= f.input :labels_text %>
+                <%= f.input :name %>
+                <%= f.input :project_id, as: :hidden %>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal"><%= t('buttons.close') %></button>

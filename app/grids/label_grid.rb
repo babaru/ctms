@@ -28,6 +28,7 @@ class LabelGrid
   column("project-actions", header: '') do |asset|
     format(asset.id) do |value|
       [
+        edit_label_button(asset),
         delete_label_button(asset)
       ].join(' ').html_safe
     end

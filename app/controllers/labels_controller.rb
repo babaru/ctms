@@ -53,14 +53,6 @@ class LabelsController < ApplicationController
     end
   end
 
-  def search
-    if request.post?
-      @query_params = {}
-      build_query_params(params[:label])
-      redirect_to labels_path(@query_params)
-    end
-  end
-
   # GET /labels/1
   # GET /labels/1.json
   def show
@@ -72,17 +64,22 @@ class LabelsController < ApplicationController
 
   # GET /labels/new
   def new
-    @label = Label.new
+    session[:redirect_url] = params[:redirect_url]
+    @label = Label.new(project_id: params[:project_id])
   end
 
   # GET /labels/1/edit
   def edit
+    session[:redirect_url] = params[:redirect_url]
   end
 
   # POST /labels
   # POST /labels.json
   def create
     @label = Label.new(label_params)
+
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
 
     respond_to do |format|
       if @label.save
@@ -99,6 +96,9 @@ class LabelsController < ApplicationController
   # PATCH/PUT /labels/1
   # PATCH/PUT /labels/1.json
   def update
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
+
     respond_to do |format|
       if @label.update(label_params)
         set_labels_grid

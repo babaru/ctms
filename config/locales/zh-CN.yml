@@ -102,6 +102,7 @@ zh-CN:
         scenarios: 测试场景
         assignee: 分配给
         user: 创建人
+        milestone: 里程碑
         tabs:
           scenarios: 测试场景
       plan:

@@ -38,9 +38,9 @@ class IssueGrid
     end
   end
 
-  column('milestone', header: '') do |asset|
+  column('milestone', header: I18n.t('activerecord.attributes.issue.milestone')) do |asset|
     format(asset.milestone) do |value|
-      asset.milestone ? content_tag(:small, link_to(fa_icon('bookmark', text: asset.milestone.title), milestone_path(asset.milestone))) : ''
+      asset.milestone ? content_tag(:span, fa_icon('clock-o', text: asset.milestone.title), class: 'badge badge-default') : ''
     end
   end
 

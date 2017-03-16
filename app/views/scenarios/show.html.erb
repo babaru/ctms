@@ -19,6 +19,15 @@
     <div class="col-lg-2 m-t-lg">
         <div class="btn-toolbar pull-right">
             <%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_scenario_path(@scenario), class: 'btn-default btn-w-m btn' %>
+            <div class="btn-group pull-right">
+                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
+                    <%= fa_icon('cog') %> <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><%= link_to(t('activerecord.text.delete', model: Scenario.model_name.human), scenario_path(@scenario), method: :delete, data: { confirm: t('messages.delete_confirmation')}) %></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

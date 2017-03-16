@@ -96,7 +96,7 @@ class ScenariosController < ApplicationController
   def edit
     @scenario.labels_text = @scenario.labels.inject([]) {|list, item| list << item.name }.join(',')
 
-    session[:redirect_url] = params[:redirect_url].html_safe
+    session[:redirect_url] = params[:redirect_url].html_safe if params[:redirect_url]
   end
 
   # POST /scenarios
@@ -141,10 +141,9 @@ class ScenariosController < ApplicationController
   # DELETE /scenarios/1
   # DELETE /scenarios/1.json
   def destroy
+    @redirect_url = params[:redirect_url].html_safe if params[:redirect_url]
     issue_id = @scenario.issue_id
     @scenario.destroy
-
-    @redirect_url = params[:redirect_url].html_safe
 
     respond_to do |format|
       set_scenarios_grid(issue_id: issue_id)

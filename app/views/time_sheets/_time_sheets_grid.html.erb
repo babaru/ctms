@@ -1,9 +1,15 @@
 <table class="table table-hover table-bordered time_sheet">
     <thead>
         <tr class="calendar-head">
-            <th class="month"><%= Time.current.strftime('%Y年%m月') %></th>
-            <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
-            <th class="day <%= Time.new(Time.current.year, Time.current.month, day).strftime('%a').downcase %>"><%= day.to_s.rjust(2, '0') %></th>
+            <th class="month">
+                <div class="btn-group">
+                    <%= link_to fa_icon('angle-left'), time_sheets_path(calendar: @first_day.prev_month.strftime('%Y-%m')), class: 'btn btn-white' %>
+                    <%= link_to "#{@year}年#{@month.to_s.rjust(2, '0')}月", '#', class: 'btn btn-white' %>
+                    <%= link_to fa_icon('angle-right'), time_sheets_path(calendar: @first_day.next_month.strftime('%Y-%m')), class: 'btn btn-white' %>
+                </div>
+            </th>
+            <% 1.upto Time.days_in_month(@month, @year) do |day| %>
+            <th class="day <%= Time.new(@year, @month, day).strftime('%a').downcase %>"><%= day.to_s.rjust(2, '0') %></th>
             <% end %>
             <th class="total"></th>
         </tr>
@@ -12,26 +18,26 @@
         <% User.time_tracking.each do |user| %>
         <tr class="user">
             <td class="name"><%= user_avatar_with_name(user, {w: '25px', h: '20px'}) %></td>
-            <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
-            <td class="day <%= Time.new(Time.current.year, Time.current.month, day).strftime('%a').downcase %>"><%= TimeSheet.user_hours(user, day) %></td>
+            <% 1.upto Time.days_in_month(@month, @year) do |day| %>
+            <td class="day <%= Time.new(@year, @month, day).strftime('%a').downcase %>"><%= TimeSheet.user_hours(user, day, @month, @year) %></td>
             <% end %>
-            <td class="total"><%= TimeSheet.user_hours(user) %></td>
+            <td class="total"><%= TimeSheet.user_hours(user, nil, @month, @year) %></td>
         </tr>
-        <% Project.joins(:time_sheets).where(time_sheets: { user: user }).select(:id, :name, :namespace).distinct.each do |project| %>
+        <% Project.joins(:time_sheets).where(time_sheets: { user: user, spent_at: (@first_day.beginning_of_day..@last_day.end_of_day) }).select(:id, :name, :namespace).distinct.each do |project| %>
         <tr class="project">
             <td class="name"><%= project.title %></td>
-            <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
-            <td class="day <%= Time.new(Time.current.year, Time.current.month, day).strftime('%a').downcase %>"><%= TimeSheet.project_hours(user, project, day) %></td>
+            <% 1.upto Time.days_in_month(@month, @year) do |day| %>
+            <td class="day <%= Time.new(@year, @month, day).strftime('%a').downcase %>"><%= TimeSheet.project_hours(user, project, day, @month, @year) %></td>
             <% end %>
-            <td class="total"><%= TimeSheet.project_hours(user, project) %></td>
+            <td class="total"><%= TimeSheet.project_hours(user, project, nil, @month, @year) %></td>
         </tr>
-        <% Issue.joins(:time_sheets).where(time_sheets: { user: user, project: project }).select(:id, :title, :gitlab_id).distinct.each do |issue| %>
+        <% Issue.joins(:time_sheets).where(time_sheets: { user: user, project: project, spent_at: (@first_day.beginning_of_day..@last_day.end_of_day) }).select(:id, :title, :gitlab_id).distinct.each do |issue| %>
         <tr class="issue">
             <td class="name"><%= issue.list_title %></td>
-            <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
-            <td class="day <%= Time.new(Time.current.year, Time.current.month, day).strftime('%a').downcase %>"><%= TimeSheet.issue_hours(user, issue, day) %></td>
+            <% 1.upto Time.days_in_month(@month, @year) do |day| %>
+            <td class="day <%= Time.new(@year, @month, day).strftime('%a').downcase %>"><%= TimeSheet.issue_hours(user, issue, day, @month, @year) %></td>
             <% end %>
-            <td class="total"><%= TimeSheet.issue_hours(user, issue) %></td>
+            <td class="total"><%= TimeSheet.issue_hours(user, issue, nil, @month, @year) %></td>
         </tr>
         <% end %>
         <% end %>

@@ -2,62 +2,19 @@ class TimeSheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_time_sheet, only: [:show, :edit, :update, :destroy]
 
-  QUERY_KEYS = [].freeze
-  ARRAY_SP = ","
-  ARRAY_HEADER = "a_"
-
-  TABS = [:tab1, :tab2].freeze
-
   # GET /time_sheets
   # GET /time_sheets.json
   def index
-    @query_params = {}
-    build_query_params(params)
-    build_query_time_sheet_params
-
-    @conditions = []
-    # @conditions << TimeSheet.arel_table[:name].matches("%#{@query_params[:name]}%") if @query_params[:name]
-
-    if @conditions.length > 0
-      conditions = @conditions[0]
-      @conditions.each_with_index do |item, index|
-        conditions = conditions.or(item) if index > 0
-      end
-      @conditions = conditions
-    end
+    @year = params[:calendar].split('-').first.to_i if params[:calendar]
+    @month = params[:calendar].split('-').last.to_i if params[:calendar]
+    logger.debug @year
+    @year ||= Time.current.year
+    @month ||= Time.current.month
+    @first_day = Time.new(@year, @month, 1)
+    @last_day = Time.new(@year, @month, Time.days_in_month(@month, @year))
 
     respond_to do |format|
       format.html
-      format.json { render json: TimeSheet.where(@conditions) }
-    end
-  end
-
-  def build_query_params(parameters)
-    QUERY_KEYS.each do |key|
-      if parameters[key].is_a?(Array)
-        @query_params[key] = "a_#{parameters[key].join(ARRAY_SP)}"
-      else
-        @query_params[key] = parameters[key] if parameters[key] && !parameters[key].empty?
-      end
-    end
-  end
-
-  def build_query_time_sheet_params
-    @query_time_sheet_params = TimeSheet.new
-    QUERY_KEYS.each do |key|
-      if @query_params[key] && @query_params[key].start_with?(ARRAY_HEADER)
-        @query_time_sheet_params.send("#{key}=", @query_params[key].gsub(ARRAY_HEADER, "").split(ARRAY_SP))
-      else
-        @query_time_sheet_params.send("#{key}=", @query_params[key])
-      end
-    end
-  end
-
-  def search
-    if request.post?
-      @query_params = {}
-      build_query_params(params[:time_sheet])
-      redirect_to time_sheets_path(@query_params)
     end
   end
 

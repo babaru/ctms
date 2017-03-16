@@ -30,7 +30,7 @@ class Project < ApplicationRecord
 
   class << self
 
-  def sync_from_gitlab(api)
+  def sync_from_gitlab(api = nil)
     api ||= GitLabAPI.instance
 
     Project.all.update(is_existing_on_gitlab: false)

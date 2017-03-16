@@ -41,16 +41,12 @@ class User < ApplicationRecord
 
   def self.from_gitlab_data(data)
     return nil unless data
-    user = where(name: data["name"]).first_or_create
-    data_attrs = {}
-    %w(username).each do |str|
-      data_attrs[str.to_sym] = data[str] if data[str]
+    where(name: data["name"]).first_or_create do |user|
+      user.username = data["username"] if data["username"]
+      user.image = data["avatar_url"] if data["avatar_url"]
+      user.password = Devise.friendly_token[0,20]
+      user.email = data["email"].nil? ? "#{data_attrs[:password]}@capitaltruepartner.cn" : data["email"]
     end
-    data_attrs[:image] = data["avatar_url"] if data["avatar_url"]
-    data_attrs[:password] = Devise.friendly_token[0,20]
-    data_attrs[:email] = "#{data_attrs[:password]}@capitaltruepartner.cn"
-    user.update(data_attrs)
-    user
   end
 
 end

@@ -23,7 +23,7 @@ class Issue < ApplicationRecord
     state == 'opened'
   end
 
-  def self.sync_from_gitlab(project, api)
+  def self.sync_from_gitlab(project, api = nil)
     api ||= GitLabAPI.instance
     project.issues.update(is_existing_on_gitlab: false)
     collection_data = api.issues(project.gitlab_id)

@@ -19,9 +19,9 @@ class Label < ApplicationRecord
 
   def self.from_gitlab_data(project, data)
     data.inject([]) do |list, label_name|
-      list << where(project: project, name: label_name).first_or_create do |label|
-        label.is_existing_on_gitlab = true
-      end
+      label = where(project: project, name: label_name).first_or_create
+      label.update(is_existing_on_gitlab: true)
+      list << label
     end
   end
 end

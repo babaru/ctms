@@ -63,6 +63,8 @@ set :puma_init_active_record, false  # Change to true if using ActiveRecord
 set :nginx_roles, :web
 set :nginx_config_name, "#{fetch(:application)}"
 
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+
 namespace :deploy do
   before 'check:linked_files', 'puma:config'
   before 'check:linked_files', 'puma:nginx_config'

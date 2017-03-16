@@ -14,7 +14,7 @@ class Execution < ApplicationRecord
     issue_note = []
     issue_note << content
     issue_note << ">>>"
-    issue_note << scenario.title
+    issue_note << "[#{Execution.result_names[result]}] - #{scenario.title}"
     issue_note << scenario.body
     issue_note << ">>>"
     issue_note_content = issue_note.join("\r\n\r\n")

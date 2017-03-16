@@ -37,6 +37,7 @@ require "capistrano/nginx"
 require "capistrano/puma"
 require "capistrano/puma/nginx"
 require "capistrano/upload-config"
+require "capistrano/rake"
 # require "capistrano/passenger"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined

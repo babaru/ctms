@@ -2,9 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
-
-  devise :omniauthable, :omniauth_providers => [:gitlab]
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:gitlab]
 
   has_many :user_watching_projects
   has_many :projects, through: :user_watching_projects

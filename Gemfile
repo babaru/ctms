@@ -88,12 +88,13 @@ gem 'rails-i18n'
 gem 'httparty'
 
 group :development do
-  gem 'capistrano', '~> 3.7.2'
-  gem 'capistrano-rails', '~> 1.2'
-  gem 'capistrano-rbenv'
-  gem 'capistrano3-puma'
-  gem 'capistrano3-nginx', '~> 2.0'
-  gem 'capistrano-upload-config'
+  gem 'capistrano', '~> 3.7.2', require: false
+  gem 'capistrano-rails', '~> 1.2', require: false
+  gem 'capistrano-rbenv', require: false
+  gem 'capistrano3-puma', require: false
+  gem 'capistrano3-nginx', '~> 2.0', require: false
+  gem 'capistrano-upload-config', require: false
+  gem 'capistrano-rake', require: false
 end
 
 group :development, :test do

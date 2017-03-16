@@ -135,7 +135,7 @@ class ProjectsController < ApplicationController
           scope.page(params[:page]).where(project: @project).per(20)
         end
       end
-      @scenarios_grid.column_names = [:issue]
+      @scenarios_grid.column_names = [:scenario_title, :issue, :labels]
     when :labels
       @labels_grid = LabelGrid.new do |scope|
         scope.page(params[:page]).where(project_id: @project.id).per(20)

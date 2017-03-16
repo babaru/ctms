@@ -27,6 +27,15 @@
 
 <div class="tabs-container">
     <ul class="nav nav-tabs">
+        <% @plan.projects.each do |project| %>
+        <% if @project && @project.id == project.id %>
+        <li class="active">
+        <% else %>
+        <li class="">
+        <% end %>
+            <%= link_to project.title, plan_path(@plan, project_id: project) %>
+        </li>
+        <% end %>
         <% @tabs.each do |tab| %>
         <% if @current_tab == tab %>
         <li class="active">
@@ -39,6 +48,18 @@
     </ul>
 
     <div class="tab-content">
+        <% @plan.projects.each do |project| %>
+        <% if @project && @project.id == project.id %>
+        <div class="tab-pane active">
+        <% else %>
+        <div class="tab-pane">
+        <% end %>
+            <div class="panel-body">
+                <%= render "show_tab_scenarios", locals: { project: project } if @project %>
+            </div>
+        </div>
+        <% end %>
+
         <% @tabs.each do |tab| %>
         <% if @current_tab == tab %>
         <div class="tab-pane active">

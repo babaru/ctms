@@ -1,18 +1,20 @@
 <div class="row">
+    <div class="col-lg-12">
+        <%= render partial: 'label_filter' %>
+    </div>
+</div>
+<div class="row">
     <div class="col-lg-3">
         <div id="issues-nav">
-          <% @plan.projects.each do |project| %>
-            <h3><%= project.title %></h3>
             <ul class="folder-list" style="padding-left: 0px;">
-                  <% project.requirements.each do |issue| %>
+                  <% @scenario_folders.each do |issue| %>
                     <% if @issue && @issue.id == issue.id %>
-                      <%= content_tag(:li, link_to(fa_icon('folder-open', text: issue.nav_title), plan_path(@plan, issue_id: issue.id)), class: 'active' ) %>
+                      <%= content_tag(:li, link_to(fa_icon('folder-open', text: issue.nav_title), plan_path(@plan, project_id: params[:project_id], label_id: params[:label_id], no_label: params[:no_label], issue_id: issue.id)), class: 'active' ) %>
                     <% else %>
-                      <%= content_tag(:li, link_to(fa_icon('folder', text: issue.nav_title), plan_path(@plan, issue_id: issue.id)) ) %>
+                      <%= content_tag(:li, link_to(fa_icon('folder', text: issue.nav_title), plan_path(@plan, project_id: params[:project_id], label_id: params[:label_id], no_label: params[:no_label], issue_id: issue.id)) ) %>
                     <% end %>
                   <% end %>
             </ul>
-            <% end %>
         </div>
     </div>
     <div class="col-lg-5">

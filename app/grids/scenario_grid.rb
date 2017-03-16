@@ -11,9 +11,23 @@ class ScenarioGrid
     end
   end
 
-  column(:title, header: I18n.t('activerecord.attributes.general.name'), mandatory: true) do |asset|
+  column(:scenario_title, header: I18n.t('activerecord.attributes.general.title')) do |asset|
     format(asset.title) do |value|
       link_to value, scenario_path(asset)
+    end
+  end
+
+  column(:execution_title, header: I18n.t('activerecord.attributes.general.title')) do |asset|
+    format(asset.title) do |value|
+      link_to(value,
+        plan_path(params[:id], {
+          project_id: params[:project_id],
+          label_id: params[:label_id],
+          no_label: params[:no_label],
+          page: params[:page],
+          issue_id: params[:issue_id],
+          scenario_id: asset.id
+        }), class: (@scenario && @scenario.id == asset.id) ? 'active' : '')
     end
   end
 
@@ -23,7 +37,17 @@ class ScenarioGrid
     end
   end
 
-  column("project-actions", header: '', mandatory: true) do |asset|
+  column("execution_buttons project-actions", header: '') do |asset|
+    format(asset.id) do |value|
+      [
+        # link_to(fa_icon('comment-o', ))
+        execution_button(params[:id], asset.id, params, { button_size: 'xs'}),
+        execution_remark_button(params[:id], asset.id, { button_size: 'xs' })
+      ].join(' ').html_safe
+    end
+  end
+
+  column("crud_buttons project-actions", header: '') do |asset|
     format(asset.id) do |value|
       [
         link_to(fa_icon("pencil"), edit_scenario_path(asset, redirect_url: request.original_fullpath), class: 'btn btn-white btn-xs', remote: true, data: { toggle: 'tooltip', title: t('buttons.edit') }),

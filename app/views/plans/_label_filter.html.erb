@@ -1,0 +1,12 @@
+<div class="btn-toolbar m-b">
+    <div class="btn-group">
+        <%= link_to t('buttons.all_labels'), plan_path(@plan, project_id: params[:project_id], issue_id: params[:issue_id], scenario_id: params[:scenario_id], page: params[:page]), class: "btn btn-white btn-sm #{@no_label.nil? && @label.nil? ? 'active' : ''}" %>
+        <%= link_to t('buttons.no_label'), plan_path(@plan, project_id: params[:project_id], issue_id: params[:issue_id], scenario_id: params[:scenario_id], no_label: true, page: params[:page]), class: "btn btn-white btn-sm #{@no_label ? 'active' : ''}" %>
+    </div>
+
+    <div class="btn-group">
+        <% Label.used_by_scenarios(@project).each do |label| %>
+        <%= link_to label.name, plan_path(@plan, project_id: params[:project_id], issue_id: params[:issue_id], scenario_id: params[:scenario_id], page: params[:page], label_id: label.id), class: "btn btn-white btn-sm #{(@label && label.id == @label.id) ? 'active' : ''}" %>
+        <% end %>
+    </div>
+</div>

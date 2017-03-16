@@ -6,7 +6,7 @@ class PlansController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  SHOW_TABS = [:scenarios].freeze
+  SHOW_TABS = [].freeze
   LIST_TABS = [:watched, :all].freeze
 
   # GET /plans
@@ -85,17 +85,35 @@ class PlansController < ApplicationController
     @current_tab ||= SHOW_TABS.first.to_s
     @current_tab = @current_tab.to_sym
 
+    @project = Project.find params[:project_id] if params[:project_id]
+    @project ||= @plan.projects.first
     @issue = Issue.find params[:issue_id] if params[:issue_id]
-    conditions = {}
-    conditions[:issue_id] = params[:issue_id] if params[:issue_id]
-
     @scenario = Scenario.find params[:scenario_id] if params[:scenario_id]
+
+    @label = Label.find params[:label_id] if params[:label_id]
+    @no_label = params[:no_label]
+
+    conditions = {}
+    conditions[:issue_id] = @issue.id if @issue
+
+    @scenario_folders = @project.requirements
 
     case @current_tab
     when :scenarios
-      @executions_grid = ExecutionGrid.new do |scope|
-        scope.page(params[:page]).where(conditions).per(20)
+      # @executions_grid = ExecutionGrid.new do |scope|
+      #   scope.page(params[:page]).where(conditions).per(20)
+      # end
+    else
+      @scenarios_grid = ScenarioGrid.new do |scope|
+        if @label
+          scope.page(params[:page]).where(conditions).joins(:labels).where(labels: {id: @label}).per(20)
+        elsif @no_label
+          scope.page(params[:page]).where(conditions).joins(:labels).where.not(labels: {id: Label.used_by_scenarios(@project).select(:id).distinct}).per(20)
+        else
+          scope.page(params[:page]).where(conditions).per(20)
+        end
       end
+      @scenarios_grid.column_names = [:execution_title, :labels, "execution_buttons project-actions"]
     end
   end
 

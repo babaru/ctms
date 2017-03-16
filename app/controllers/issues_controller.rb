@@ -106,6 +106,7 @@ class IssuesController < ApplicationController
           scope.page(params[:page]).where(issue: @issue).per(20)
         end
       end
+      @scenarios_grid.column_names = [:scenario_title, :labels, "crud_buttons project-actions"]
     end
   end
 

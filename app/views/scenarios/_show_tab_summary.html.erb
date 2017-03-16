@@ -1,5 +1,5 @@
 <div class="row">
     <div class="col-lg-12">
-        <pre><%= @scenario.body %></pre> 
+        <div class="markdown"><%= Kramdown::Document.new(@scenario.body).to_html.html_safe %></div>
     </div>
 </div>

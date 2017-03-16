@@ -91,6 +91,8 @@ gem 'whenever', require: false
 
 gem 'business_time'
 
+gem 'kramdown'
+
 group :development do
   gem 'capistrano', '~> 3.7.2', require: false
   gem 'capistrano-rails', '~> 1.2', require: false

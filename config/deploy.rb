@@ -113,3 +113,10 @@ end
 #   after  :finishing,    :cleanup
 #   after  :finishing,    :restart
 # end
+
+namespace :rake do
+  desc 'run a task on remote servers'
+  task :invoke do
+    run("cd #{deploy_to}/current && bundle exec rake #{ENV['task']} RAILS_ENV=#{rails_env}")
+  end
+end

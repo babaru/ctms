@@ -1,0 +1,46 @@
+.time_sheet {
+  thead {
+    th {
+      text-align: center;
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        text-align: center;
+        vertical-align: middle !important;
+
+        &.name {
+          text-align: left;
+        }
+
+        &.day.sun, &.day.sat {
+          background: #f6f6f6;
+        }
+      }
+
+      &.user {
+        td {
+          font-weight: bold;
+        }
+      }
+
+      &.project, &.issue {
+        td.name {
+          text-align: right;
+        }
+      }
+
+      &.project {
+        .name {
+          font-weight: bold;
+        }
+
+        .total {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

@@ -1,37 +1,37 @@
 <table class="table table-hover table-bordered time_sheet">
     <thead>
-        <tr>
-            <td></td>
+        <tr class="calendar-head">
+            <th class="month"><%= Time.current.strftime('%Y年%m月') %></th>
             <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
-            <td style="text-align:center;"><strong><%= day %></strong></td>
+            <th class="day <%= Time.new(Time.current.year, Time.current.month, day).strftime('%a').downcase %>"><%= day.to_s.rjust(2, '0') %></th>
             <% end %>
-            <td style="text-align:right;"><strong>Total</strong></td>
+            <th class="total"></th>
         </tr>
     </thead>
     <tbody>
         <% User.time_tracking.each do |user| %>
-        <tr>
-            <td><%= user_avatar(user, {w: '25px', h: '20px'}) %> <strong><%= user.name %></strong></td>
+        <tr class="user">
+            <td class="name"><%= user_avatar_with_name(user, {w: '25px', h: '20px'}) %></td>
             <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
-            <td style="text-align:center;"><strong><%= TimeSheet.user_hours(user, day) %></strong></td>
+            <td class="day <%= Time.new(Time.current.year, Time.current.month, day).strftime('%a').downcase %>"><%= TimeSheet.user_hours(user, day) %></td>
             <% end %>
-            <td style="text-align:right;"><strong><%= TimeSheet.user_hours(user) %></strong></td>
+            <td class="total"><%= TimeSheet.user_hours(user) %></td>
         </tr>
         <% Project.joins(:time_sheets).where(time_sheets: { user: user }).select(:id, :name, :namespace).distinct.each do |project| %>
-        <tr>
-            <td style="text-align:right;"><strong><%= project.title %></strong></td>
+        <tr class="project">
+            <td class="name"><%= project.title %></td>
             <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
-            <td style="text-align:center;"><%= TimeSheet.project_hours(user, project, day) %></td>
+            <td class="day <%= Time.new(Time.current.year, Time.current.month, day).strftime('%a').downcase %>"><%= TimeSheet.project_hours(user, project, day) %></td>
             <% end %>
-            <td style="text-align:right;"><%= TimeSheet.project_hours(user, project) %></td>
+            <td class="total"><%= TimeSheet.project_hours(user, project) %></td>
         </tr>
         <% Issue.joins(:time_sheets).where(time_sheets: { user: user, project: project }).select(:id, :title, :gitlab_id).distinct.each do |issue| %>
-        <tr>
-            <td style="text-align:right;"><%= issue.list_title %></td>
+        <tr class="issue">
+            <td class="name"><%= issue.list_title %></td>
             <% 1.upto Time.days_in_month(Time.current.month) do |day| %>
-            <td style="text-align:center;"><%= TimeSheet.issue_hours(user, issue, day) %></td>
+            <td class="day <%= Time.new(Time.current.year, Time.current.month, day).strftime('%a').downcase %>"><%= TimeSheet.issue_hours(user, issue, day) %></td>
             <% end %>
-            <td style="text-align:right;"><%= TimeSheet.issue_hours(user, issue) %></td>
+            <td class="total"><%= TimeSheet.issue_hours(user, issue) %></td>
         </tr>
         <% end %>
         <% end %>

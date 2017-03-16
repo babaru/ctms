@@ -87,6 +87,8 @@ gem 'rails-i18n'
 # Rest API Client
 gem 'httparty'
 
+gem 'whenever', require: false
+
 group :development do
   gem 'capistrano', '~> 3.7.2', require: false
   gem 'capistrano-rails', '~> 1.2', require: false

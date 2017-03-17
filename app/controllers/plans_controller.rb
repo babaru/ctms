@@ -114,7 +114,7 @@ class PlansController < ApplicationController
         r = r.execution_result(@plan, @execution_result) if @execution_result
         r.page(params[:page]).per(20)
       end
-      @scenarios_grid.column_names = [:execution_title, :labels, "execution_buttons project-actions", "remarks_buttons project-actions"]
+      @scenarios_grid.column_names = [:execution_title, :labels, "execution_buttons project-actions"]
     end
   end
 

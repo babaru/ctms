@@ -37,15 +37,12 @@ class ScenarioGrid
     end
   end
 
-  column("remarks_buttons project-actions", header: '') do |asset|
-    format(asset.id) do |value|
-      execution_remark_button(params[:id], asset, { button_size: 'xs' })
-    end
-  end
-
   column("execution_buttons project-actions", header: '') do |asset|
     format(asset.id) do |value|
-      execution_button(params[:id], asset, params, { button_size: 'xs'})
+      [
+        execution_remark_button(params[:id], asset, { button_size: 'xs' }),
+        execution_button(params[:id], asset, params, { button_size: 'xs'})
+      ].join(' ').html_safe
     end
   end
 

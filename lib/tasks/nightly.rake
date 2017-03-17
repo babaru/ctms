@@ -4,16 +4,19 @@ namespace :nightly do
       Rails.logger = Logger.new(STDOUT)
     end
 
+    Rails.logger.info "Syncing all projects information"
     Project.sync_from_gitlab
 
     projects = []
 
     User.all.each do |user|
+      Rails.logger.info "Syncing projects being watched by [#{user.name}]"
       Project.watched(user).each do |project|
         sync_project_issues(projects, project)
       end
     end
 
+    Rails.logger.info "Syncing projects time_sheets"
     Project.time_tracking.each do |project|
       sync_project_issues(projects, project)
       sync_project_time_sheets(project)

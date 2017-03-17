@@ -49,7 +49,8 @@ class Issue < ApplicationRecord
     return nil unless data
     issue = where(gitlab_id: data["id"]).first_or_create
     data_attrs = {}
-    %w(title description state created_at updated_at).each do |str|
+    data_attrs[:description] = fix_image_url(project, data["description"]) if data["description"]
+    %w(title state created_at updated_at).each do |str|
       data_attrs[str.to_sym] = data[str] if data[str]
     end
     data_attrs[:gitlab_iid] = data["iid"]
@@ -61,5 +62,17 @@ class Issue < ApplicationRecord
     data_attrs[:assignee] = assignee
     issue.update(data_attrs)
     issue
+  end
+
+  def self.fix_image_url(project, description)
+    temp_content = description
+    /\<img\ssrc\=\"(\/[\/a-zA-Z0-9\.]+)\"\s.*\/\>/.match(description) do |matches|
+      matches.captures.each do |m|
+        new_url = "#{Settings.gitlab.web.base_uri}/#{project.path_with_namespace}#{m}"
+        logger.debug "matched: #{m} and replaced by #{new_url}"
+        temp_content = temp_content.gsub("#{m}", new_url)
+      end if matches
+    end
+    temp_content
   end
 end

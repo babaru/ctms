@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'reporting/time_sheets'
+  get 'reporting/time_sheets', as: :time_sheets
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
@@ -43,5 +43,4 @@ Rails.application.routes.draw do
   end
 
   resources :users
-  resources :time_sheets
 end

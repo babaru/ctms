@@ -20,6 +20,8 @@ zh-CN:
     remove_from_time_tracking: 排除工时表
     all_labels: 所有标签
     no_label: 无标签
+    all_execution_results: 所有执行结果
+    unexecuted: 未执行
   placeholders:
     email: 邮箱
     password: 密码

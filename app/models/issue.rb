@@ -8,7 +8,16 @@ class Issue < ApplicationRecord
   has_many :labels, through: :issue_labels
   has_many :time_sheets
 
-  # scope :labels, -> { |labels| where(label_ids.include?}
+  scope :no_label, -> { where.not(id: Issue.has_label.select(:id).distinct) }
+  scope :has_label, -> {
+    joins(:labels).where({
+      labels: {
+          id: Label.select(:id)
+        }
+    }).distinct
+  }
+  scope :requirements, -> { joins(:labels).where(labels: { is_requirement: true }).distinct }
+  scope :label, ->(label) { joins(:labels).where(labels: { id: label }).distinct }
 
   def nav_title
     scenarios_count = scenarios.count > 0 ? " [#{scenarios.count}]" : ''

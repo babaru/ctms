@@ -92,6 +92,8 @@ class PlansController < ApplicationController
 
     @label = Label.find params[:label_id] if params[:label_id]
     @no_label = params[:no_label]
+    @unexecuted = params[:unexecuted]
+    @execution_result = params[:execution_result]
 
     conditions = {}
     conditions[:issue_id] = @issue.id if @issue
@@ -105,13 +107,12 @@ class PlansController < ApplicationController
       # end
     else
       @scenarios_grid = ScenarioGrid.new do |scope|
-        if @label
-          scope.page(params[:page]).where(conditions).joins(:labels).where(labels: {id: @label}).per(20)
-        elsif @no_label
-          scope.page(params[:page]).where(conditions).joins(:labels).where.not(labels: {id: Label.used_by_scenarios(@project).select(:id).distinct}).per(20)
-        else
-          scope.page(params[:page]).where(conditions).per(20)
-        end
+        r = scope.where(conditions)
+        r = r.label(@label) if @label
+        r = r.no_label if @no_label
+        r = r.unexecuted(@plan) if @unexecuted
+        r = r.execution_result(@plan, @execution_result) if @execution_result
+        r.page(params[:page]).per(20)
       end
       @scenarios_grid.column_names = [:execution_title, :labels, "execution_buttons project-actions"]
     end

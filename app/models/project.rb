@@ -21,7 +21,7 @@ class Project < ApplicationRecord
   end
 
   def requirements
-    issues.joins(:labels).where(labels: { is_requirement: true })
+    issues.requirements
   end
 
   def title

@@ -9,6 +9,18 @@ class Scenario < ApplicationRecord
 
   attr_accessor :labels_text
 
+  scope :no_label, -> { where.not(id: Scenario.has_label.select(:id).distinct) }
+  scope :has_label, -> {
+    joins(:labels).where({
+      labels: {
+          id: Label.select(:id)
+        }
+    }).distinct
+  }
+  scope :label, ->(label) { joins(:labels).where(labels: { id: label }).distinct }
+  scope :execution_result, ->(plan, result) { joins(:executions).where(executions: { plan_id: plan, result: result }) }
+  scope :unexecuted, ->(plan) { where.not(id: Scenario.execution_result(plan, [ExecutionResult.enums.passed, ExecutionResult.enums.failed, ExecutionResult.enums.na]).select(:id).distinct) }
+
   def title
     name
   end

@@ -82,7 +82,9 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :reporting, t('navigation.pages.reporting'), nil, highlights_on: /reporting/, html: { icon: 'newspaper-o' } do |reporting|
       reporting.item :time_sheets, t('navigation.pages.time_sheets'), time_sheets_path
     end
-    # primary.item :scenarios, fa_icon('folder', text: t('navigation.pages.scenarios')), scenarios_url
+
+    # primary.item :bugs, t('navigation.pages.bugs'), 'javascript:void(0);', highlights_on: :subpath, html: { icon: 'bug' }
+    # primary.item :tickets, t('navigation.pages.tickets'), 'javascript:void(0);', highlights_on: :subpath, html: { icon: 'ticket' }
 
     # you can also specify html attributes to attach to this particular level
     # works for all levels of the menu

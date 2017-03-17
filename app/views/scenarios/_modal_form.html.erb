@@ -24,9 +24,12 @@
 </div>
 
 <script type="text/javascript" >
-// $(document).on("turbolinks:load", function() {
-    var simplemde = new SimpleMDE({
+var simplemde = null;
+$("#scenario-modal-window").on('show.bs.modal', function(e) {
+    simplemde = new SimpleMDE({
       status: false
     });
-// });
+}).on('hide.bs.modal', function(e) {
+    simplemde = null; //finalized
+});
 </script>

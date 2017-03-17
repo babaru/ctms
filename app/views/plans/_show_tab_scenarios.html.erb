@@ -31,8 +31,8 @@
         <h3><%= @scenario.title %></h3>
         <div class="markdown"><%= @scenario.html_body %></div>
         <div class="btn-toolbar pull-right">
-          <%= execution_button(params[:id], @scenario.id, params) %>
-          <%= execution_remark_button(params[:id], @scenario.id, { button_label: true }) %>
+            <%= execution_remark_button(params[:id], @scenario.id, { button_label: true }) %>
+            <%= execution_button(params[:id], @scenario.id, params) %>
         </div>
         <br/><br/>
         <hr class="hr-line-solid"/>

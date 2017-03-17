@@ -22,7 +22,7 @@ class PlanGrid
 
   column("project-completion", header: I18n.t('activerecord.attributes.plan.completion')) do |asset|
     format(asset.title) do |value|
-      plan_completion(asset)
+      plan_progress(asset)
     end
   end
 

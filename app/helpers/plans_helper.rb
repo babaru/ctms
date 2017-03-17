@@ -40,7 +40,19 @@ module PlansHelper
     end
   end
 
-  def plan_completion(plan)
-    render partial: 'plans/plan_completion', locals: { plan: plan }
+  def plan_progress(plan)
+    render partial: 'plans/plan_progress', locals: { plan: plan }
+  end
+
+  def issue_title_with_progress(plan, issue)
+    [
+      issue.list_title,
+      issue_progress(plan, issue)
+    ].join(' ').html_safe
+  end
+
+  def issue_progress(plan, issue)
+    return nil if issue.scenarios.count == 0
+    content_tag(:span, "(#{Execution.executed(plan, issue).count}/#{issue.scenarios.count}) #{Execution.executed(plan, issue).count * 100 / issue.scenarios.count}%", class: 'label label-default')
   end
 end

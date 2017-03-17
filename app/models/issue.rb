@@ -19,13 +19,13 @@ class Issue < ApplicationRecord
   scope :requirements, -> { joins(:labels).where(labels: { is_requirement: true }).distinct }
   scope :label, ->(label) { joins(:labels).where(labels: { id: label }).distinct }
 
-  def nav_title
-    scenarios_count = scenarios.count > 0 ? " [#{scenarios.count}]" : ''
-    "#{list_title}#{scenarios_count}"
-  end
-
   def list_title
     "##{gitlab_id} - #{title}"
+  end
+
+  def list_title_with_progress(plan)
+    return list_title if scenarios.count == 0
+    "#{list_title} (#{Execution.executed(plan, id).count}/#{scenarios.count})"
   end
 
   def opened?

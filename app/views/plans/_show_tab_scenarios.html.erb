@@ -4,7 +4,7 @@
             <%= render partial: 'label_filter' %>
         </div>
         <div class="col-lg-4">
-            <%= plan_completion(@plan) %>
+            <%= plan_progress(@plan) %>
         </div>
     </div>
 </div>
@@ -15,9 +15,9 @@
             <ul class="folder-list" style="padding-left: 0px;">
                   <% @scenario_folders.each do |issue| %>
                     <% if @issue && @issue.id == issue.id %>
-                      <%= content_tag(:li, link_to(fa_icon('folder-open', text: issue.nav_title), plan_path(@plan, project_id: params[:project_id], label_id: params[:label_id], no_label: params[:no_label], issue_id: issue.id, unexecuted: params[:unexecuted], execution_result: params[:execution_result])), class: 'active' ) %>
+                      <%= content_tag(:li, link_to(fa_icon('folder-open', text: issue_title_with_progress(@plan, issue)), plan_path(@plan, project_id: params[:project_id], label_id: params[:label_id], no_label: params[:no_label], issue_id: issue.id, unexecuted: params[:unexecuted], execution_result: params[:execution_result])), class: 'active' ) %>
                     <% else %>
-                      <%= content_tag(:li, link_to(fa_icon('folder', text: issue.nav_title), plan_path(@plan, project_id: params[:project_id], label_id: params[:label_id], no_label: params[:no_label], issue_id: issue.id, unexecuted: params[:unexecuted], execution_result: params[:execution_result])) ) %>
+                      <%= content_tag(:li, link_to(fa_icon('folder', text: issue_title_with_progress(@plan, issue)), plan_path(@plan, project_id: params[:project_id], label_id: params[:label_id], no_label: params[:no_label], issue_id: issue.id, unexecuted: params[:unexecuted], execution_result: params[:execution_result])) ) %>
                     <% end %>
                   <% end %>
             </ul>

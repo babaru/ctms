@@ -2,6 +2,8 @@ class Execution < ApplicationRecord
   belongs_to :scenario
   belongs_to :plan
 
+  scope :executed, ->(plan, issue) { where(result: executed_results, plan_id: plan, scenario_id: Scenario.where(issue_id: issue).select(:id)) }
+
   def posted_to_gitlab?
     !!note_gitlab_id
   end
@@ -47,6 +49,10 @@ class Execution < ApplicationRecord
   end
 
   class << self
+
+  def executed_results
+    [ExecutionResult.enums.passed, ExecutionResult.enums.failed, ExecutionResult.enums.na]
+  end
 
   def results
     ExecutionResult.enums.map{ |k,v| [I18n.t("execution_results.#{k}"),v] }

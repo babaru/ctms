@@ -111,7 +111,7 @@ class ScenariosController < ApplicationController
     respond_to do |format|
       if @scenario.save
         set_scenarios_grid(issue_id: @scenario.issue_id)
-        format.html { redirect_to issue_path(@scenario.issue), notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
+        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -129,7 +129,7 @@ class ScenariosController < ApplicationController
     respond_to do |format|
       if @scenario.update(scenario_params.merge(labels: Scenario.parse_labels(scenario_params[:labels_text], @scenario.project_id)))
         set_scenarios_grid(issue_id: @scenario.issue_id)
-        format.html { redirect_to issue_path(@scenario.issue), notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
+        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :edit }

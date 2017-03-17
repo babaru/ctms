@@ -18,7 +18,7 @@
     </div>
     <div class="col-lg-2 m-t-lg">
         <div class="btn-toolbar pull-right">
-            <%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_scenario_path(@scenario), class: 'btn-default btn-w-m btn' %>
+            <%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_scenario_path(@scenario, redirect_url: request.original_fullpath), class: 'btn-default btn-w-m btn' %>
             <div class="btn-group pull-right">
                 <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
                     <%= fa_icon('cog') %> <span class="caret"></span>

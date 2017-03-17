@@ -12,6 +12,8 @@ class Plan < ApplicationRecord
   validates :started_at, presence: true
   validates :ended_at, presence: true
 
+  scope :watched, ->(user) { joins(:users).where(users: { id: user }) }
+
   def title
     name
   end

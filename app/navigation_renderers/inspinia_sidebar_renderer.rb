@@ -33,18 +33,22 @@ class InspiniaSidebarRenderer < SimpleNavigation::Renderer::Base
   protected
 
   def tag_for(item)
-    icon_name = icon_for(item)
-    if item.url.nil?
-      link_to([
-        content_tag(:i, nil, class: "fa fa-#{icon_name}"),
-        content_tag(:span, item.name, class: 'nav-label'),
-        content_tag(:span, nil, class: 'fa arrow')
-      ].join.html_safe, '#', link_options_for(item))
+    if options[:is_subnavigation]
+      link_to(item.name, item.url, link_options_for(item))
     else
-      link_to([
-        content_tag(:i, nil, class: "fa fa-#{icon_name}"),
-        content_tag(:span, item.name, class: 'nav-label')
-      ].join.html_safe, item.url, link_options_for(item))
+      icon_name = icon_for(item)
+      if item.url.nil?
+        link_to([
+          content_tag(:i, nil, class: "fa fa-#{icon_name}"),
+          content_tag(:span, item.name, class: 'nav-label'),
+          content_tag(:span, nil, class: 'fa arrow')
+        ].join.html_safe, '#', link_options_for(item))
+      else
+        link_to([
+          content_tag(:i, nil, class: "fa fa-#{icon_name}"),
+          content_tag(:span, item.name, class: 'nav-label')
+        ].join.html_safe, item.url, link_options_for(item))
+      end
     end
   end
 

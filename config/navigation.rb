@@ -58,10 +58,28 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>.
     #
     primary.item :dashboard, t('navigation.pages.dashboard'), dashboard_url, html: { icon: 'dashboard' }
-    primary.item :projects, t('navigation.pages.projects'), projects_path, highlights_on: :subpath, html: { icon: 'folder' }
-    primary.item :plans, t('navigation.pages.plans'), plans_path, highlights_on: :subpath, html: { icon: 'file-movie-o' }
+
+    primary.item :projects, t('navigation.pages.projects'), 'javascript:void(0);', highlights_on: :subpath, html: { icon: 'folder' } do |projects|
+      projects.item :all_projects, t('navigation.pages.projects_list'), projects_path
+
+      Project.watched(current_user).each do |project|
+        projects.item "project_#{project.id}".to_sym, project.title, project_path(project)
+      end
+    end
+
+    primary.item :plans, t('navigation.pages.plans'), 'javascript:void(0);', highlights_on: :subpath, html: { icon: 'file-movie-o' } do |plans|
+      plans.item :all_plans, t('navigation.pages.plans_list'), plans_path
+
+      Plan.watched(current_user).each do |plan|
+        plans.item "plan_#{plan.id}".to_sym, plan.title, plan_path(plan)
+      end
+    end
+
     primary.item :users, t('navigation.pages.users'), users_path, highlights_on: :subpath, html: { icon: 'users' }
-    primary.item :time_sheets, t('navigation.pages.time_sheets'), time_sheets_path, highlights_on: :subpath, html: { icon: 'calendar' }
+
+    primary.item :reporting, t('navigation.pages.reporting'), nil, highlights_on: /reporting/, html: { icon: 'newspaper-o' } do |reporting|
+      reporting.item :time_sheets, t('navigation.pages.time_sheets'), time_sheets_path
+    end
     # primary.item :scenarios, fa_icon('folder', text: t('navigation.pages.scenarios')), scenarios_url
 
     # you can also specify html attributes to attach to this particular level

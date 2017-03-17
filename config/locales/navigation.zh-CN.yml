@@ -3,6 +3,9 @@ zh-CN:
     pages:
       dashboard: 控制台
       projects: 项目
+      projects_list: 项目列表
       plans: 测试计划
+      plans_list: 测试计划列表
       users: 成员
-      time_sheets: 工时表
+      reporting: 报告
+      time_sheets: 工时

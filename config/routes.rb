@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'reporting/time_sheets'
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   root to: redirect('dashboard')

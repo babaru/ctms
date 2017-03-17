@@ -34,10 +34,11 @@ module ExecutionsHelper
 
   def execution_remark_button(plan, scenario, options = {})
     default_options = {
-      button_size: 'sm'
+      button_size: 'sm',
+      button_label: false
     }
     options = default_options.merge(options)
-    
+
     execution = Execution.find_by_plan_id_and_scenario_id(plan, scenario)
     return nil if execution.nil?
     render partial: 'executions/remarks_button', locals: { execution: execution, options: options }

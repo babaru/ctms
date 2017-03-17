@@ -13,6 +13,10 @@ class Scenario < ApplicationRecord
     name
   end
 
+  def html_body
+    Kramdown::Document.new(body).to_html.html_safe
+  end
+
   def execution(plan_id)
     executions.where(plan_id: plan_id).first
   end

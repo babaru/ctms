@@ -23,6 +23,10 @@ class Issue < ApplicationRecord
     state == 'opened'
   end
 
+  def html_description
+    Kramdown::Document.new(description).to_html.html_safe
+  end
+
   def self.sync_from_gitlab(project, api = nil)
     api ||= GitLabAPI.instance
     project.issues.update(is_existing_on_gitlab: false)

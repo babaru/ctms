@@ -5,6 +5,9 @@
             <li>
                 <%= fa_icon('home') %>
             </li>
+            <li>
+                <%= link_to t('activerecord.text.show', model: Scenario.model_name.human), scenario_path(@scenario), data: { turbolinks: false } %>
+            </li>
             <li class="active">
                 <strong><%= t('activerecord.text.edit', model: Scenario.model_name.human) %></strong>
             </li>

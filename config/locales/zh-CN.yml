@@ -50,6 +50,7 @@ zh-CN:
       refresh: "刷新%{model}"
       query: "查询%{model}"
       back_to_list: "返回%{model}列表"
+      back_to_show: "返回%{model}详情"
       sync_from_gitlab: "从 GitLab 同步%{model}数据"
       finish: "完成%{model}"
       start: "开始%{model}"

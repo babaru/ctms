@@ -1,6 +1,5 @@
 //= require jquery
 //= require turbolinks
-//= require turbo
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require metisMenu/jquery.metisMenu.js
@@ -11,4 +10,5 @@
 //= require bootstrap3-typeahead/bootstrap3-typeahead
 //= require bootstrap-tagsinput/bootstrap-tagsinput
 //= require jsTree/jstree.min
+//= require simplemde.min
 //= require_tree .

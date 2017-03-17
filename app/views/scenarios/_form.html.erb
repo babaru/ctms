@@ -18,7 +18,15 @@
           <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
       </div>
       <div class="m-l-md">
-        <%= link_to t('activerecord.text.show', model: Scenario.model_name.human), scenario_path(@scenario), class: 'btn btn-white' %>
+        <%= link_to t('activerecord.text.back_to_show', model: Scenario.model_name.human), scenario_path(@scenario), class: 'btn btn-white', data: { turbolinks: false } %>
       </div>
   </div>
 <% end %>
+
+<script type="text/javascript" >
+$(document).on("turbolinks:load", function() {
+    var simplemde = new SimpleMDE({
+      status: false
+    });
+});
+</script>

@@ -1,16 +1,18 @@
 module UsersHelper
-  def user_add_to_time_tracking_button(user, options = {})
+  def user_time_tracking_button(user, options = {})
     default_options = {
-      style: 'btn btn-white btn-sm'
+      style: 'btn btn-sm'
     }
     options = options.merge(default_options)
 
     if user.time_tracking?
       button_text = fa_icon('calendar-minus-o', text: t('buttons.remove_from_time_tracking'))
+      button_style = "#{options[:style]} btn-danger"
     else
       button_text = fa_icon('calendar-plus-o', text: t('buttons.add_to_time_tracking'))
+      button_style = "#{options[:style]} btn-white"
     end
-    link_to(button_text, user_time_tracking_path(user, redirect_url: request.original_fullpath), method: :post, class: options[:style])
+    link_to(button_text, user_time_tracking_path(user, redirect_url: request.original_fullpath), method: :post, class: button_style)
   end
 
   def user_avatar(user, options = {})

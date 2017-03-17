@@ -57,7 +57,7 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            when the item should be highlighted, you can set a regexp which is matched
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>.
     #
-    primary.item :dashboard, t('navigation.pages.dashboard'), dashboard_url, html: { icon: 'dashboard' }
+    # primary.item :dashboard, t('navigation.pages.dashboard'), dashboard_url, html: { icon: 'dashboard' }
 
     primary.item :projects, t('navigation.pages.projects'), 'javascript:void(0);', highlights_on: :subpath, html: { icon: 'folder' } do |projects|
       projects.item :all_projects, t('navigation.pages.projects_list'), projects_path
@@ -75,7 +75,9 @@ SimpleNavigation::Configuration.run do |navigation|
       end
     end
 
-    primary.item :users, t('navigation.pages.users'), users_path, highlights_on: :subpath, html: { icon: 'users' }
+    primary.item :users, t('navigation.pages.users'), 'javascript:void(0);', highlights_on: :subpath, html: { icon: 'users' } do |users|
+      users.item :all_users, t('navigation.pages.users_list'), users_path
+    end
 
     primary.item :reporting, t('navigation.pages.reporting'), nil, highlights_on: /reporting/, html: { icon: 'newspaper-o' } do |reporting|
       reporting.item :time_sheets, t('navigation.pages.time_sheets'), time_sheets_path

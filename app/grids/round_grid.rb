@@ -14,7 +14,7 @@ class RoundGrid
   column("name project-title", header: I18n.t('activerecord.attributes.round.title')) do |asset|
     format(asset.title) do |value|
       [
-        link_to(value, round_path(asset)),
+        link_to(value, plan_round_path(asset, plan_id: asset.plan_id)),
         content_tag(:small, round_duration_text(asset))
       ].join('<br />').html_safe
     end

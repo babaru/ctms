@@ -1,7 +1,7 @@
 
 
 class RoundsController < ApplicationController
-  before_action :set_round, only: [:show, :edit, :update, :destroy]
+  before_action :set_round, only: [:show, :edit, :update, :complete, :destroy]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -132,6 +132,15 @@ class RoundsController < ApplicationController
     end
   end
 
+  def complete
+    if request.post?
+      respond_to do |format|
+        @round.complete
+        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Round.model_name.human) }
+      end
+    end
+  end
+
   # DELETE /rounds/1
   # DELETE /rounds/1.json
   def destroy
@@ -158,6 +167,9 @@ class RoundsController < ApplicationController
       :started_at,
       :ended_at,
       :plan_id,
+      :scenario_id,
+      :project_id,
+      :issue_id
       )
   end
 

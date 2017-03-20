@@ -8,6 +8,8 @@ class Plan < ApplicationRecord
   has_many :user_watching_plans, dependent: :destroy
   has_many :users, through: :user_watching_plans
 
+  has_many :rounds
+
   validates :title, presence: true
   # validates :started_at, presence: true
   # validates :ended_at, presence: true

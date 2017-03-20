@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   get 'dashboard', to: 'dashboard#index', as: :dashboard
 
   post 'projects/:id/watch' => 'projects#watch', as: :watch_project
-  post 'rounds/:id/complete' => 'rounds#complete', as: :complete_round
+
+  post 'plans/:id/complete' => 'plans#complete', as: :complete_plan
   post 'plans/:id/watch' => 'plans#watch', as: :watch_plan
   post 'mark_requirement_label/:id' => 'labels#mark_requirement', as: :mark_requirement_label
 
@@ -27,6 +28,8 @@ Rails.application.routes.draw do
 
   post 'users/:id/time_tracking' => 'users#time_tracking', as: :user_time_tracking
   post 'projects/:id/time_tracking' => 'projects#time_tracking', as: :project_time_tracking
+
+  post 'rounds/:id/complete' => 'rounds#complete', as: :complete_round
 
   resources :projects do
     resources :issues, :milestones, :labels

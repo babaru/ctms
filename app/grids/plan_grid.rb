@@ -20,17 +20,32 @@ class PlanGrid
     end
   end
 
-  column("project-completion", header: I18n.t('activerecord.attributes.plan.completion')) do |asset|
-    format(asset.title) do |value|
-      plan_progress(asset)
+  column("rounds", header: I18n.t('activerecord.attributes.plan.rounds')) do |asset|
+    format(asset.rounds.count) do |value|
+      value
+    end
+  end
+
+  # column("project-actions", header: '') do |asset|
+  #   format(asset.id) do |value|
+  #     [
+  #       plan_current_active_round_button(asset)
+  #     ].join(' ').html_safe
+  #   end
+  # end
+
+  column("project-actions", header: '') do |asset|
+    format(asset.id) do |value|
+      [
+        complete_plan_button(asset),
+        watch_plan_button(asset)
+      ].join(' ').html_safe
     end
   end
 
   column("project-actions", header: '') do |asset|
     format(asset.id) do |value|
       [
-        finish_plan_button(asset),
-        watch_plan_button(asset),
         link_to(fa_icon("pencil"), edit_plan_path(asset), class: 'btn btn-white btn-sm', data: { toggle: 'tooltip', title: t('buttons.edit') }),
         link_to(fa_icon('trash'), plan_path(asset), method: :delete, data: { confirm: t('messages.delete_confirmation'), toggle: 'tooltip', title: t('buttons.delete') }, class: 'btn btn-danger btn-sm')
       ].join(' ').html_safe

@@ -1,12 +1,12 @@
 class PlansController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_plan, only: [:show, :edit, :update, :destroy, :finish, :watch]
+  before_action :set_plan, only: [:show, :edit, :update, :destroy, :complete, :watch]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  SHOW_TABS = [].freeze
+  SHOW_TABS = [:rounds].freeze
   LIST_TABS = [:watched, :all].freeze
 
   # GET /plans
@@ -85,36 +85,11 @@ class PlansController < ApplicationController
     @current_tab ||= SHOW_TABS.first.to_s
     @current_tab = @current_tab.to_sym
 
-    @project = Project.find params[:project_id] if params[:project_id]
-    @project ||= @plan.projects.first
-    @issue = Issue.find params[:issue_id] if params[:issue_id]
-    @scenario = Scenario.find params[:scenario_id] if params[:scenario_id]
-
-    @label = Label.find params[:label_id] if params[:label_id]
-    @no_label = params[:no_label]
-    @unexecuted = params[:unexecuted]
-    @execution_result = params[:execution_result]
-
-    conditions = {}
-    conditions[:issue_id] = @issue.id if @issue
-
-    @scenario_folders = @project.requirements
-
     case @current_tab
-    when :scenarios
-      # @executions_grid = ExecutionGrid.new do |scope|
-      #   scope.page(params[:page]).where(conditions).per(20)
-      # end
-    else
-      @scenarios_grid = ScenarioGrid.new do |scope|
-        r = scope.where(conditions)
-        r = r.label(@label) if @label
-        r = r.no_label if @no_label
-        r = r.unexecuted(@plan) if @unexecuted
-        r = r.execution_result(@plan, @execution_result) if @execution_result
-        r.page(params[:page]).per(20)
+    when :rounds
+      @rounds_grid = RoundGrid.new do |scope|
+        scope.where(plan_id: @plan).page(params[:page]).per(20)
       end
-      @scenarios_grid.column_names = [:execution_title, :labels, "execution_buttons project-actions"]
     end
   end
 
@@ -159,10 +134,10 @@ class PlansController < ApplicationController
     end
   end
 
-  def finish
+  def complete
     if request.post?
       respond_to do |format|
-        @plan.finish
+        @plan.complete
         format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
       end
     end

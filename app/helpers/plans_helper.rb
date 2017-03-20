@@ -18,9 +18,9 @@ module PlansHelper
   def plan_state_label(plan)
     state_text = Plan.state_names[plan.state]
     case plan.state
-    when PlanState.enums.unfinished
+    when TestSuiteState.enums.incomplete
       content_tag(:span, state_text, class: 'label label-primary')
-    when PlanState.enums.finished
+    when TestSuiteState.enums.complete
       content_tag(:span, state_text, class: 'label label-default')
     end
   end
@@ -28,15 +28,15 @@ module PlansHelper
   def complete_plan_button(plan, options = {})
     default_options = {
       styles: {
-        unfinished_style: 'btn btn-sm btn-white',
-        finished_style: 'btn btn-sm btn-white'
+        incomplete_style: 'btn btn-sm btn-white',
+        complete_style: 'btn btn-sm btn-white'
       }
     }
     options = default_options.merge(options)
-    if plan.unfinished?
-      link_to fa_icon('check', text: t('activerecord.text.finish', model: Plan.model_name.human)), finish_plan_path(plan, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:unfinished_style]
+    if plan.incomplete?
+      link_to fa_icon('check', text: t('activerecord.text.complete', model: Plan.model_name.human)), complete_plan_path(plan, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:incomplete_style]
     else
-      link_to fa_icon('car', text: t('activerecord.text.start', model: Plan.model_name.human)), finish_plan_path(plan, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:finished_style]
+      link_to fa_icon('car', text: t('activerecord.text.start', model: Plan.model_name.human)), complete_plan_path(plan, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:complete_style]
     end
   end
 end

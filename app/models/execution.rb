@@ -52,6 +52,10 @@ class Execution < ApplicationRecord
 
   class << self
 
+  def find_or_create_by_round_and_scenario(round, scenario)
+    where(scenario_id: scenario.id, round_id: round.id, issue_id: scenario.issue_id, plan_id: round.plan_id).first_or_create
+  end
+
   def executed_results
     [ExecutionResult.enums.passed, ExecutionResult.enums.failed, ExecutionResult.enums.na]
   end

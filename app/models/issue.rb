@@ -36,6 +36,16 @@ class Issue < ApplicationRecord
     Kramdown::Document.new(description).to_html.html_safe
   end
 
+  def post_defect_to_gitlab(content, access_token)
+    data = GitLabAPI.instance.create_issue(
+      project.gitlab_id,
+      content,
+      'defect',
+      access_token
+    )
+    Defect.from_gitlab_data(data)
+  end
+
   def self.sync_from_gitlab(project, api = nil)
     api ||= GitLabAPI.instance
     project.issues.update(is_existing_on_gitlab: false)

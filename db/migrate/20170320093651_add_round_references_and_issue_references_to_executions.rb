@@ -1,5 +1,5 @@
 class AddRoundReferencesAndIssueReferencesToExecutions < ActiveRecord::Migration[5.0]
-  def change
+  def up
     add_reference :executions, :round, foreign_key: true
     add_reference :executions, :issue, foreign_key: true
 
@@ -11,5 +11,10 @@ class AddRoundReferencesAndIssueReferencesToExecutions < ActiveRecord::Migration
       end.id
       execution.save
     end
+  end
+
+  def down
+    remove_reference :executions, :round, foreign_key: true
+    remove_reference :executions, :issue, foreign_key: true
   end
 end

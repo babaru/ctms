@@ -108,6 +108,7 @@ zh-CN:
         assignee: 分配给
         user: 创建人
         milestone: 里程碑
+        gitlab_id: '#'
         tabs:
           scenarios: 测试场景
       plan:

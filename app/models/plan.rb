@@ -16,11 +16,6 @@ class Plan < ApplicationRecord
 
   scope :watched, ->(user) { joins(:users).where(users: { id: user }) }
 
-  # capability
-  def name
-    title
-  end
-
   def complete?
     state == TestSuiteState.enums.complete
   end

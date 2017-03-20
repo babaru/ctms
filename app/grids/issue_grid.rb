@@ -5,14 +5,20 @@ class IssueGrid
     Issue.order('issues.id desc')
   end
 
+  column(:gitlab_id, header: I18n.t('activerecord.attributes.issue.gitlab_id'), mandatory: true) do |asset|
+    format(asset.gitlab_id) do |value|
+      "##{value}"
+    end
+  end
+
   column("state", header: I18n.t('activerecord.attributes.issue.state')) do |asset|
     format(asset.state) do |value|
       issue_state_label(asset)
     end
   end
 
-  column("issue-info", header: I18n.t('activerecord.attributes.issue.title')) do |asset|
-    format(asset.list_title) do |value|
+  column("title issue-info", header: I18n.t('activerecord.attributes.issue.title')) do |asset|
+    format(asset.title) do |value|
       [
         link_to(value, project_issue_path(asset, project_id: asset.project_id)),
         content_tag(:small, "#{asset.description.truncate(150)}")

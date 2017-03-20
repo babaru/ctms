@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320140104) do
+ActiveRecord::Schema.define(version: 20170320151959) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -39,23 +39,25 @@ ActiveRecord::Schema.define(version: 20170320140104) do
 
   create_table "issues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "project_id"
-    t.text     "description",           limit: 65535
+    t.text     "description",            limit: 65535
     t.string   "gitlab_id"
-    t.boolean  "is_existing_on_gitlab",               default: false
+    t.boolean  "is_existing_on_gitlab",                default: false
     t.integer  "milestone_id"
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.string   "gitlab_iid"
     t.string   "state"
     t.string   "title"
     t.integer  "user_id"
     t.integer  "assignee_id"
-    t.integer  "corrsponding_issue_id"
-    t.string   "type",                                default: "Issue"
+    t.integer  "corresponding_issue_id"
+    t.string   "type",                                 default: "Issue"
+    t.integer  "round_id"
     t.index ["assignee_id"], name: "index_issues_on_assignee_id", using: :btree
-    t.index ["corrsponding_issue_id"], name: "index_issues_on_corrsponding_issue_id", using: :btree
+    t.index ["corresponding_issue_id"], name: "index_issues_on_corresponding_issue_id", using: :btree
     t.index ["milestone_id"], name: "index_issues_on_milestone_id", using: :btree
     t.index ["project_id"], name: "index_issues_on_project_id", using: :btree
+    t.index ["round_id"], name: "index_issues_on_round_id", using: :btree
     t.index ["user_id"], name: "index_issues_on_user_id", using: :btree
   end
 
@@ -209,9 +211,10 @@ ActiveRecord::Schema.define(version: 20170320140104) do
   add_foreign_key "executions", "scenarios"
   add_foreign_key "issue_labels", "issues"
   add_foreign_key "issue_labels", "labels"
-  add_foreign_key "issues", "issues", column: "corrsponding_issue_id"
+  add_foreign_key "issues", "issues", column: "corresponding_issue_id"
   add_foreign_key "issues", "milestones"
   add_foreign_key "issues", "projects"
+  add_foreign_key "issues", "rounds"
   add_foreign_key "issues", "users"
   add_foreign_key "issues", "users", column: "assignee_id"
   add_foreign_key "labels", "projects"

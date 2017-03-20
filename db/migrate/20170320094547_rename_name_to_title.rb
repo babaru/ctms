@@ -5,7 +5,7 @@ class RenameNameToTitle < ActiveRecord::Migration[5.0]
   end
 
   def down
-    rename_column :scenario, :title, :name
+    rename_column :scenarios, :title, :name
     rename_column :plans, :title, :name
   end
 end

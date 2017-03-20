@@ -22,7 +22,7 @@ module RoundsHelper
     }
     options = default_options.merge(options)
     if round.incomplete?
-      link_to fa_icon('check', text: t('activerecord.text.finish', model: Round.model_name.human)), complete_round_path(round, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:incomplete_style]
+      link_to fa_icon('check', text: t('activerecord.text.complete', model: Round.model_name.human)), complete_round_path(round, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:incomplete_style]
     else
       link_to fa_icon('car', text: t('activerecord.text.start', model: Round.model_name.human)), complete_round_path(round, redirect_url: request.original_fullpath), method: :post, class: options[:styles][:complete_style]
     end

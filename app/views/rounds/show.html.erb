@@ -1,6 +1,6 @@
 <div class="row page-heading">
     <div class="col-lg-10">
-        <h2><%= @round.title %> <%= round_state_label(@round) %></h2>
+        <h2><%= @round.title %> <%= round_duration_text(@round) %></h2>
         <ol class="breadcrumb">
             <li>
                 <%= fa_icon('home') %>
@@ -23,9 +23,9 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu">
-                <li><%= complete_round_button(@round, { styles: {} }) %></li>
-                <li role="separator" class="divider"></li>
-                <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_round_path(@round) %></li>
+                <li>
+                    <%= link_to(fa_icon('pencil', text: t('buttons.edit')), edit_round_path(@round, redirect_url: request.original_fullpath), remote: true) %>
+                </li>
             </ul>
         </div>
     </div>

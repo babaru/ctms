@@ -1,15 +1,27 @@
 <%= simple_form_for(@round, html: { class: 'form-horizontal' } ) do |f| %>
   <%= f.error_notification %>
 
-  
+  <%= f.input :title %>
   <div class="hr-line-dashed"></div>
+
+  <%= f.input :started_at, as: :date_picker %>
+  <div class="hr-line-dashed"></div>
+
+  <%= f.input :ended_at, as: :date_picker %>
+  <div class="hr-line-dashed"></div>
+
+  <%= f.input :plan_id, as: :hidden %>
 
   <div class="form-group">
       <div class="pull-right m-r-md">
           <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
       </div>
       <div class="m-l-md">
-        <%= link_to t('activerecord.text.back_to_list', model: Round.model_name.human), rounds_path, class: 'btn btn-white' %>
+        <% if @redirect_url %>
+        <%= link_to t('buttons.back'), @redirect_url, class: 'btn btn-white' %>
+        <% else %>
+        <%= link_to t('activerecord.text.back_to_list', model: Round.model_name.human), plan_path(@round.plan_id), class: 'btn btn-white' %>
+        <% end %>
       </div>
   </div>
 <% end %>

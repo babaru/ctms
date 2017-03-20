@@ -142,3 +142,5 @@ zh-CN:
         state: 状态
         title: 标题
         completion: 完成度
+        started_at: 开始于
+        ended_at: 结束于

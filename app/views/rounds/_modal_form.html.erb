@@ -1,0 +1,23 @@
+<div class="modal inmodal" id="round-modal-window" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInBottom">
+            <%= simple_form_for(@round, remote: true, wrapper: :vertical_form ) do |f| %>
+            <div class="modal-header">
+                <i class="fa fa-refresh modal-icon"></i>
+                <h4 class="modal-title"><%= Round.model_name.human %></h4>
+            </div>
+            <div class="modal-body">
+                <%= f.error_notification %>
+                <%= f.input :title %>
+                <%= f.input :started_at, as: :date_picker %>
+                <%= f.input :ended_at, as: :date_picker %>
+                <%= f.input :plan_id, as: :hidden %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal"><%= t('buttons.close') %></button>
+                <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
+            </div>
+            <% end %>
+        </div>
+    </div>
+</div>

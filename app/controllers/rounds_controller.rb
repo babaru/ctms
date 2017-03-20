@@ -94,21 +94,29 @@ class RoundsController < ApplicationController
   # GET /rounds/new
   def new
     @round = Round.new
+    @round.plan_id = params[:plan_id]
+    @redirect_url = params[:redirect_url]
+    session[:redirect_url] = params[:redirect_url]
   end
 
   # GET /rounds/1/edit
   def edit
+    @redirect_url = params[:redirect_url]
+    session[:redirect_url] = params[:redirect_url]
   end
 
   # POST /rounds
   # POST /rounds.json
   def create
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
+
     @round = Round.new(round_params)
 
     respond_to do |format|
       if @round.save
         set_rounds_grid
-        format.html { redirect_to @round, notice: t('activerecord.success.messages.created', model: Round.model_name.human) }
+        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.created', model: Round.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -120,10 +128,13 @@ class RoundsController < ApplicationController
   # PATCH/PUT /rounds/1
   # PATCH/PUT /rounds/1.json
   def update
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
+
     respond_to do |format|
       if @round.update(round_params)
         set_rounds_grid
-        format.html { redirect_to @round, notice: t('activerecord.success.messages.updated', model: Round.model_name.human) }
+        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.updated', model: Round.model_name.human) }
         format.js
       else
         format.html { render :edit }

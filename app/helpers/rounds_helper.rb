@@ -1,6 +1,6 @@
 module RoundsHelper
   def round_duration_text(round)
-    fa_icon('calendar-check-o', text: "#{round.started_at.strftime('%Y-%m-%d')} › #{round.ended_at.strftime('%Y-%m-%d')}")
+    fa_icon('calendar-check-o', text: "#{round.started_at.strftime('%Y-%m-%d')} › #{round.ended_at.strftime('%Y-%m-%d')}") if round.started_at && round.ended_at
   end
 
   def round_state_label(round)

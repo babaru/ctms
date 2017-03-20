@@ -11,7 +11,7 @@ class PlanGrid
   #   end
   # end
 
-  column("name project-title", header: I18n.t('activerecord.attributes.plan.title')) do |asset|
+  column("name issue-info", header: I18n.t('activerecord.attributes.plan.title')) do |asset|
     format(asset.title) do |value|
       [
         link_to(value, plan_path(asset)),

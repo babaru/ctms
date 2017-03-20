@@ -1,6 +1,6 @@
 <div class="row page-heading">
     <div class="col-lg-10">
-        <h2><%= @plan.name if @plan.respond_to? :name %> <%= plan_state_label(@plan) %></h2>
+        <h2><%= @plan.title %></h2>
         <ol class="breadcrumb">
             <li>
                 <%= fa_icon('home') %>
@@ -14,16 +14,17 @@
         </ol>
     </div>
     <div class="col-lg-2 m-t-lg">
-        <div class="btn-group pull-right">
-            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
-                <%= fa_icon('cog') %> <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><%= complete_plan_button(@plan, { styles: {} }) %></li>
-                <li role="separator" class="divider"></li>
-                <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_plan_path(@plan) %></li>
-            </ul>
+        <div class="btn-toolbar pull-right">
+            <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Round.model_name.human)), new_plan_round_path(plan_id: @plan.id, redirect_url: request.original_fullpath), class: 'btn-primary btn' %>
+            <div class="btn-group pull-right">
+                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">
+                    <%= fa_icon('cog') %> <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_plan_path(@plan, redirect_url: request.original_fullpath) %></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

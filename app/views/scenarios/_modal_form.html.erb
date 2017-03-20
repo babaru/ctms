@@ -26,9 +26,11 @@
 <script type="text/javascript" >
 var simplemde = null;
 $("#scenario-modal-window").on('show.bs.modal', function(e) {
-    simplemde = new SimpleMDE({
-      status: false
-    });
+    if (simplemde == null) {
+        simplemde = new SimpleMDE({
+          status: false
+        });
+    }
 }).on('hide.bs.modal', function(e) {
     simplemde = null; //finalized
 });

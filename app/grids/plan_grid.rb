@@ -46,8 +46,8 @@ class PlanGrid
     format(asset.id) do |value|
       [
         watch_plan_button(asset),
-        link_to(fa_icon("pencil"), edit_plan_path(asset), class: 'btn btn-white btn-sm', data: { toggle: 'tooltip', title: t('buttons.edit') }),
-        link_to(fa_icon('trash'), plan_path(asset), method: :delete, data: { confirm: t('messages.delete_confirmation'), toggle: 'tooltip', title: t('buttons.delete') }, class: 'btn btn-danger btn-sm')
+        link_to(fa_icon("pencil"), edit_plan_path(asset, redirect_url: request.original_fullpath), class: 'btn btn-white btn-sm', data: { toggle: 'tooltip', title: t('buttons.edit') }),
+        link_to(fa_icon('trash'), plan_path(asset, redirect_url: request.original_fullpath), method: :delete, data: { confirm: t('messages.delete_confirmation'), toggle: 'tooltip', title: t('buttons.delete') }, class: 'btn btn-danger btn-sm')
       ].join(' ').html_safe
     end
   end

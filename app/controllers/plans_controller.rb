@@ -2,11 +2,11 @@ class PlansController < ApplicationController
   before_action :authenticate_user!
   before_action :set_plan, only: [:show, :edit, :update, :destroy, :complete, :watch]
 
-  QUERY_KEYS = [:name].freeze
+  QUERY_KEYS = [:title].freeze
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  SHOW_TABS = [:rounds].freeze
+  SHOW_TABS = [:rounds, :summary].freeze
   LIST_TABS = [:watched, :all].freeze
 
   # GET /plans
@@ -86,6 +86,8 @@ class PlansController < ApplicationController
     @current_tab = @current_tab.to_sym
 
     case @current_tab
+    when :summary
+      
     when :rounds
       @rounds_grid = RoundGrid.new do |scope|
         scope.where(plan_id: @plan).page(params[:page]).per(20)
@@ -96,21 +98,27 @@ class PlansController < ApplicationController
   # GET /plans/new
   def new
     @plan = Plan.new
+    @redirect_url = params[:redirect_url]
+    session[:redirect_url] = params[:redirect_url]
   end
 
   # GET /plans/1/edit
   def edit
+    @redirect_url = params[:redirect_url]
+    session[:redirect_url] = params[:redirect_url]
   end
 
   # POST /plans
   # POST /plans.json
   def create
     @plan = Plan.new(plan_params)
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
 
     respond_to do |format|
       if @plan.save
         set_plans_grid
-        format.html { redirect_to plans_path, notice: t('activerecord.success.messages.created', model: Plan.model_name.human) }
+        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.created', model: Plan.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -122,10 +130,13 @@ class PlansController < ApplicationController
   # PATCH/PUT /plans/1
   # PATCH/PUT /plans/1.json
   def update
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
+
     respond_to do |format|
       if @plan.update(plan_params)
         set_plans_grid
-        format.html { redirect_to plans_path, notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
+        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -156,10 +167,11 @@ class PlansController < ApplicationController
   # DELETE /plans/1.json
   def destroy
     @plan.destroy
+    redirect_url = params[:redirect_url]
 
     respond_to do |format|
       set_plans_grid
-      format.html { redirect_to plans_url, notice: t('activerecord.success.messages.destroyed', model: Plan.model_name.human) }
+      format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.destroyed', model: Plan.model_name.human) }
       format.js
     end
   end
@@ -174,7 +186,7 @@ class PlansController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def plan_params
     params.require(:plan).permit(
-      :name,
+      :title,
       :started_at,
       :ended_at,
       :state,

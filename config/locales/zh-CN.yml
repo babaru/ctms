@@ -22,6 +22,7 @@ zh-CN:
     no_label: 无标签
     all_execution_results: 所有执行结果
     unexecuted: 未执行
+    back: 返回
   placeholders:
     email: 邮箱
     password: 密码
@@ -119,11 +120,13 @@ zh-CN:
         completion: 完成度
         title: 标题
         rounds: 测试轮次
+        body: 内容
         tabs:
           scenarios: 测试场景
           watched: 关注
           all: 全部
           rounds: 测试轮
+          summary: 内容
       execution:
         remarks: 备注
       user:

@@ -26,9 +26,11 @@
 <script type="text/javascript" >
 var simplemde = null;
 $(document).on("turbolinks:load", function() {
-    simplemde = new SimpleMDE({
-      status: false
-    });
+    if(simplemde == null) {
+      simplemde = new SimpleMDE({
+        status: false
+      });
+    }
 }).on("turbolinks:unload", function() {
     simplemde = null;
 });

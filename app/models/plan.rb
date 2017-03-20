@@ -34,6 +34,10 @@ class Plan < ApplicationRecord
     self.update(state: state)
   end
 
+  def html_body
+    Kramdown::Document.new(body).to_html.html_safe if body
+  end
+
   class << self
 
   def states

@@ -72,10 +72,10 @@ class ScenariosController < ApplicationController
 
   def execute
     if request.post?
-      plan_id = params[:plan_id]
+      round = Round.find params[:round_id]
       result = params[:result]
 
-      execution = Execution.where(scenario: @scenario, plan_id: plan_id).first_or_create
+      execution = Execution.where(scenario: @scenario, plan_id: round.plan_id, issue_id: @scenario.issue_id, round_id: round.id).first_or_create
       execution.update(result: result)
 
       respond_to do |format|

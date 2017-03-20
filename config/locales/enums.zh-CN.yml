@@ -1,7 +1,7 @@
 zh-CN:
-  plan_states:
-    unfinished: 未完成
-    finished: 已完成
+  test_suite_states:
+    incomplete: 未完成
+    complete: 已完成
   execution_results:
     passed: 通过
     failed: 失败

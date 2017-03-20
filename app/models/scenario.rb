@@ -21,8 +21,8 @@ class Scenario < ApplicationRecord
   scope :execution_result, ->(plan, result) { joins(:executions).where(executions: { plan_id: plan, result: result }) }
   scope :unexecuted, ->(plan) { where.not(id: Scenario.execution_result(plan, [ExecutionResult.enums.passed, ExecutionResult.enums.failed, ExecutionResult.enums.na]).select(:id).distinct) }
 
-  def title
-    name
+  def name
+    title
   end
 
   def html_body

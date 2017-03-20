@@ -1,22 +1,9 @@
-class Plan < ApplicationRecord
-  include Watchable
+class Round < ApplicationRecord
+  belongs_to :plan
+  has_many :executions, dependent: :destroy
 
-  has_many :plan_projects, dependent: :destroy
-  has_many :projects, through: :plan_projects
-  has_many :executions
-
-  has_many :user_watching_plans, dependent: :destroy
-  has_many :users, through: :user_watching_plans
-
-  validates :title, presence: true
-  # validates :started_at, presence: true
-  # validates :ended_at, presence: true
-
-  scope :watched, ->(user) { joins(:users).where(users: { id: user }) }
-
-  # capability
-  def name
-    title
+  def projects
+    plan.projects
   end
 
   def complete?
@@ -25,6 +12,14 @@ class Plan < ApplicationRecord
 
   def incomplete?
     !complete?
+  end
+
+  def total_scenarios_count
+    projects.inject(0) {|sum, project| sum += project.scenarios.count }
+  end
+
+  def progress
+    executions.count * 100 / total_scenarios_count
   end
 
   def complete

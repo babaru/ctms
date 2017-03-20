@@ -15,11 +15,11 @@ Rails.application.routes.draw do
   get 'dashboard', to: 'dashboard#index', as: :dashboard
 
   post 'projects/:id/watch' => 'projects#watch', as: :watch_project
-  post 'plans/:id/finish' => 'plans#finish', as: :finish_plan
+  post 'rounds/:id/complete' => 'rounds#complete', as: :complete_round
   post 'plans/:id/watch' => 'plans#watch', as: :watch_plan
-  post 'execute_scenario/:id' => 'scenarios#execute', as: :execute_scenario
   post 'mark_requirement_label/:id' => 'labels#mark_requirement', as: :mark_requirement_label
 
+  post 'execute_scenario/:id' => 'scenarios#execute', as: :execute_scenario
   match 'executions/:id/remarks' => 'executions#remarks', via: [:post, :get], as: :execution_remarks
   post 'executions/:id/delete_remarks' => 'executions#delete_remarks', as: :execution_delete_remarks
 
@@ -39,6 +39,10 @@ Rails.application.routes.draw do
   resources :scenarios, :milestones, :labels
 
   resources :plans do
+    resources :rounds
+  end
+
+  resources :rounds do
     resources :executions
   end
 

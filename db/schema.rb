@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315151530) do
+ActiveRecord::Schema.define(version: 20170320095808) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -20,7 +20,11 @@ ActiveRecord::Schema.define(version: 20170315151530) do
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "note_gitlab_id"
+    t.integer  "round_id"
+    t.integer  "issue_id"
+    t.index ["issue_id"], name: "index_executions_on_issue_id", using: :btree
     t.index ["plan_id"], name: "index_executions_on_plan_id", using: :btree
+    t.index ["round_id"], name: "index_executions_on_round_id", using: :btree
     t.index ["scenario_id"], name: "index_executions_on_scenario_id", using: :btree
   end
 
@@ -39,14 +43,17 @@ ActiveRecord::Schema.define(version: 20170315151530) do
     t.string   "gitlab_id"
     t.boolean  "is_existing_on_gitlab",               default: false
     t.integer  "milestone_id"
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
     t.string   "gitlab_iid"
     t.string   "state"
     t.string   "title"
     t.integer  "user_id"
     t.integer  "assignee_id"
+    t.integer  "corrsponding_issue_id"
+    t.string   "type",                                default: "Issue"
     t.index ["assignee_id"], name: "index_issues_on_assignee_id", using: :btree
+    t.index ["corrsponding_issue_id"], name: "index_issues_on_corrsponding_issue_id", using: :btree
     t.index ["milestone_id"], name: "index_issues_on_milestone_id", using: :btree
     t.index ["project_id"], name: "index_issues_on_project_id", using: :btree
     t.index ["user_id"], name: "index_issues_on_user_id", using: :btree
@@ -85,7 +92,7 @@ ActiveRecord::Schema.define(version: 20170315151530) do
   end
 
   create_table "plans", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
+    t.string   "title"
     t.datetime "started_at"
     t.datetime "ended_at"
     t.integer  "state",                    default: 0
@@ -106,6 +113,18 @@ ActiveRecord::Schema.define(version: 20170315151530) do
     t.boolean  "under_time_tracking",                 default: false
   end
 
+  create_table "rounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "plan_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.integer  "state",                    default: 0
+    t.text     "remarks",    limit: 65535
+    t.index ["plan_id"], name: "index_rounds_on_plan_id", using: :btree
+  end
+
   create_table "scenario_labels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
     t.integer  "label_id"
@@ -116,7 +135,7 @@ ActiveRecord::Schema.define(version: 20170315151530) do
   end
 
   create_table "scenarios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
+    t.string   "title"
     t.text     "body",       limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
@@ -183,10 +202,13 @@ ActiveRecord::Schema.define(version: 20170315151530) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
+  add_foreign_key "executions", "issues"
   add_foreign_key "executions", "plans"
+  add_foreign_key "executions", "rounds"
   add_foreign_key "executions", "scenarios"
   add_foreign_key "issue_labels", "issues"
   add_foreign_key "issue_labels", "labels"
+  add_foreign_key "issues", "issues", column: "corrsponding_issue_id"
   add_foreign_key "issues", "milestones"
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "users"
@@ -195,6 +217,7 @@ ActiveRecord::Schema.define(version: 20170315151530) do
   add_foreign_key "milestones", "projects"
   add_foreign_key "plan_projects", "plans"
   add_foreign_key "plan_projects", "projects"
+  add_foreign_key "rounds", "plans"
   add_foreign_key "scenario_labels", "labels"
   add_foreign_key "scenario_labels", "scenarios"
   add_foreign_key "scenarios", "issues"

@@ -20,7 +20,7 @@ class ScenarioGrid
   column(:execution_title, header: I18n.t('activerecord.attributes.general.title')) do |asset|
     format(asset.title) do |value|
       link_to(value,
-        plan_path(params[:id], {
+        round_path(params[:id], {
           project_id: params[:project_id],
           label_id: params[:label_id],
           no_label: params[:no_label],

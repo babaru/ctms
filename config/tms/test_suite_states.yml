@@ -1,7 +1,7 @@
 defaults: &defaults
   enums:
-    unfinished: 0
-    finished: 1
+    incomplete: 0
+    complete: 1
 
 development:
   <<: *defaults

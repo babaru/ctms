@@ -11,9 +11,6 @@
             <li>
                 <%= link_to(@round.plan.title, plan_path(@round.plan)) %>
             </li>
-            <li>
-                <%= link_to(t('activerecord.text.list', model: Round.model_name.human), plan_rounds_path(@round.plan)) %>
-            </li>
             <li class="active">
                 <strong><%= t('activerecord.text.show', model: Round.model_name.human) %></strong>
             </li>

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  root to: redirect('dashboard')
+  root to: plans_path
 
   post 'sync_projects_from_gitlab' => 'projects#sync_from_gitlab', as: :sync_projects_from_gitlab
   post 'projects/:id/sync_time_sheets_from_gitlab' => 'projects#sync_time_sheets_from_gitlab', as: :sync_project_time_sheets_from_gitlab

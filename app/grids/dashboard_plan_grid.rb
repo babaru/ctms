@@ -5,11 +5,11 @@ class DashboardPlanGrid
     Plan.order('plans.id desc')
   end
 
-  column("project-status", header: I18n.t('activerecord.attributes.plan.state')) do |asset|
-    format(asset.state) do |value|
-      plan_state_label(asset)
-    end
-  end
+  # column("project-status", header: I18n.t('activerecord.attributes.plan.state')) do |asset|
+  #   format(asset.state) do |value|
+  #     plan_state_label(asset)
+  #   end
+  # end
 
   column("title project-title", header: I18n.t('activerecord.attributes.plan.title')) do |asset|
     format(asset.title) do |value|
@@ -20,9 +20,9 @@ class DashboardPlanGrid
     end
   end
 
-  column("project-completion", header: I18n.t('activerecord.attributes.plan.completion')) do |asset|
-    format(asset.title) do |value|
-      plan_progress(asset)
-    end
-  end
+  # column("project-completion", header: I18n.t('activerecord.attributes.plan.completion')) do |asset|
+  #   format(asset.title) do |value|
+  #     plan_progress(asset)
+  #   end
+  # end
 end

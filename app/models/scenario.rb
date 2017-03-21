@@ -29,8 +29,8 @@ class Scenario < ApplicationRecord
     Kramdown::Document.new(body).to_html.html_safe
   end
 
-  def execution(plan_id)
-    executions.where(plan_id: plan_id).first
+  def execution(round)
+    executions.where(round_id: round).first
   end
 
   def self.parse_labels(labels_text, project)

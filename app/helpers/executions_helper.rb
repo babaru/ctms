@@ -7,7 +7,7 @@ module ExecutionsHelper
 
     round = Round.find round_id
     return if round.complete?
-    execution = Scenario.find(scenario_id).execution(round_id)
+    execution = Scenario.find(scenario_id).execution(round)
     current_result = execution.result if execution
     current_result ||= ExecutionResult.enums.undone
     button_style = "btn-#{options[:button_size]}"

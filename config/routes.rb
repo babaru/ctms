@@ -31,6 +31,9 @@ Rails.application.routes.draw do
 
   post 'rounds/:id/complete' => 'rounds#complete', as: :complete_round
 
+  get 'new_defect' => 'issues#new_defect', as: :new_defect
+  post 'create_defect' => 'issues#create_defect', as: :create_defect
+
   resources :projects do
     resources :issues, :milestones, :labels
   end

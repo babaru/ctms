@@ -43,4 +43,7 @@ module ExecutionsHelper
     return nil if execution.nil?
     render partial: 'executions/remarks_button', locals: { execution: execution, options: options }
   end
+
+  def post_defect_button
+  end
 end

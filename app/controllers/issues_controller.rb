@@ -116,6 +116,29 @@ class IssuesController < ApplicationController
     @redirect_url = params[:redirect_url].html_safe
   end
 
+  def new_defect
+    @defect = Defect.new(scenario_id: params[:scenario_id], round_id: params[:round_id], corresponding_issue_id: params[:corresponding_issue_id], project_id: params[:project_id])
+    session[:redirect_url] = params[:redirect_url]
+  end
+
+  def create_defect
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
+
+    if request.post?
+      respond_to do |format|
+        @defect = Defect.new(defect_params)
+        if @defect.post_defect_to_gitlab(current_user.access_token)
+          format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.created', model: Defect.model_name.human) }
+          format.js
+        else
+          format.html { render :new_defect }
+          format.js { render :new_defect }
+        end
+      end
+    end
+  end
+
   # GET /issues/1/edit
   def edit
     @redirect_url = params[:redirect_url].html_safe
@@ -178,6 +201,10 @@ class IssuesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def issue_params
     params.require(:issue).permit(
+      :title,
+      :description,
+      :scenario_id,
+      :round_id,
       :project_id,
       :name,
       :body,
@@ -185,6 +212,23 @@ class IssuesController < ApplicationController
       :is_existing_on_gitlab,
       :milestone_id,
       :labels,
+      :labels_text
+      )
+  end
+
+  def defect_params
+    params.require(:defect).permit(
+      :title,
+      :description,
+      :scenario_id,
+      :round_id,
+      :project_id,
+      :corresponding_issue_id,
+      :gitlab_id,
+      :is_existing_on_gitlab,
+      :milestone_id,
+      :labels,
+      :labels_text
       )
   end
 

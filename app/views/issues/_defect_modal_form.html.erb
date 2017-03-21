@@ -1,0 +1,40 @@
+<div class="modal inmodal" id="defect-modal-window" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInBottom">
+            <%= simple_form_for(@defect, url: create_defect_path, remote: true, wrapper: :vertical_form ) do |f| %>
+            <div class="modal-header">
+                <i class="fa fa-bug modal-icon"></i>
+                <h4 class="modal-title"><%= Defect.model_name.human %></h4>
+            </div>
+            <div class="modal-body">
+                <%= f.error_notification %>
+                <%= f.input :title %>
+                <%= f.input :description, input_html: { rows: 10 } %>
+                <%= f.input :labels_text %>
+                <%= f.input :scenario_id, as: :hidden %>
+                <%= f.input :project_id, as: :hidden %>
+                <%= f.input :corresponding_issue_id, as: :hidden %>
+                <%= f.input :round_id, as: :hidden %>
+                <%= f.input :type, as: :hidden %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal"><%= t('buttons.close') %></button>
+                <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
+            </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" >
+var simplemde = null;
+$("#scenario-modal-window").on('show.bs.modal', function(e) {
+    if (simplemde == null) {
+        simplemde = new SimpleMDE({
+          status: false
+        });
+    }
+}).on('hide.bs.modal', function(e) {
+    simplemde = null; //finalized
+});
+</script>

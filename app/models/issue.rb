@@ -36,16 +36,6 @@ class Issue < ApplicationRecord
     Kramdown::Document.new(description).to_html.html_safe
   end
 
-  def post_defect_to_gitlab(content, access_token)
-    data = GitLabAPI.instance.create_issue(
-      project.gitlab_id,
-      content,
-      'defect',
-      access_token
-    )
-    Defect.from_gitlab_data(data)
-  end
-
   def self.sync_from_gitlab(project, api = nil)
     api ||= GitLabAPI.instance
     project.issues.update(is_existing_on_gitlab: false)
@@ -54,18 +44,19 @@ class Issue < ApplicationRecord
 
     1.upto(total_pages) do |page|
       collection_data.each do |data|
-        milestone = Milestone.from_gitlab_data(project, data["milestone"])
-        labels = Label.from_gitlab_data(project, data["labels"])
-        user = User.from_gitlab_data(data["author"])
-        assignee = User.from_gitlab_data(data["assignee"])
-        from_gitlab_data(project, milestone, labels, user, assignee, data)
+        from_gitlab_data(project, data)
       end
       collection_data = api.issues(project.gitlab_id, page + 1) if page < total_pages
     end
   end
 
-  def self.from_gitlab_data(project, milestone, labels, user, assignee, data)
+  def self.from_gitlab_data(project, data)
     return nil unless data
+    milestone = Milestone.from_gitlab_data(project, data["milestone"])
+    labels = Label.from_gitlab_data(project, data["labels"])
+    user = User.from_gitlab_data(data["author"])
+    assignee = User.from_gitlab_data(data["assignee"])
+    
     issue = where(gitlab_id: data["id"]).first_or_create
     data_attrs = {}
     data_attrs[:description] = fix_image_url(project, data["description"]) if data["description"]

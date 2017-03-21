@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320151959) do
+ActiveRecord::Schema.define(version: 20170321071725) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -53,11 +53,13 @@ ActiveRecord::Schema.define(version: 20170320151959) do
     t.integer  "corresponding_issue_id"
     t.string   "type",                                 default: "Issue"
     t.integer  "round_id"
+    t.integer  "scenario_id"
     t.index ["assignee_id"], name: "index_issues_on_assignee_id", using: :btree
     t.index ["corresponding_issue_id"], name: "index_issues_on_corresponding_issue_id", using: :btree
     t.index ["milestone_id"], name: "index_issues_on_milestone_id", using: :btree
     t.index ["project_id"], name: "index_issues_on_project_id", using: :btree
     t.index ["round_id"], name: "index_issues_on_round_id", using: :btree
+    t.index ["scenario_id"], name: "index_issues_on_scenario_id", using: :btree
     t.index ["user_id"], name: "index_issues_on_user_id", using: :btree
   end
 
@@ -215,6 +217,7 @@ ActiveRecord::Schema.define(version: 20170320151959) do
   add_foreign_key "issues", "milestones"
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "rounds"
+  add_foreign_key "issues", "scenarios"
   add_foreign_key "issues", "users"
   add_foreign_key "issues", "users", column: "assignee_id"
   add_foreign_key "labels", "projects"

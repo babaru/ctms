@@ -33,8 +33,8 @@ class GitLabAPI
     rest_client.get("/projects/#{project_id}/issues?per_page=#{per_page}&page=#{page}", default_options)
   end
 
-  def create_issue(project_id, content, labels, access_token)
-    rest_client.post("/projects/#{project_id}/issues", { verify: false, body: { description: content, labels: labels, access_token: access_token } })
+  def create_issue(project_id, title, description, milestone, labels, access_token)
+    rest_client.post("/projects/#{project_id}/issues", { verify: false, body: { title: title, description: description, milestone: milestone, labels: labels, access_token: access_token } })
   end
 
   # Create a note for an issue

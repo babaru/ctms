@@ -89,6 +89,8 @@ class RoundsController < ApplicationController
       r.page(params[:page]).per(20)
     end
     @scenarios_grid.column_names = [:execution_title, :labels, "execution_buttons project-actions"]
+
+    @defects = Defect.current_scenario(@scenario) if @scenario
   end
 
   # GET /rounds/new

@@ -6,7 +6,7 @@
 *= require animate/animate
 *= require steps/jquery.steps
 *= require jsTree/style
-*= require datagrid
+
 *= require simplemde.min
 *= require simplemde_override
 *= require style

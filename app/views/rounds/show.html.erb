@@ -31,30 +31,54 @@
     </div>
 </div>
 
-<div class="tabs-container">
-    <ul class="nav nav-tabs">
-        <% @round.projects.each do |project| %>
-        <% if @project && @project.id == project.id %>
-        <li class="active">
-        <% else %>
-        <li class="">
-        <% end %>
-            <%= link_to project.title, round_path(@round, project_id: project) %>
-        </li>
-        <% end %>
-    </ul>
-
-    <div class="tab-content">
-        <% @round.projects.each do |project| %>
-        <% if @project && @project.id == project.id %>
-        <div class="tab-pane active">
-        <% else %>
-        <div class="tab-pane">
-        <% end %>
-            <div class="panel-body">
-                <%= render "show_tab_scenarios", locals: { project: project } if @project %>
-            </div>
+<div class="row m-b">
+    <div class="col-lg-10">
+        <div class="btn-toolbar">
+            <%= render partial: 'project_selector', locals: { current_project: @project, projects: @round.projects, round: @round } %>
+            <%= render partial: 'issue_selector', locals: { current_project: @project, current_issue: @issue, issues: @project.issues, round: @round } %>
+            <%= render partial: 'label_filter' %>
         </div>
-        <% end %>
+    </div>
+    <div class="col-lg-2">
+        <%= round_progress(@round) %>
     </div>
 </div>
+
+<% if @issue %>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5><%= @issue.list_title %></h5>
+            </div>
+            <div class="ibox-content">
+                <%= render partial: 'executions_grid', locals: { executions_grid: @scenarios_grid } %>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+
+        <% if @scenario %>
+
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5><%= @scenario.title %></h5>
+            </div>
+            <div class="ibox-content">
+                <%= render partial: 'scenario', locals: { scenario: @scenario,
+                  current_project: @project,
+                  current_round: @round,
+                  current_issue: @issue,
+                  defects: @defects } %>
+            </div>
+        </div>
+
+        <% end %>
+
+    </div>
+</div>
+
+
+
+<% end %>

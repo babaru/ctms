@@ -1,0 +1,10 @@
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><%= current_project.title %> <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+        <% projects.each do |project| %>
+        <li>
+            <%= link_to project.title, plan_round_path(round, project_id: project) %>
+        </li>
+        <% end %>
+    </ul>
+</div>

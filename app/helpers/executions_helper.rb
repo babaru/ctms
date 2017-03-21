@@ -44,6 +44,20 @@ module ExecutionsHelper
     render partial: 'executions/remarks_button', locals: { execution: execution, options: options }
   end
 
-  def post_defect_button
+  def execution_post_defect_button(round, scenario, options = {})
+    default_options = {
+    }
+    options = default_options.merge(options)
+
+    execution = Execution.find_by_round_id_and_scenario_id(round, scenario)
+    return nil if execution.nil?
+    link_to(fa_icon('bug'), new_defect_path({
+      project_id: scenario.project,
+      scenario_id: scenario,
+      round_id: round,
+      corresponding_issue_id: scenario.issue,
+      redirect_url: request.original_fullpath}),
+        remote: true,
+        class: 'btn btn-sm btn-white')
   end
 end

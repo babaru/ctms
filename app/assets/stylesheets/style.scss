@@ -94,3 +94,24 @@ pre.description {
 .plan-header {
   border-bottom: 1px solid #eee;
 }
+
+.scrollable-menu {
+  height: auto;
+  max-height: 500px;
+  overflow-x: hidden;
+}
+
+table.datagrid {
+  .order {
+    display: inline;
+  }
+
+  .active {
+    font-weight: bold;
+    color: $text-color;
+
+    &:before {
+      content: '› ';
+    }
+  }
+}

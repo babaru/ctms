@@ -4,6 +4,7 @@ class Scenario < ApplicationRecord
   has_many :executions, dependent: :destroy
   has_many :scenario_labels, dependent: :destroy
   has_many :labels, through: :scenario_labels
+  has_many :defects
 
   validates :title, presence: true
 

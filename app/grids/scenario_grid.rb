@@ -32,6 +32,12 @@ class ScenarioGrid
     end
   end
 
+  column(:defects, header: I18n.t('activerecord.attributes.scenario.defects')) do |asset|
+    format(asset.defects.count) do |value|
+      value
+    end
+  end
+
   column(:labels, header: I18n.t('activerecord.attributes.scenario.labels'), mandatory: true) do |asset|
     format(asset.labels) do |value|
       scenario_labels(asset)

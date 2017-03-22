@@ -100,6 +100,7 @@ zh-CN:
         labels: 标签
         labels_text: 标签
         title: 标题
+        defects: 缺陷数
         tabs:
           summary: 概况
       issue:

@@ -88,7 +88,7 @@ class RoundsController < ApplicationController
       r = r.execution_result(@round, @execution_result) if @execution_result
       r.page(params[:page]).per(20)
     end
-    @scenarios_grid.column_names = [:execution_title, :labels, "execution_buttons project-actions"]
+    @scenarios_grid.column_names = [:execution_title, :defects, :labels, "execution_buttons project-actions"]
 
     @defects = Defect.current_scenario(@scenario) if @scenario
   end

@@ -1,2 +1,15 @@
-<%= render partial: 'label_filter', locals: { labels: Label.used_by_scenarios(@project) } %>
-<%= render partial: 'scenarios/scenarios_grid' %>
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4><%= t("activerecord.attributes.project.tabs.#{@current_tab}") %></h4>
+            </div>
+            <div class="col-sm-6">
+                <%= render partial: 'label_filter', locals: { labels: Label.used_by_scenarios(@project) } %>
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <%= render partial: 'scenarios/scenarios_grid' %>
+    </div>
+</div>

@@ -1,1 +1,15 @@
-<%= render partial: 'labels/labels_grid' %>
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4><%= t("activerecord.attributes.project.tabs.#{@current_tab}") %></h4>
+            </div>
+            <div class="col-sm-6">
+
+            </div>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <%= render partial: 'labels/labels_grid' %>
+    </div>
+</div>

@@ -5,15 +5,15 @@ class ScenarioGrid
     Scenario.order('scenarios.issue_id')
   end
 
-  column(:issue, header: I18n.t('activerecord.attributes.scenario.issue')) do |asset|
-    format(asset.issue) do |value|
-      link_to value.list_title, project_issue_path(value, project_id: asset.project)
-    end
-  end
-
   column(:scenario_title, header: I18n.t('activerecord.attributes.general.title')) do |asset|
     format(asset.title) do |value|
       link_to value, scenario_path(asset)
+    end
+  end
+
+  column(:issue, header: I18n.t('activerecord.attributes.scenario.issue')) do |asset|
+    format(asset.issue) do |value|
+      link_to value.list_title, project_issue_path(value, project_id: asset.project)
     end
   end
 

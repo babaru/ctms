@@ -1,6 +1,9 @@
 class LabelsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_label, only: [:show, :edit, :update, :destroy, :mark_requirement]
+  before_action :set_redirect_url_to_session, only: [:new, :edit]
+  before_action :get_redirect_url_from_session, only: [:create, :update]
+  before_action :get_redirect_url_from_params, only: [:mark_requirement, :destroy]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -64,27 +67,21 @@ class LabelsController < ApplicationController
 
   # GET /labels/new
   def new
-    session[:redirect_url] = params[:redirect_url]
     @label = Label.new(project_id: params[:project_id])
   end
 
   # GET /labels/1/edit
   def edit
-    session[:redirect_url] = params[:redirect_url]
   end
 
   # POST /labels
   # POST /labels.json
   def create
     @label = Label.new(label_params)
-
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     respond_to do |format|
       if @label.save
         set_labels_grid
-        format.html { redirect_to @label, notice: t('activerecord.success.messages.created', model: Label.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.created', model: Label.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -96,13 +93,10 @@ class LabelsController < ApplicationController
   # PATCH/PUT /labels/1
   # PATCH/PUT /labels/1.json
   def update
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     respond_to do |format|
       if @label.update(label_params)
         set_labels_grid
-        format.html { redirect_to @label, notice: t('activerecord.success.messages.updated', model: Label.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Label.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -115,7 +109,7 @@ class LabelsController < ApplicationController
     if request.post?
       respond_to do |format|
         @label.update(is_requirement: !@label.is_requirement?)
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Label.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Label.model_name.human) }
       end
     end
   end
@@ -127,7 +121,7 @@ class LabelsController < ApplicationController
 
     respond_to do |format|
       set_labels_grid
-      format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.destroyed', model: Label.model_name.human) }
+      format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.destroyed', model: Label.model_name.human) }
       format.js
     end
   end

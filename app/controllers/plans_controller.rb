@@ -1,6 +1,9 @@
 class PlansController < ApplicationController
   before_action :authenticate_user!
   before_action :set_plan, only: [:show, :edit, :update, :destroy, :complete, :watch]
+  before_action :set_redirect_url_to_session, only: [:new, :edit]
+  before_action :get_redirect_url_from_session, only: [:create, :update]
+  before_action :get_redirect_url_from_params, only: [:complete, :watch, :destroy]
 
   QUERY_KEYS = [:title].freeze
   ARRAY_SP = ","
@@ -87,7 +90,7 @@ class PlansController < ApplicationController
 
     case @current_tab
     when :summary
-      
+
     when :rounds
       @rounds_grid = RoundGrid.new do |scope|
         scope.where(plan_id: @plan).page(params[:page]).per(20)
@@ -98,27 +101,20 @@ class PlansController < ApplicationController
   # GET /plans/new
   def new
     @plan = Plan.new
-    @redirect_url = params[:redirect_url]
-    session[:redirect_url] = params[:redirect_url]
   end
 
   # GET /plans/1/edit
   def edit
-    @redirect_url = params[:redirect_url]
-    session[:redirect_url] = params[:redirect_url]
   end
 
   # POST /plans
   # POST /plans.json
   def create
     @plan = Plan.new(plan_params)
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     respond_to do |format|
       if @plan.save
         set_plans_grid
-        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.created', model: Plan.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.created', model: Plan.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -130,13 +126,10 @@ class PlansController < ApplicationController
   # PATCH/PUT /plans/1
   # PATCH/PUT /plans/1.json
   def update
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     respond_to do |format|
       if @plan.update(plan_params)
         set_plans_grid
-        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -149,7 +142,7 @@ class PlansController < ApplicationController
     if request.post?
       respond_to do |format|
         @plan.complete
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
       end
     end
   end
@@ -158,7 +151,7 @@ class PlansController < ApplicationController
     if request.post?
       respond_to do |format|
         @plan.watch(current_user)
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Plan.model_name.human) }
       end
     end
   end
@@ -167,7 +160,6 @@ class PlansController < ApplicationController
   # DELETE /plans/1.json
   def destroy
     @plan.destroy
-    redirect_url = params[:redirect_url]
 
     respond_to do |format|
       set_plans_grid

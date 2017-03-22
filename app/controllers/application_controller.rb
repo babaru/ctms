@@ -17,4 +17,21 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :image])
   end
+
+  def get_redirect_url_from_session
+    @redirect_url = session[:redirect_url]
+    session[:redirect_url] = nil
+  end
+
+  def set_redirect_url_to_session
+    session[:redirect_url] = params[:redirect_url]
+  end
+
+  def get_redirect_url_from_params
+    @redirect_url = params[:redirect_url]
+  end
+
+  # def redirect_url
+  #   @redirect_url
+  # end
 end

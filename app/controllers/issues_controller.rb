@@ -1,6 +1,9 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_issue, only: [:show, :edit, :update, :destroy, :sync_time_sheets_from_gitlab]
+  before_action :set_redirect_url_to_session, only: [:new, :edit, :new_defect]
+  before_action :get_redirect_url_from_session, only: [:create, :update, :create_defect]
+  before_action :get_redirect_url_from_params, only: [:sync_time_sheets_from_gitlab, :destroy]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -78,7 +81,7 @@ class IssuesController < ApplicationController
       TimeSheet.sync_from_gitlab_by_issue(@issue)
 
       respond_to do |format|
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: TimeSheet.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: TimeSheet.model_name.human) }
         format.js
       end
     end
@@ -113,23 +116,38 @@ class IssuesController < ApplicationController
   # GET /issues/new
   def new
     @issue = Issue.new
-    @redirect_url = params[:redirect_url].html_safe
   end
 
   def new_defect
     @defect = Defect.new(scenario_id: params[:scenario_id], round_id: params[:round_id], corresponding_issue_id: params[:corresponding_issue_id], project_id: params[:project_id])
-    session[:redirect_url] = params[:redirect_url]
+  end
+
+  # GET /issues/1/edit
+  def edit
+  end
+
+  # POST /issues
+  # POST /issues.json
+  def create
+    @issue = Issue.new(issue_params)
+    respond_to do |format|
+      if @issue.save
+        set_issues_grid
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.created', model: Issue.model_name.human) }
+        format.js
+      else
+        format.html { render :new }
+        format.js { render :new }
+      end
+    end
   end
 
   def create_defect
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     if request.post?
       respond_to do |format|
         @defect = Defect.new(defect_params)
         if @defect.post_defect_to_gitlab(current_user.access_token)
-          format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.created', model: Defect.model_name.human) }
+          format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.created', model: Defect.model_name.human) }
           format.js
         else
           format.html { render :new_defect }
@@ -139,37 +157,13 @@ class IssuesController < ApplicationController
     end
   end
 
-  # GET /issues/1/edit
-  def edit
-    @redirect_url = params[:redirect_url].html_safe
-  end
-
-  # POST /issues
-  # POST /issues.json
-  def create
-    @issue = Issue.new(issue_params)
-    @redirect_url = params[:redirect_url].html_safe
-
-    respond_to do |format|
-      if @issue.save
-        set_issues_grid
-        format.html { redirect_to @issue, notice: t('activerecord.success.messages.created', model: Issue.model_name.human) }
-        format.js
-      else
-        format.html { render :new }
-        format.js { render :new }
-      end
-    end
-  end
-
   # PATCH/PUT /issues/1
   # PATCH/PUT /issues/1.json
   def update
-    @redirect_url = params[:redirect_url].html_safe
     respond_to do |format|
       if @issue.update(issue_params)
         set_issues_grid
-        format.html { redirect_to @issue, notice: t('activerecord.success.messages.updated', model: Issue.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Issue.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -181,12 +175,11 @@ class IssuesController < ApplicationController
   # DELETE /issues/1
   # DELETE /issues/1.json
   def destroy
-    @redirect_url = params[:redirect_url].html_safe
     @issue.destroy
 
     respond_to do |format|
       set_issues_grid
-      format.html { redirect_to issues_url, notice: t('activerecord.success.messages.destroyed', model: Issue.model_name.human) }
+      format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.destroyed', model: Issue.model_name.human) }
       format.js
     end
   end

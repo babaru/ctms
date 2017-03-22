@@ -1,25 +1,8 @@
 module Redirectable
-  PARAMETER_KEYS = {
-    rounds: {
-      show: [
-        :controller,
-        :action,
-        :id,
-        :plan_id,
-        :issue_id,
-        :project_id,
-        :scenario_id,
-        :label_id,
-        :no_label,
-        :execution_result,
-        :unexecuted
-      ]
-    }
-  }.freeze
-
   def build_redirect_url(new_params = {})
     params_hash = {}
-    PARAMETER_KEYS[params[:controller].to_sym][params[:action].to_sym].each do |key|
+    params_keys = Object.const_get("#{params[:controller].capitalize}Controller")::PARAMETER_KEYS[params[:action].to_sym]
+    [[:controller, :action], params_keys].flatten.each do |key|
       if new_params.key?(key)
         params_hash[key] = new_params[key]
       else
@@ -27,5 +10,11 @@ module Redirectable
       end
     end
     url_for(params_hash)
+  end
+
+  alias_method :build_url, :build_redirect_url
+
+  def redirect_url
+    @redirect_url
   end
 end

@@ -1,6 +1,9 @@
 class ScenariosController < ApplicationController
   before_action :authenticate_user!
   before_action :set_scenario, only: [:show, :edit, :update, :destroy, :labels]
+  before_action :set_redirect_url_to_session, only: [:new, :edit]
+  before_action :get_redirect_url_from_session, only: [:create, :update]
+  before_action :get_redirect_url_from_params, only: [:destroy]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -74,15 +77,11 @@ class ScenariosController < ApplicationController
   def new
     issue = Issue.find(params[:issue_id])
     @scenario = Scenario.new(issue_id: params[:issue_id], project_id: issue.project_id)
-
-    session[:redirect_url] = params[:redirect_url].html_safe
   end
 
   # GET /scenarios/1/edit
   def edit
     @scenario.labels_text = @scenario.labels.inject([]) {|list, item| list << item.name }.join(',')
-
-    session[:redirect_url] = params[:redirect_url].html_safe if params[:redirect_url]
   end
 
   # POST /scenarios
@@ -91,13 +90,10 @@ class ScenariosController < ApplicationController
     @scenario = Scenario.new(scenario_params)
     @scenario.labels = Scenario.parse_labels(scenario_params[:labels_text], @scenario.project_id)
 
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     respond_to do |format|
       if @scenario.save
         set_scenarios_grid(issue_id: @scenario.issue_id)
-        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.created', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -109,13 +105,10 @@ class ScenariosController < ApplicationController
   # PATCH/PUT /scenarios/1
   # PATCH/PUT /scenarios/1.json
   def update
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     respond_to do |format|
       if @scenario.update(scenario_params.merge(labels: Scenario.parse_labels(scenario_params[:labels_text], @scenario.project_id)))
         set_scenarios_grid(issue_id: @scenario.issue_id)
-        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -127,13 +120,11 @@ class ScenariosController < ApplicationController
   # DELETE /scenarios/1
   # DELETE /scenarios/1.json
   def destroy
-    @redirect_url = params[:redirect_url].html_safe if params[:redirect_url]
-    issue_id = @scenario.issue_id
     @scenario.destroy
 
     respond_to do |format|
       set_scenarios_grid(issue_id: issue_id)
-      format.html { redirect_to issue_path(issue_id), notice: t('activerecord.success.messages.destroyed', model: Scenario.model_name.human) }
+      format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.destroyed', model: Scenario.model_name.human) }
       format.js
     end
   end
@@ -152,8 +143,7 @@ class ScenariosController < ApplicationController
       :body,
       :project_id,
       :issue_id,
-      :labels_text,
-      :redirect_url
+      :labels_text
     )
   end
 

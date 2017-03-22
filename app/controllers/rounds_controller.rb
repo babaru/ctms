@@ -1,11 +1,28 @@
 class RoundsController < ApplicationController
   before_action :set_round, only: [:show, :edit, :update, :complete, :destroy]
+  before_action :set_redirect_url_to_session, only: [:new, :edit]
+  before_action :get_redirect_url_from_session, only: [:create, :update]
+  before_action :get_redirect_url_from_params, only: [:complete, :destroy]
 
   QUERY_KEYS = [:title].freeze
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
   SHOW_TABS = [].freeze
+
+  PARAMETER_KEYS = {
+    show: [
+      :id,
+      :plan_id,
+      :issue_id,
+      :project_id,
+      :scenario_id,
+      :label_id,
+      :no_label,
+      :execution_result,
+      :unexecuted
+    ]
+  }.freeze
 
   # GET /rounds
   # GET /rounds.json
@@ -95,28 +112,21 @@ class RoundsController < ApplicationController
   def new
     @round = Round.new
     @round.plan_id = params[:plan_id]
-    @redirect_url = params[:redirect_url]
-    session[:redirect_url] = params[:redirect_url]
   end
 
   # GET /rounds/1/edit
   def edit
-    @redirect_url = params[:redirect_url]
-    session[:redirect_url] = params[:redirect_url]
   end
 
   # POST /rounds
   # POST /rounds.json
   def create
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     @round = Round.new(round_params)
 
     respond_to do |format|
       if @round.save
         set_rounds_grid
-        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.created', model: Round.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.created', model: Round.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -128,13 +138,10 @@ class RoundsController < ApplicationController
   # PATCH/PUT /rounds/1
   # PATCH/PUT /rounds/1.json
   def update
-    @redirect_url = session[:redirect_url]
-    session[:redirect_url] = nil
-
     respond_to do |format|
       if @round.update(round_params)
         set_rounds_grid
-        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.updated', model: Round.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Round.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -147,7 +154,7 @@ class RoundsController < ApplicationController
     if request.post?
       respond_to do |format|
         @round.complete
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Round.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Round.model_name.human) }
       end
     end
   end
@@ -159,7 +166,7 @@ class RoundsController < ApplicationController
 
     respond_to do |format|
       set_rounds_grid
-      format.html { redirect_to rounds_url, notice: t('activerecord.success.messages.destroyed', model: Round.model_name.human) }
+      format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.destroyed', model: Round.model_name.human) }
       format.js
     end
   end

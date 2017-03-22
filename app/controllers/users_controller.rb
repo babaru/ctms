@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy, :time_tracking]
+  before_action :get_redirect_url_from_params, only: [:time_tracking]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -83,7 +84,7 @@ class UsersController < ApplicationController
     if request.post?
       respond_to do |format|
         @user.update(under_time_tracking: !@user.time_tracking?)
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: User.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: User.model_name.human) }
       end
     end
   end

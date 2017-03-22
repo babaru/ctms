@@ -1,6 +1,9 @@
 class ExecutionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_execution, only: [:show, :edit, :update, :destroy, :remarks, :delete_remarks, :execute]
+  before_action :set_execution, only: [:show, :edit, :update, :destroy, :remarks, :post_remarks, :delete_remarks, :execute]
+  before_action :set_redirect_url_from_session, only: [:new, :edit, :remarks]
+  before_action :get_redirect_url_from_session, only: [:create, :update, :post_remarks]
+  before_action :get_redirect_url_from_params, only: [:destroy, :delete_remarks, :execute]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -71,19 +74,19 @@ class ExecutionsController < ApplicationController
   end
 
   def remarks
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def post_remarks
     if request.post?
       respond_to do |format|
         if @execution.add_remarks(execution_params[:remarks], current_user.access_token)
-          @redirect_url = params[:redirect_url].html_safe
           format.js
         else
           format.js { render :remarks }
         end
-      end
-    else
-      respond_to do |format|
-        @redirect_url = params[:redirect_url].html_safe
-        format.js
       end
     end
   end
@@ -92,17 +95,16 @@ class ExecutionsController < ApplicationController
     if request.post?
       respond_to do |format|
         @execution.delete_remarks(current_user.access_token)
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Execution.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Execution.model_name.human) }
       end
     end
   end
 
   def execute
-    @redirect_url = params[:redirect_url]
     if request.post?
       @execution.update(result: params[:result])
       respond_to do |format|
-        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.updated', model: Execution.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Execution.model_name.human) }
       end
     end
   end
@@ -155,7 +157,7 @@ class ExecutionsController < ApplicationController
 
     respond_to do |format|
       set_executions_grid
-      format.html { redirect_to executions_url, notice: t('activerecord.success.messages.destroyed', model: Execution.model_name.human) }
+      format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.destroyed', model: Execution.model_name.human) }
       format.js
     end
   end

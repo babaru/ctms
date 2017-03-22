@@ -1,7 +1,7 @@
 <div class="modal inmodal" id="remarks-modal-window" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated bounceInBottom">
-            <%= simple_form_for(@execution, url: execution_remarks_path(@execution, redirect_url: @redirect_url), remote: true, method: :post, wrapper: :vertical_form ) do |f| %>
+            <%= simple_form_for(@execution, url: post_execution_remarks_path(@execution), remote: true, method: :post, wrapper: :vertical_form ) do |f| %>
             <div class="modal-header">
                 <i class="fa fa-comment-o modal-icon"></i>
                 <h4 class="modal-title"><%= t('buttons.remarks') %></h4>

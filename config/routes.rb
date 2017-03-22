@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   post 'mark_requirement_label/:id' => 'labels#mark_requirement', as: :mark_requirement_label
 
   post 'execute_scenario/:id' => 'executions#execute', as: :execute_scenario
-  match 'executions/:id/remarks' => 'executions#remarks', via: [:post, :get], as: :execution_remarks
+  get 'executions/:id/remarks' => 'executions#remarks', as: :execution_remarks
+  post 'executions/:id/post_remarks' => 'executions#post_remarks', as: :post_execution_remarks
   post 'executions/:id/delete_remarks' => 'executions#delete_remarks', as: :execution_delete_remarks
 
   post 'trigger(.:format)' => 'trigger#index', as: :webhook_trigger

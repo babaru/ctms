@@ -1,6 +1,9 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project, only: [:show, :edit, :update, :destroy, :watch, :time_tracking, :sync_time_sheets_from_gitlab]
+  before_action :set_redirect_url_to_session, only: [:new, :edit]
+  before_action :get_redirect_url_from_session, only: [:create, :update]
+  before_action :get_redirect_url_from_params, only: [:sync_from_gitlab, :sync_time_sheets_from_gitlab, :time_tracking, :watch, :destroy]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -82,7 +85,7 @@ class ProjectsController < ApplicationController
       Project.sync_from_gitlab(GitLabAPI.instance)
 
       respond_to do |format|
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
         format.js
       end
     end
@@ -93,7 +96,7 @@ class ProjectsController < ApplicationController
       TimeSheet.sync_from_gitlab_by_project(@project)
 
       respond_to do |format|
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: TimeSheet.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: TimeSheet.model_name.human) }
         format.js
       end
     end
@@ -147,7 +150,7 @@ class ProjectsController < ApplicationController
     if request.post?
       respond_to do |format|
         @project.update(under_time_tracking: !@project.time_tracking?)
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
       end
     end
   end
@@ -156,7 +159,7 @@ class ProjectsController < ApplicationController
     if request.post?
       respond_to do |format|
         @project.watch(current_user)
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
       end
     end
   end
@@ -178,7 +181,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project.save
         set_projects_grid
-        format.html { redirect_to projects_path, notice: t('activerecord.success.messages.created', model: Project.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.created', model: Project.model_name.human) }
         format.js
       else
         format.html { render :new }
@@ -193,7 +196,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project.update(project_params)
         set_projects_grid
-        format.html { redirect_to projects_path, notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Project.model_name.human) }
         format.js
       else
         format.html { render :edit }
@@ -209,7 +212,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       set_projects_grid
-      format.html { redirect_to projects_url, notice: t('activerecord.success.messages.destroyed', model: Project.model_name.human) }
+      format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.destroyed', model: Project.model_name.human) }
       format.js
     end
   end

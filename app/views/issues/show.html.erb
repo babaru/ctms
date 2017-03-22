@@ -1,12 +1,9 @@
 <div class="row page-heading">
     <div class="col-lg-10">
-        <h2><%= @issue.list_title %></h2>
+        <h2><%= @issue.project.title %></h2>
         <ol class="breadcrumb">
             <li>
                 <%= fa_icon('home') %>
-            </li>
-            <li>
-                <%= link_to @issue.project.title, project_path(@issue.project) %>
             </li>
             <li class="active">
                 <strong><%= t('activerecord.text.show', model: Issue.model_name.human) %></strong>
@@ -29,9 +26,20 @@
     </div>
 </div>
 
+<div class="row m-b">
+    <div class="col-lg-12">
+        <div class="btn-toolbar">
+            <%= render partial: 'issues/issue_selector', locals: { current_project: @issue.project, current_issue: @issue, issues: @issue.project.issues, round: @round } %>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-lg-6">
         <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h4><%= @issue.list_title %></h4>
+            </div>
             <div class="ibox-content">
                 <div class="markdown"><%= @issue.html_description %></div>
             </div>
@@ -39,13 +47,11 @@
     </div>
     <div class="col-lg-6">
         <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <%= render partial: 'label_filter' %>
+            </div>
             <div class="ibox-content">
-                <div id="scenarios-label-filter">
-                    <%= render partial: 'label_filter' %>
-                </div>
-                <div id="scenarios-table">
-                    <%= render partial: 'scenarios/scenarios_grid' %>
-                </div>
+                <%= render partial: 'scenarios/scenarios_grid' %>
             </div>
         </div>
     </div>

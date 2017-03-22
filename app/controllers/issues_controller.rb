@@ -11,6 +11,16 @@ class IssuesController < ApplicationController
 
   TABS = [:scenarios].freeze
 
+  PARAMETER_KEYS = {
+    show: [
+      :id,
+      :project_id,
+      :scenario_id,
+      :label_id,
+      :no_label,
+    ]
+  }
+
   # GET /issues
   # GET /issues.json
   def index

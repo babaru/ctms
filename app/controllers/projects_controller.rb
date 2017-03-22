@@ -12,6 +12,18 @@ class ProjectsController < ApplicationController
   SHOW_TABS = [:issues, :scenarios, :labels].freeze
   LIST_TABS = [:watched, :all].freeze
 
+  PARAMETER_KEYS = {
+    show: [
+      :id,
+      :issue_id,
+      :scenario_id,
+      :label_id,
+      :no_label,
+      :tab,
+      :page
+    ]
+  }
+
   # GET /projects
   # GET /projects.json
   def index
@@ -113,6 +125,9 @@ class ProjectsController < ApplicationController
     @current_label = Label.find params[:label_id] if params[:label_id]
     @no_label = params[:no_label]
 
+    @issue = Issue.find params[:issue_id] if params[:issue_id]
+    @scenario = Scenario.find params[:scenario_id] if params[:scenario_id]
+
     case @current_tab
     when :issues
       @issue = Issue.find(params[:issue_id]) if params[:issue_id]
@@ -138,7 +153,7 @@ class ProjectsController < ApplicationController
           scope.page(params[:page]).where(project: @project).per(20)
         end
       end
-      @scenarios_grid.column_names = [:scenario_title, :issue, :labels]
+      @scenarios_grid.column_names = [:scenario_title, :labels, "crud_buttons project-actions"]
     when :labels
       @labels_grid = LabelGrid.new do |scope|
         scope.page(params[:page]).where(project_id: @project.id).per(20)

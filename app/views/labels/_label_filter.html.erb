@@ -1,0 +1,12 @@
+<div class="btn-toolbar">
+    <div class="btn-group">
+        <%= link_to t('buttons.all_labels'), build_url({no_label: nil, label_id: nil}), class: "btn btn-white btn-sm #{@no_label.nil? && @current_label.nil? ? 'active' : ''}" %>
+        <%= link_to t('buttons.no_label'), build_url({no_label: true}), class: "btn btn-white btn-sm #{@no_label ? 'active' : ''}" %>
+    </div>
+
+    <div class="btn-group">
+        <% labels.each do |label| %>
+        <%= link_to label.name, build_url(label_id: label.id), class: "btn btn-white btn-sm #{(@current_label && label.id == @current_label.id) ? 'active' : ''}" %>
+        <% end %>
+    </div>
+</div>

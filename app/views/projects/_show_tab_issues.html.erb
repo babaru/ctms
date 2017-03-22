@@ -1,11 +1,8 @@
 <div class="ibox float-e-margins">
     <div class="ibox-title">
         <div class="row">
-            <div class="col-sm-6">
-                <h4><%= t("activerecord.attributes.project.tabs.#{@current_tab}") %></h4>
-            </div>
-            <div class="col-sm-6">
-                <%= render partial: 'label_filter', locals: { labels: Label.used_by_issues(@project).requirements } %>
+            <div class="col-sm-12">
+                <%= render partial: 'labels/label_filter', locals: { labels: Label.used_by_issues(@project).requirements } %>
             </div>
         </div>
     </div>

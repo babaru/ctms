@@ -34,9 +34,10 @@
 <div class="row m-b">
     <div class="col-lg-10">
         <div class="btn-toolbar">
-            <%= render partial: 'project_selector', locals: { current_project: @project, projects: @round.projects, round: @round } %>
-            <%= render partial: 'issue_selector', locals: { current_project: @project, current_issue: @issue, issues: @project.issues, round: @round } %>
-            <%= render partial: 'label_filter' %>
+            <%= render partial: 'projects/project_selector', locals: { current_project: @project, projects: @round.projects, round: @round } %>
+            <%= render partial: 'issues/issue_selector', locals: { current_project: @project, current_issue: @issue, issues: @project.issues, round: @round } %>
+            <%= render partial: 'labels/label_filter', locals: { labels: Label.used_by_scenarios(@project) } %>
+            <%= render partial: 'executions/execution_result_selector', locals: { labels: Label.used_by_scenarios(@project) } %>
         </div>
     </div>
     <div class="col-lg-2">
@@ -53,7 +54,7 @@
                 <h5><%= @issue.list_title %></h5>
             </div>
             <div class="ibox-content">
-                <%= render partial: 'executions_grid', locals: { executions_grid: @scenarios_grid } %>
+                <%= render partial: 'scenarios/scenarios_grid', locals: { scenarios_grid: @scenarios_grid } %>
             </div>
         </div>
     </div>

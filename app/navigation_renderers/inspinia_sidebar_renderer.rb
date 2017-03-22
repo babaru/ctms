@@ -53,7 +53,6 @@ class InspiniaSidebarRenderer < SimpleNavigation::Renderer::Base
   end
 
   def icon_for(item)
-    Rails.logger.debug item.html_options
     item.html_options[:icon]
   end
 

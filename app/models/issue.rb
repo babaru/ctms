@@ -56,7 +56,7 @@ class Issue < ApplicationRecord
     labels = Label.from_gitlab_data(project, data["labels"])
     user = User.from_gitlab_data(data["author"])
     assignee = User.from_gitlab_data(data["assignee"])
-    
+
     issue = where(gitlab_id: data["id"]).first_or_create
     data_attrs = {}
     data_attrs[:description] = fix_image_url(project, data["description"]) if data["description"]
@@ -79,7 +79,6 @@ class Issue < ApplicationRecord
     /\<img\ssrc\=\"(\/[\/a-zA-Z0-9\.]+)\"\s.*\/\>/.match(description) do |matches|
       matches.captures.each do |m|
         new_url = "#{Settings.gitlab.web.base_uri}/#{project.path_with_namespace}#{m}"
-        logger.debug "matched: #{m} and replaced by #{new_url}"
         temp_content = temp_content.gsub("#{m}", new_url)
       end if matches
     end

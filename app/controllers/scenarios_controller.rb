@@ -120,6 +120,7 @@ class ScenariosController < ApplicationController
   # DELETE /scenarios/1
   # DELETE /scenarios/1.json
   def destroy
+    issue_id = @scenario.issue_id
     @scenario.destroy
 
     respond_to do |format|

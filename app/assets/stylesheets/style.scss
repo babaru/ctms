@@ -115,3 +115,22 @@ table.datagrid {
     }
   }
 }
+
+.dropdown-menu {
+  li.active {
+    a {
+      background: none;
+      color: $text-color;
+      font-weight: bold;
+
+      &:before {
+        content: '› ';
+      }
+
+      &:hover {
+        background: #f5f5f5;
+        color: $text-color;
+      }
+    }
+  }
+}

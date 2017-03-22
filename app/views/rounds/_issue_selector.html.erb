@@ -2,7 +2,11 @@
     <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><%= current_issue ? current_issue.list_title : 'Choose one issue' %> <span class="caret"></span></button>
     <ul class="dropdown-menu scrollable-menu">
         <% issues.each do |issue| %>
+        <% if issue == current_issue %>
+        <li class="active">
+        <% else %>
         <li>
+        <% end %>
             <%= link_to issue_title_with_progress(round, issue), plan_round_path(round, project_id: current_project, issue_id: issue) %>
         </li>
         <% end %>

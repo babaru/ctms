@@ -69,11 +69,46 @@
                 </div>
             </div>
             <div class="ibox-content">
-                <%= render partial: 'scenario', locals: { scenario: @scenario,
-                  current_project: @project,
-                  current_round: @round,
-                  current_issue: @issue,
-                  defects: @defects } %>
+                <div class="markdown"><%= @scenario.html_body %></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="btn-toolbar pull-right">
+                            <%= execution_button(@scenario.execution(@round)) %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5><%= t('activerecord.attributes.execution.remarks') %></h5>
+                <div class="ibox-tools">
+                    <%= execution_remark_button(@scenario.execution(@round), { button_style: '', style: :toolbar }) %>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="markdown m-b">
+                    <%= @scenario.execution(@round).remarks %>
+                </div>
+            </div>
+        </div>
+
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5><%= t('activerecord.attributes.scenario.defects') %></h5>
+                <div class="ibox-tools">
+                    <%= execution_post_defect_button(@scenario.execution(@round), { button_style: '' }) %>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="markdown m-b">
+                    <ul class="folder-list" style="padding-left: 0px;">
+                    <% @defects.each do |defect| %>
+                        <%= content_tag(:li, link_to(fa_icon('bug', text: defect.list_title), '#') ) %>
+                    <% end if @defects %>
+                    </ul>
+                </div>
             </div>
         </div>
 

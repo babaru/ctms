@@ -1,0 +1,14 @@
+<div class="btn-group">
+    <button type="button" class="dropdown-toggle <%= options[:button_style] %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= Execution.result_names[execution.result] %> <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <% ExecutionResult.enums.each do |k, v| %>
+        <li>
+            <%= link_to(
+                  Execution.result_names[v],
+                  execute_scenario_path(execution, result: v, redirect_url: request.original_fullpath), method: :post) %>
+        </li>
+        <% end %>
+    </ul>
+</div>

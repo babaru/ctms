@@ -23,6 +23,7 @@ zh-CN:
     all_execution_results: 所有执行结果
     unexecuted: 未执行
     back: 返回
+    post_defect: 上报缺陷
   placeholders:
     email: 邮箱
     password: 密码
@@ -68,6 +69,7 @@ zh-CN:
       project: 项目
       scenario: 测试场景
       issue: 需求
+      defect: 缺陷
       plan: 测试计划
       round: 测试轮
       execution: 测试执行
@@ -100,7 +102,8 @@ zh-CN:
         labels: 标签
         labels_text: 标签
         title: 标题
-        defects: 缺陷数
+        defects: 缺陷
+        defects_count: 缺陷数
         tabs:
           summary: 概况
       issue:
@@ -113,6 +116,10 @@ zh-CN:
         gitlab_id: '#'
         tabs:
           scenarios: 测试场景
+      defect:
+        description: 描述
+        labels: 标签
+        labels_text: 标签
       plan:
         name: 测试计划名称
         started_at: 开始于

@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   post 'plans/:id/watch' => 'plans#watch', as: :watch_plan
   post 'mark_requirement_label/:id' => 'labels#mark_requirement', as: :mark_requirement_label
 
-  post 'execute_scenario/:id' => 'scenarios#execute', as: :execute_scenario
+  post 'execute_scenario/:id' => 'executions#execute', as: :execute_scenario
   match 'executions/:id/remarks' => 'executions#remarks', via: [:post, :get], as: :execution_remarks
   post 'executions/:id/delete_remarks' => 'executions#delete_remarks', as: :execution_delete_remarks
 

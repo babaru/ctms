@@ -1,6 +1,18 @@
+<% if options[:style] == :toolbar %>
+<div class="btn-toolbar">
+    <%= link_to(execution.remarks? ? fa_icon('comment', text: options[:button_label] ? t('buttons.edit_remarks') : '')  : fa_icon('comment-o', text: options[:button_label] ? t('buttons.add_remarks') : ''), execution_remarks_path(execution, redirect_url: request.original_fullpath), remote: true, class: options[:button_style]) %>
+    <%= link_to(
+          fa_icon('trash', text: t('buttons.delete_remarks')),
+          execution_delete_remarks_path(execution, redirect_url: request.original_fullpath),
+          method: :post,
+          data: { confirm: t('messages.delete_confirmation') },
+          class: options[:button_style]
+        ) if execution.remarks? %>
+</div>
+<% else %>
 <div class="btn-group">
-    <%= link_to(execution.remarks? ? fa_icon('comment', text: options[:button_label] ? t('buttons.edit_remarks') : '')  : fa_icon('comment-o', text: options[:button_label] ? t('buttons.add_remarks') : ''), execution_remarks_path(execution, redirect_url: request.original_fullpath), remote: true, class: "btn btn-white btn-#{options[:button_size]}") %>
-    <button type="button" class="btn btn-white dropdown-toggle btn-<%= options[:button_size] %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <%= link_to(execution.remarks? ? fa_icon('comment', text: options[:button_label] ? t('buttons.edit_remarks') : '')  : fa_icon('comment-o', text: options[:button_label] ? t('buttons.add_remarks') : ''), execution_remarks_path(execution, redirect_url: request.original_fullpath), remote: true, class: options[:button_style]) %>
+    <button type="button" class="dropdown-toggle <%= options[:button_style] %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
         <span class="sr-only">Toggle Dropdown</span>
     </button>
@@ -15,3 +27,4 @@
         </li>
     </ul>
 </div>
+<% end %>

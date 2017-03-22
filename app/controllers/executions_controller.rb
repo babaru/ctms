@@ -1,6 +1,6 @@
 class ExecutionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_execution, only: [:show, :edit, :update, :destroy, :remarks, :delete_remarks]
+  before_action :set_execution, only: [:show, :edit, :update, :destroy, :remarks, :delete_remarks, :execute]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -93,6 +93,16 @@ class ExecutionsController < ApplicationController
       respond_to do |format|
         @execution.delete_remarks(current_user.access_token)
         format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Execution.model_name.human) }
+      end
+    end
+  end
+
+  def execute
+    @redirect_url = params[:redirect_url]
+    if request.post?
+      @execution.update(result: params[:result])
+      respond_to do |format|
+        format.html { redirect_to @redirect_url, notice: t('activerecord.success.messages.updated', model: Execution.model_name.human) }
       end
     end
   end

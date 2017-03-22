@@ -27,7 +27,9 @@ class Scenario < ApplicationRecord
   end
 
   def execution(round)
-    executions.where(round_id: round).first
+    Execution.where(round: round, scenario: self).first_or_create do |entity|
+      entity.result = ExecutionResult.enums.unexecuted
+    end
   end
 
   def self.parse_labels(labels_text, project)

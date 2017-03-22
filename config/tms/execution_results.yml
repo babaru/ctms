@@ -1,6 +1,6 @@
 defaults: &defaults
   enums:
-    undone: 0
+    unexecuted: 0
     passed: 1
     failed: 2
     na: 3

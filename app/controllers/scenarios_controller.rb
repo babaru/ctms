@@ -1,6 +1,6 @@
 class ScenariosController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_scenario, only: [:show, :edit, :update, :destroy, :execute, :labels]
+  before_action :set_scenario, only: [:show, :edit, :update, :destroy, :labels]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -68,20 +68,6 @@ class ScenariosController < ApplicationController
     @current_tab = params[:tab]
     @current_tab ||= TABS.first.to_s
     @current_tab = @current_tab.to_sym
-  end
-
-  def execute
-    if request.post?
-      @round = Round.find params[:round_id]
-      result = params[:result]
-
-      execution = Execution.find_or_create_by_round_and_scenario(@round, @scenario)
-      execution.update(result: result)
-
-      respond_to do |format|
-        format.html { redirect_to params[:redirect_url], notice: t('activerecord.success.messages.updated', model: Scenario.model_name.human) }
-      end
-    end
   end
 
   # GET /scenarios/new

@@ -1,63 +1,48 @@
 module ExecutionsHelper
-  def execution_button(round_id, scenario_id, params, options = {})
+  def execution_button(execution, options = {})
     default_options = {
-      button_size: 'sm'
+      button_style: 'btn btn-sm'
     }
     options = default_options.merge(options)
-
-    round = Round.find round_id
-    return if round.complete?
-    execution = Scenario.find(scenario_id).execution(round)
-    current_result = execution.result if execution
-    current_result ||= ExecutionResult.enums.undone
     button_style = "btn-#{options[:button_size]}"
-    case current_result
-    when ExecutionResult.enums.undone
-      button_style = "#{button_style} btn-white"
+    case execution.result
+    when ExecutionResult.enums.unexecuted
+      options[:button_style] = "#{options[:button_style]} btn-white"
     when ExecutionResult.enums.na
-      button_style = "#{button_style} btn-warning"
+      options[:button_style] = "#{options[:button_style]} btn-warning"
     when ExecutionResult.enums.passed
-      button_style = "#{button_style} btn-primary"
+      options[:button_style] = "#{options[:button_style]} btn-primary"
     when ExecutionResult.enums.failed
-      button_style = "#{button_style} btn-danger"
+      options[:button_style] = "#{options[:button_style]} btn-danger"
     end
-    extra_params = {}
-    extra_params[:scenario_id] = scenario_id
-    extra_params[:round_id] = round_id
-    extra_params[:tab] = params[:tab] if params[:tab]
-    extra_params[:page] = params[:page] if params[:page]
-    extra_params[:issue_id] = params[:issue_id] if params[:issue_id]
-    render partial: 'rounds/execution_button', locals: {
-      current_result: current_result, button_style: button_style,
-      round_id: round_id, scenario_id: scenario_id}
+
+    render partial: 'executions/execution_button', locals: { execution: execution, options: options }
   end
 
-  def execution_remark_button(round, scenario, options = {})
+  def execution_remark_button(execution, options = {})
     default_options = {
-      button_size: 'sm',
-      button_label: false
+      button_style: 'btn btn-sm btn-white',
+      button_label: true,
+      style: :dropdown
     }
     options = default_options.merge(options)
-
-    execution = Execution.find_by_round_id_and_scenario_id(round, scenario)
-    return nil if execution.nil?
     render partial: 'executions/remarks_button', locals: { execution: execution, options: options }
   end
 
-  def execution_post_defect_button(round, scenario, options = {})
+  def execution_post_defect_button(execution, options = {})
     default_options = {
+      button_style: 'btn btn-sm btn-white',
+      button_label: true
     }
     options = default_options.merge(options)
 
-    execution = Execution.find_by_round_id_and_scenario_id(round, scenario)
-    return nil if execution.nil?
-    link_to(fa_icon('bug'), new_defect_path({
-      project_id: scenario.project,
-      scenario_id: scenario,
-      round_id: round,
-      corresponding_issue_id: scenario.issue,
+    link_to(fa_icon('bug', text: options[:button_label] ? t('buttons.post_defect') : ''), new_defect_path({
+      project_id: execution.scenario.project,
+      scenario_id: execution.scenario,
+      round_id: execution.round,
+      corresponding_issue_id: execution.issue,
       redirect_url: request.original_fullpath}),
         remote: true,
-        class: 'btn btn-sm btn-white')
+        class: options[:button_style])
   end
 end

@@ -7,7 +7,7 @@
         <li>
             <%= link_to(
                   Execution.result_names[v],
-                  execute_scenario_path(execution, result: v, redirect_url: request.original_fullpath), method: :post) %>
+                  execute_scenario_path(execution, result: v, redirect_url: build_redirect_url({scenario_id: execution.scenario_id})), method: :post) %>
         </li>
         <% end %>
     </ul>

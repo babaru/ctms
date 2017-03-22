@@ -1,5 +1,3 @@
-
-
 class RoundsController < ApplicationController
   before_action :set_round, only: [:show, :edit, :update, :complete, :destroy]
 

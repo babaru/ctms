@@ -6,11 +6,16 @@ class Label < ApplicationRecord
   has_many :scenarios, through: :scenario_labels
 
   scope :requirements, -> { where(is_requirement: true) }
+  scope :defects, -> { where(is_defect: true) }
   scope :used_by_scenarios, ->(project) { joins(:scenarios).where(scenarios: { project_id: project }).distinct }
   scope :used_by_issues, ->(project) { joins(:issues).where(issues: { project_id: project }).distinct }
 
   def is_requirement?
     !!is_requirement
+  end
+
+  def is_defect?
+    !!is_defect
   end
 
   def is_existing_on_gitlab?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321071725) do
+ActiveRecord::Schema.define(version: 20170322144120) do
 
   create_table "executions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "scenario_id"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20170321071725) do
     t.datetime "updated_at",                            null: false
     t.boolean  "is_requirement",        default: false
     t.boolean  "is_existing_on_gitlab", default: false
+    t.boolean  "is_defect",             default: false
     t.index ["project_id"], name: "index_labels_on_project_id", using: :btree
   end
 

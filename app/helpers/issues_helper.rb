@@ -7,8 +7,12 @@ module IssuesHelper
   end
 
   def issue_progress(issue, round)
-    return nil unless round
+    # return nil unless round
     return nil if issue.scenarios.count == 0
-    content_tag(:span, "(#{Execution.executed(round, issue).count}/#{issue.scenarios.count}) #{Execution.executed(round, issue).count * 100 / issue.scenarios.count}%", class: 'label label-default')
+    if round
+      content_tag(:span, "(#{Execution.executed(round, issue).count}/#{issue.scenarios.count}) #{Execution.executed(round, issue).count * 100 / issue.scenarios.count}%", class: 'label label-default')
+    else
+      content_tag(:span, issue.scenarios.count, class: 'label label-default')
+    end
   end
 end

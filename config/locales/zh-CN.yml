@@ -60,6 +60,8 @@ zh-CN:
       start: "开始%{model}"
       mark_requirement: 标注为需求
       unmark_requirement: 排除出需求
+      set_defect: 标注为缺陷
+      reset_defect: 排除出缺陷
       notification:
         success:
           creation: "%{model}创建成功！"
@@ -148,6 +150,7 @@ zh-CN:
         total: 总计
       label:
         is_requirement: 是否需求
+        is_defect: 是否缺陷
       round:
         state: 状态
         title: 标题

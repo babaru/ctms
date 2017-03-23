@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   post 'plans/:id/complete' => 'plans#complete', as: :complete_plan
   post 'plans/:id/watch' => 'plans#watch', as: :watch_plan
   post 'mark_requirement_label/:id' => 'labels#mark_requirement', as: :mark_requirement_label
+  post 'set_defect_label/:id' => 'labels#set_defect', as: :set_defect_label
+  post 'reset_defect_label/:id' => 'labels#reset_defect', as: :reset_defect_label
 
   post 'execute_scenario/:id' => 'executions#execute', as: :execute_scenario
   get 'executions/:id/remarks' => 'executions#remarks', as: :execution_remarks

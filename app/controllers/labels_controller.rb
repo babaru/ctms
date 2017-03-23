@@ -1,9 +1,9 @@
 class LabelsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_label, only: [:show, :edit, :update, :destroy, :mark_requirement]
+  before_action :set_label, only: [:show, :edit, :update, :destroy, :mark_requirement, :set_defect, :reset_defect]
   before_action :set_redirect_url_to_session, only: [:new, :edit]
   before_action :get_redirect_url_from_session, only: [:create, :update]
-  before_action :get_redirect_url_from_params, only: [:mark_requirement, :destroy]
+  before_action :get_redirect_url_from_params, only: [:mark_requirement, :destroy, :set_defect, :reset_defect]
 
   QUERY_KEYS = [:name].freeze
   ARRAY_SP = ","
@@ -109,6 +109,24 @@ class LabelsController < ApplicationController
     if request.post?
       respond_to do |format|
         @label.update(is_requirement: !@label.is_requirement?)
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Label.model_name.human) }
+      end
+    end
+  end
+
+  def set_defect
+    if request.post?
+      respond_to do |format|
+        @label.set_defect
+        format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Label.model_name.human) }
+      end
+    end
+  end
+
+  def reset_defect
+    if request.post?
+      respond_to do |format|
+        @label.reset_defect
         format.html { redirect_to redirect_url, notice: t('activerecord.success.messages.updated', model: Label.model_name.human) }
       end
     end

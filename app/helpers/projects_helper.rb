@@ -25,14 +25,6 @@ module ProjectsHelper
     link_to(button_text, project_time_tracking_path(project, redirect_url: request.original_fullpath), method: :post, class: options[:style])
   end
 
-  def mark_requirement_label_button(label)
-    if label.is_requirement?
-      link_to fa_icon('flag-o', text: t('activerecord.text.unmark_requirement', model: Label.model_name.human)), mark_requirement_label_path(label, redirect_url: request.original_fullpath), method: :post, class: 'btn btn-xs btn-white'
-    else
-      link_to fa_icon('flag', text: t('activerecord.text.mark_requirement', model: Label.model_name.human)), mark_requirement_label_path(label, redirect_url: request.original_fullpath), method: :post, class: 'btn btn-xs btn-white'
-    end
-  end
-
   def refresh_project_gitlab_data_button(project, options = {})
     default_options = {
       style: ''

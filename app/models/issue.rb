@@ -68,6 +68,7 @@ class Issue < ApplicationRecord
     data_attrs[:project] = project
     data_attrs[:milestone] = milestone
     data_attrs[:labels] = labels
+    data_attrs[:type] = 'Defect' if labels.any? {|label| label.is_defect? }
     data_attrs[:user] = user
     data_attrs[:assignee] = assignee
     issue.update(data_attrs)

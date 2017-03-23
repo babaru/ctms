@@ -17,10 +17,17 @@ class LabelGrid
     end
   end
 
+  column(:is_defect, header: I18n.t('activerecord.attributes.label.is_defect')) do |asset|
+    format(asset.is_defect?) do |value|
+      fa_icon('bug') if value
+    end
+  end
+
   column("project-actions", header: '') do |asset|
     format(asset.id) do |value|
       [
-        mark_requirement_label_button(asset)
+        mark_requirement_label_button(asset),
+        mark_defect_label_button(asset)
       ].join(' ').html_safe
     end
   end

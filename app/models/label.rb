@@ -18,6 +18,20 @@ class Label < ApplicationRecord
     !!is_defect
   end
 
+  def set_defect
+    update(is_defect: true)
+    issues.each do |issue|
+      issue.update(type: 'Defect')
+    end
+  end
+
+  def reset_defect
+    update(is_defect: false)
+    issues.each do |issue|
+      issue.update(type: 'Issue')
+    end
+  end
+
   def is_existing_on_gitlab?
     !!is_existing_on_gitlab
   end

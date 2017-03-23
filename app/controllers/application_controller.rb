@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
     @redirect_url = params[:redirect_url]
   end
 
-  # def redirect_url
-  #   @redirect_url
-  # end
+  def redirect_url
+    @redirect_url
+  end
 end

@@ -148,9 +148,9 @@ class ProjectsController < ApplicationController
           scope.page(params[:page]).joins(:labels).where(project: @project, labels: { id: @current_label.id }).per(20)
         elsif @no_label
           scenario_with_labels_ids = Scenario.joins(:labels).where(project: @project, labels: { id: Label.used_by_scenarios(@project).select(:id).distinct }).select(:id).distinct
-          scope.page(params[:page]).where(project: @project).where.not(id: scenario_with_labels_ids).per(20)
+          scope.page(params[:page]).where(project: @project, issue_id: @issue).where.not(id: scenario_with_labels_ids).per(20)
         else
-          scope.page(params[:page]).where(project: @project).per(20)
+          scope.page(params[:page]).where(project: @project, issue_id: @issue).per(20)
         end
       end
       @scenarios_grid.column_names = [:scenario_title, :labels, "crud_buttons project-actions"]

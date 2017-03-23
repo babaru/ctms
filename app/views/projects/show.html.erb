@@ -14,6 +14,8 @@
         <div class="btn-toolbar pull-right">
             <% if @current_tab == :labels %>
             <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Label.model_name.human)), new_project_label_path(project_id: @project, redirect_url: request.original_fullpath), remote: true, class: 'btn-primary btn' %>
+            <% elsif @current_tab == :scenarios %>
+            <%= link_to fa_icon('plus', text: t('activerecord.text.new_instance', model: Scenario.model_name.human)), new_issue_scenario_path(@issue, redirect_url: request.original_fullpath), remote: true, class: 'btn-primary btn' %>
             <% end %>
             <div class="btn-group pull-right">
                 <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white">

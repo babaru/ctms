@@ -1,4 +1,4 @@
-<small><%= t('labels.completion_with') %> (<%= round.executions.count %>/<%= round.total_scenarios_count %>): <%= round.progress %>% </small>
+<small><%= t('labels.completion_with') %> (<%= round_progress_text(round) %>): <%= round_progress_percentage(round) %>% </small>
 <div class="progress progress-mini">
-    <div style="width: <%= round.progress %>%;" class="progress-bar"></div>
+    <div style="width: <%= round_progress_percentage(round) %>%;" class="progress-bar"></div>
 </div>

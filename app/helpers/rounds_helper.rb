@@ -31,4 +31,12 @@ module RoundsHelper
   def round_progress(round)
     render partial: 'rounds/progress', locals: { round: round }
   end
+
+  def round_progress_percentage(round)
+    round.executions.executed(round).count * 100 / round.total_scenarios_count
+  end
+
+  def round_progress_text(round)
+    "#{round.executions.executed(round).count} / #{round.total_scenarios_count}"
+  end
 end

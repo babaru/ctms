@@ -18,10 +18,6 @@ class Round < ApplicationRecord
     projects.inject(0) {|sum, project| sum += project.scenarios.count }
   end
 
-  def progress
-    executions.count * 100 / total_scenarios_count
-  end
-
   def complete
     state = self.state == TestSuiteState.enums.complete ? TestSuiteState.enums.incomplete : TestSuiteState.enums.complete
     self.update(state: state)

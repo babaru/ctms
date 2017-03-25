@@ -4,7 +4,7 @@ class Execution < ApplicationRecord
   belongs_to :issue
   belongs_to :round
 
-  scope :executed, ->(round, issue) { where(result: executed_results, round_id: round, scenario_id: Scenario.where(issue_id: issue).select(:id)) }
+  scope :executed, ->(round) { where(result: executed_results, round_id: round) }
 
   def posted_to_gitlab?
     !!note_gitlab_id

@@ -29,6 +29,8 @@ class Scenario < ApplicationRecord
   def execution(round)
     Execution.where(round: round, scenario: self).first_or_create do |entity|
       entity.result = ExecutionResult.enums.unexecuted
+      entity.plan = round.plan
+      entity.issue = self.issue
     end
   end
 

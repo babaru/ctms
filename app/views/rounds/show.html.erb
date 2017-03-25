@@ -32,16 +32,19 @@
 </div>
 
 <div class="row m-b">
-    <div class="col-lg-10">
+    <div class="col-lg-12">
+        <%= round_progress(@round) %>
+    </div>
+</div>
+
+<div class="row m-b">
+    <div class="col-lg-12">
         <div class="btn-toolbar">
             <%= render partial: 'projects/project_selector', locals: { current_project: @project, projects: @round.projects, round: @round } %>
             <%= render partial: 'issues/issue_selector', locals: { current_project: @project, current_issue: @issue, issues: @project.issues, round: @round } %>
             <%= render partial: 'labels/label_filter', locals: { labels: Label.used_by_scenarios(@project) } %>
-            <%= render partial: 'executions/execution_result_selector', locals: { labels: Label.used_by_scenarios(@project) } %>
+            <%= render partial: 'executions/execution_result_selector', locals: { labels: Label.used_by_scenarios(@project), pull: "right" } %>
         </div>
-    </div>
-    <div class="col-lg-2">
-        <%= round_progress(@round) %>
     </div>
 </div>
 

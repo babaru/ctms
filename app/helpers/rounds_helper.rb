@@ -37,6 +37,6 @@ module RoundsHelper
   end
 
   def round_progress_text(round)
-    "#{round.executions.executed(round).count} / #{round.total_scenarios_count}"
+    "#{round.executions.executed(round).count}/#{round.total_scenarios_count}"
   end
 end

@@ -7,7 +7,7 @@
         <% else %>
         <li>
         <% end %>
-            <%= link_to issue_title_with_progress(issue, round), build_url({issue_id: issue}) %>
+            <%= link_to issue_title_with_progress(issue, round), build_url({issue_id: issue, scenario_id: nil}) %>
         </li>
         <% end %>
     </ul>

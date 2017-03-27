@@ -69,7 +69,7 @@
 
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5><%= @scenario.title %></h5>
+                <h5><%= @scenario.title %> <%= scenario_labels(@scenario) %></h5>
                 <div class="ibox-tools">
                     <%= link_to(fa_icon('pencil', text: t("buttons.edit")), edit_scenario_path(@scenario, redirect_url: request.original_fullpath), remote: true) %>
                 </div>

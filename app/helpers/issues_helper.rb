@@ -35,4 +35,9 @@ module IssuesHelper
       content_tag(:span, issue.scenarios.count, class: 'label label-default')
     end
   end
+
+  def issue_state_label(issue)
+    return content_tag(:span, issue.state, class: 'label label-info') if issue.opened? || issue.reopened?
+    return content_tag(:span, issue.state, class: 'label label-default') if issue.closed?
+  end
 end

@@ -36,6 +36,14 @@ class Issue < ApplicationRecord
     state == 'opened'
   end
 
+  def closed?
+    state == 'closed'
+  end
+
+  def reopened?
+    state == 'reopened'
+  end
+
   def html_description
     Kramdown::Document.new(description).to_html.html_safe
   end

@@ -53,12 +53,4 @@ module ProjectsHelper
     end
     group.join('').html_safe
   end
-
-  def issue_state_label(issue)
-    if issue.opened?
-      content_tag(:span, issue.state, class: 'label label-info')
-    else
-      content_tag(:span, issue.state, class: 'label label-default')
-    end
-  end
 end

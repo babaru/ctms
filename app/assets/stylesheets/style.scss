@@ -125,3 +125,17 @@ table.datagrid {
     }
   }
 }
+// 
+// .tabs-container .nav-tabs > li.active {
+//   & > a, & > a:hover {
+//     border: none;
+//     background: transparent;
+//     border-bottom: 3px solid $navy;
+//   }
+// }
+
+.hr-line-solid {
+  border-top: transparent;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}

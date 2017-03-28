@@ -1,12 +1,3 @@
-<div class="ibox float-e-margins">
-    <div class="ibox-title">
-        <div class="row">
-            <div class="col-sm-12">
-                <%= render partial: 'labels/label_filter', locals: { labels: Label.used_by_issues(@project).defects } %>
-            </div>
-        </div>
-    </div>
-    <div class="ibox-content">
-        <%= render partial: 'issues/issues_grid' %>
-    </div>
-</div>
+<%= render partial: 'labels/label_filter', locals: { labels: Label.used_by_issues(@project).defects } %>
+<hr class="hr-line-solid" />
+<%= render partial: 'issues/issues_grid' %>

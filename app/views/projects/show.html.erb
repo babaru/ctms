@@ -5,6 +5,9 @@
             <li>
                 <%= fa_icon('home') %>
             </li>
+            <li>
+                <%= link_to t("activerecord.attributes.project.tabs.issues"), project_path(@project, tab: :issues) %>
+            </li>
             <li class="active">
                 <strong><%= t("activerecord.attributes.project.tabs.#{@current_tab}") %></strong>
             </li>
@@ -23,17 +26,17 @@
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><%= refresh_project_gitlab_data_button(@project) %></li>
-                    <li><%= refresh_project_gitlab_time_sheet_data_button(@project) %></li>
-                    <li role="separator" class="divider"></li>
-                    <li><%= watch_project_button(@project, { styles: {} }) %></li>
-                    <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_project_path(@project) %></li>
-                    <li role="separator" class="divider"></li>
                     <% @tabs.each do |tab| %>
                     <li>
                         <%= link_to t("activerecord.attributes.project.tabs.#{tab}"), project_path(@project, tab: tab) %>
                     </li>
                     <% end %>
+                    <li role="separator" class="divider"></li>
+                    <li><%= refresh_project_gitlab_data_button(@project) %></li>
+                    <li><%= refresh_project_gitlab_time_sheet_data_button(@project) %></li>
+                    <li role="separator" class="divider"></li>
+                    <li><%= watch_project_button(@project, { styles: {} }) %></li>
+                    <li><%= link_to fa_icon('pencil', text: t('buttons.edit')), edit_project_path(@project) %></li>
                 </ul>
             </div>
         </div>

@@ -58,7 +58,7 @@ class IssueGrid
 
   column('corresponding_issue', header: I18n.t('activerecord.attributes.defect.corresponding_issue')) do |asset|
     format(asset.corresponding_issue) do |value|
-      link_to value.list_title, project_issue_path(value, project_id: value.project_id) if value
+      link_to value.list_title, project_path(value.project_id, issue_id: value, tab: :scenarios) if value
     end
   end
 

@@ -83,6 +83,7 @@ class Issue < ApplicationRecord
     temp_content = description
     /\<img\ssrc\=\"(\/[\/a-zA-Z0-9\.]+)\"\s.*\/\>/.match(description) do |matches|
       matches.captures.each do |m|
+        logger.debug "Catched: #{m}"
         new_url = "#{Settings.gitlab.web.base_uri}/#{project.path_with_namespace}#{m}"
         temp_content = temp_content.gsub("#{m}", new_url)
       end if matches

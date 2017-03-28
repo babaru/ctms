@@ -45,7 +45,7 @@ class User < ApplicationRecord
       user.username = data["username"] if data["username"]
       user.image = data["avatar_url"] if data["avatar_url"]
       user.password = Devise.friendly_token[0,20]
-      user.email = data["email"].nil? ? "#{data_attrs[:password]}@capitaltruepartner.cn" : data["email"]
+      user.email = data["email"].nil? ? "#{user.password}@capitaltruepartner.cn" : data["email"]
     end
   end
 

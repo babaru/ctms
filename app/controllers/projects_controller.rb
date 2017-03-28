@@ -141,7 +141,7 @@ class ProjectsController < ApplicationController
           scope.requirements.where(project: @project).page(params[:page]).per(20)
         end
       end
-      @issues_grid.column_names = ["gitlab_id", "title issue-info", "assignee", "milestone", "labels", "author", "scenarios"]
+      @issues_grid.column_names = ["gitlab_id", "title issue-info", "state", "milestone", "labels", "scenarios"]
     when :scenarios
       @scenarios_grid = ScenarioGrid.new do |scope|
         if @current_label

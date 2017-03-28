@@ -93,8 +93,8 @@ zh-CN:
         issues: 需求
         scenarios: 测试场景
         tabs:
-          scenarios: 测试
-          issues: 需求
+          scenarios: 管理测试场景
+          issues: 需求列表
           labels: 标签
       scenario:
         id: '#'

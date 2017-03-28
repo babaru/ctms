@@ -15,6 +15,9 @@
                 <h4><%= @issue.list_title %></h4>
             </div>
             <div class="ibox-content">
+                <div class="m-b-sm">
+                    <%= issue_labels(@issue) %> <%= milestone_badge(@issue.milestone) %>
+                </div>
                 <div class="markdown"><%= @issue.html_description %></div>
             </div>
         </div>

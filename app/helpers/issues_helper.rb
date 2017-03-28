@@ -6,6 +6,26 @@ module IssuesHelper
     ].join(' ').html_safe
   end
 
+  def issue_title_with_labels(issue)
+    [
+      issue.title,
+      issue_labels(issue)
+    ].join(' ').html_safe
+  end
+
+  def issue_list_title_with_labels(issue)
+    [
+      issue.list_title,
+      issue_labels(issue)
+    ].join(' ').html_safe
+  end
+
+  def issue_labels(issue)
+    issue.labels.inject([]) do |list, item|
+      list << content_tag(:span, fa_icon('tag', text: item.name), class: 'badge badge-default')
+    end.join(' ').html_safe
+  end
+
   def issue_progress(issue, round)
     # return nil unless round
     return nil if issue.scenarios.count == 0

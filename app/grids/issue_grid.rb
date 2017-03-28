@@ -2,7 +2,7 @@ class IssueGrid
   include Datagrid
 
   scope do
-    Issue.order('issues.id desc')
+    Issue.order(:state).reverse_order
   end
 
   column(:gitlab_id, header: I18n.t('activerecord.attributes.issue.gitlab_id'), mandatory: true) do |asset|
@@ -20,7 +20,7 @@ class IssueGrid
   column("title issue-info", header: I18n.t('activerecord.attributes.issue.title')) do |asset|
     format(asset.title) do |value|
       [
-        link_to(value, build_url({issue_id: asset, tab: :scenarios})),
+        link_to(issue_title_with_labels(asset), build_url({issue_id: asset, tab: :scenarios})),
         content_tag(:small, "#{asset.description.truncate(150)}")
       ].join('<br />').html_safe
     end
@@ -46,13 +46,7 @@ class IssueGrid
 
   column('milestone', header: I18n.t('activerecord.attributes.issue.milestone')) do |asset|
     format(asset.milestone) do |value|
-      asset.milestone ? content_tag(:span, fa_icon('clock-o', text: asset.milestone.title), class: 'badge badge-default') : ''
-    end
-  end
-
-  column('labels', header: '') do |asset|
-    format(asset.id) do |value|
-      asset.labels.inject([]) { |list, item| list << content_tag(:span, item.name, class: 'badge badge-default') }.join(' ').html_safe
+      milestone_badge(value)
     end
   end
 

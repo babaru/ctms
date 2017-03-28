@@ -50,6 +50,26 @@ class IssueGrid
     end
   end
 
+  column('round', header: I18n.t('activerecord.attributes.defect.round')) do |asset|
+    format(asset.round) do |value|
+      link_to value.title, plan_round_path(value, plan_id: value.plan_id) if value
+    end
+  end
+
+  column('corresponding_issue', header: I18n.t('activerecord.attributes.defect.corresponding_issue')) do |asset|
+    format(asset.corresponding_issue) do |value|
+      link_to value.list_title, project_issue_path(value, project_id: value.project_id) if value
+    end
+  end
+
+  column("defect project-actions", header: '') do |asset|
+    format(asset.id) do |value|
+      [
+        link_to(fa_icon("pencil", text: t('activerecord.text.edit_defect_corresponding_info')), edit_defect_corresponding_path(asset, redirect_url: request.original_fullpath), remote: true, class: 'btn btn-white btn-sm'),
+      ].join(' ').html_safe
+    end
+  end
+
   # column("project-actions", header: '') do |asset|
   #   format(asset.id) do |value|
   #     [

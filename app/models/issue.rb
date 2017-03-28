@@ -8,6 +8,9 @@ class Issue < ApplicationRecord
   has_many :labels, through: :issue_labels
   has_many :time_sheets
 
+  belongs_to :corresponding_issue, class_name: 'Issue', optional: true
+  belongs_to :round, optional: true
+
   scope :no_label, -> { where.not(id: Issue.has_label.select(:id).distinct) }
   scope :has_label, -> {
     joins(:labels).where({
@@ -17,6 +20,7 @@ class Issue < ApplicationRecord
     }).distinct
   }
   scope :requirements, -> { joins(:labels).where(labels: { is_requirement: true }).distinct }
+  scope :defects, -> { where(type: 'Defect') }
   scope :label, ->(label) { joins(:labels).where(labels: { id: label }).distinct }
 
   def list_title

@@ -62,6 +62,7 @@ zh-CN:
       unmark_requirement: 排除出需求
       set_defect: 标注为缺陷
       reset_defect: 排除出缺陷
+      edit_defect_corresponding_info: 编辑缺陷相关信息
       notification:
         success:
           creation: "%{model}创建成功！"
@@ -122,6 +123,8 @@ zh-CN:
         description: 描述
         labels: 标签
         labels_text: 标签
+        round: 测试轮次
+        corresponding_issue: 相关需求
       plan:
         name: 测试计划名称
         started_at: 开始于

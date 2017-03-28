@@ -2,6 +2,8 @@ class Round < ApplicationRecord
   belongs_to :plan
   has_many :executions, dependent: :destroy
 
+  scope :by_project, ->(project) { joins(:plan).where(plans: { id: Plan.by_project(project).select(:id).distinct }) }
+
   def projects
     plan.projects
   end

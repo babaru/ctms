@@ -36,6 +36,8 @@ Rails.application.routes.draw do
 
   get 'new_defect' => 'issues#new_defect', as: :new_defect
   post 'create_defect' => 'issues#create_defect', as: :create_defect
+  get 'issues/:id/edit_defect_corresponding' => 'issues#edit_defect_corresponding', as: :edit_defect_corresponding
+  post 'issues/:id/update_defect_corresponding' => 'issues#update_defect_corresponding', as: :update_defect_corresponding
 
   resources :projects do
     resources :issues, :milestones, :labels

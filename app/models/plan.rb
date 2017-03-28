@@ -15,6 +15,7 @@ class Plan < ApplicationRecord
   # validates :ended_at, presence: true
 
   scope :watched, ->(user) { joins(:users).where(users: { id: user }) }
+  scope :by_project, ->(project) { joins(:projects).where(projects: { id: project }) }
 
   def complete?
     state == TestSuiteState.enums.complete

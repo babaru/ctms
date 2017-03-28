@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
   ARRAY_SP = ","
   ARRAY_HEADER = "a_"
 
-  SHOW_TABS = [:issues, :scenarios, :labels].freeze
+  SHOW_TABS = [:issues, :scenarios, :defects, :labels].freeze
   LIST_TABS = [:watched, :all].freeze
 
   PARAMETER_KEYS = {
@@ -141,7 +141,7 @@ class ProjectsController < ApplicationController
           scope.requirements.where(project: @project).page(params[:page]).per(20)
         end
       end
-      @issues_grid.column_names = ["gitlab_id", "title issue-info", "state", "milestone", "labels", "scenarios"]
+      @issues_grid.column_names = ["gitlab_id", "title issue-info", "state", "milestone", "scenarios"]
     when :scenarios
       @scenarios_grid = ScenarioGrid.new do |scope|
         if @current_label
@@ -158,6 +158,18 @@ class ProjectsController < ApplicationController
       @labels_grid = LabelGrid.new do |scope|
         scope.page(params[:page]).where(project_id: @project.id).per(20)
       end
+    when :defects
+      @issue = Issue.find(params[:issue_id]) if params[:issue_id]
+      @issues_grid = IssueGrid.new do |scope|
+        if @current_label
+          scope.defects.label(@current_label).where(project: @project).page(params[:page]).per(20)
+        elsif @no_label
+          scope.defects.no_label.where(project: @project).page(params[:page]).per(20)
+        else
+          scope.defects.where(project: @project).page(params[:page]).per(20)
+        end
+      end
+      @issues_grid.column_names = ["gitlab_id", "title issue-info", "state", "defect project-actions", "round", "corresponding_issue"]
     end
   end
 

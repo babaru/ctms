@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_issue, only: [:show, :edit, :update, :destroy, :sync_time_sheets_from_gitlab]
+  before_action :set_issue, only: [:show, :edit, :update, :destroy, :edit_defect_corresponding, :update_defect_corresponding, :sync_time_sheets_from_gitlab]
   before_action :set_redirect_url_to_session, only: [:new, :edit, :new_defect]
   before_action :get_redirect_url_from_session, only: [:create, :update, :create_defect]
   before_action :get_redirect_url_from_params, only: [:sync_time_sheets_from_gitlab, :destroy]
@@ -178,6 +178,22 @@ class IssuesController < ApplicationController
       else
         format.html { render :edit }
         format.js { render :edit }
+      end
+    end
+  end
+
+  def edit_defect_corresponding
+    @issue.labels_text = @issue.labels.inject([]) {|list, label| list << label.name }.join(',')
+  end
+
+  def update_defect_corresponding
+    respond_to do |format|
+      if request.post?
+        if @issue.update(defect_params)
+          format.js
+        else
+          format.js { render :edit_defect_corresponding }
+        end
       end
     end
   end

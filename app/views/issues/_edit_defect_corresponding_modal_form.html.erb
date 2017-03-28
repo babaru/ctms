@@ -1,0 +1,36 @@
+<div class="modal inmodal" id="defect-corresponding-modal-window" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInBottom">
+            <%= simple_form_for(@issue, url: update_defect_corresponding_path, remote: true, method: :post, wrapper: :vertical_form ) do |f| %>
+            <div class="modal-header">
+                <i class="fa fa-bug modal-icon"></i>
+                <h4 class="modal-title"><%= @issue.title %></h4>
+                <small><%= @issue.description %></small>
+            </div>
+            <div class="modal-body">
+                <%= f.error_notification %>
+                <%= f.input :labels_text %>
+                <%= f.input :round_id, collection:  Round.by_project(@issue.project).collect { |round| [round.title, round.id] }%>
+                <%= f.input :corresponding_issue_id, collection: @issue.project.requirements.collect {|item| [item.list_title, item.id]} %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal"><%= t('buttons.close') %></button>
+                <%= f.submit t('buttons.save'), class: 'btn btn-primary btn-w-m' %>
+            </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" >
+var simplemde = null;
+$("#scenario-modal-window").on('show.bs.modal', function(e) {
+    if (simplemde == null) {
+        simplemde = new SimpleMDE({
+          status: false
+        });
+    }
+}).on('hide.bs.modal', function(e) {
+    simplemde = null; //finalized
+});
+</script>

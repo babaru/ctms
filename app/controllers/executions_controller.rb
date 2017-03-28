@@ -1,7 +1,7 @@
 class ExecutionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_execution, only: [:show, :edit, :update, :destroy, :remarks, :post_remarks, :delete_remarks, :execute]
-  before_action :set_redirect_url_from_session, only: [:new, :edit, :remarks]
+  before_action :set_redirect_url_to_session, only: [:new, :edit, :remarks]
   before_action :get_redirect_url_from_session, only: [:create, :update, :post_remarks]
   before_action :get_redirect_url_from_params, only: [:destroy, :delete_remarks, :execute]
 

@@ -3,5 +3,5 @@
     <% labels.each do |label| %>
     <%= link_to label.name, build_url(label_id: label.id), class: "btn btn-white #{(@current_label && label.id == @current_label.id) ? 'active' : ''}" %>
     <% end %>
-    <%= link_to t('buttons.no_label'), build_url({no_label: true}), class: "btn btn-white #{@no_label ? 'active' : ''}" %>
+    <%= link_to t('buttons.no_label'), build_url({no_label: true, label_id: nil}), class: "btn btn-white #{@no_label ? 'active' : ''}" %>
 </div>

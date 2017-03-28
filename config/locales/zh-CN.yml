@@ -97,6 +97,7 @@ zh-CN:
           scenarios: 管理测试场景
           issues: 需求列表
           labels: 标签
+          defects: 缺陷列表
       scenario:
         id: '#'
         name: 名称

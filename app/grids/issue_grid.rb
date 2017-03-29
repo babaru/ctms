@@ -62,6 +62,12 @@ class IssueGrid
     end
   end
 
+  column('corresponding_scenario', header: I18n.t('activerecord.attributes.defect.corresponding_scenario')) do |asset|
+    format(asset.scenario) do |value|
+      link_to value.title, plan_round_path(asset.round_id, plan_id: asset.round.plan_id, project_id: value.project_id, issue_id: value.issue_id, scenario_id: value) if value && asset.round
+    end
+  end
+
   column("defect project-actions", header: '') do |asset|
     format(asset.id) do |value|
       [

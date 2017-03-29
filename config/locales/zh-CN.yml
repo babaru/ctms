@@ -126,6 +126,7 @@ zh-CN:
         labels_text: 标签
         round: 测试轮次
         corresponding_issue: 相关需求
+        corresponding_scenario: 相关测试场景
       plan:
         name: 测试计划名称
         started_at: 开始于

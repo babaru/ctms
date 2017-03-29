@@ -169,7 +169,7 @@ class ProjectsController < ApplicationController
           scope.defects.where(project: @project).page(params[:page]).per(20)
         end
       end
-      @issues_grid.column_names = ["gitlab_id", "title issue-info", "state", "defect project-actions", "round", "corresponding_issue"]
+      @issues_grid.column_names = ["gitlab_id", "title issue-info", "state", "defect project-actions", "corresponding_scenario"]
     end
   end
 

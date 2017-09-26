@@ -3,10 +3,10 @@
 *= require font-awesome
 *= require bootstrap-datetimepicker
 *= require bootstrap-tagsinput/bootstrap-tagsinput
+*= require bootstrap-select/bootstrap-select.min
 *= require animate/animate
 *= require steps/jquery.steps
 *= require jsTree/style
-
 *= require simplemde.min
 *= require simplemde_override
 *= require style
